@@ -1,0 +1,21 @@
+{
+  "name": "javascript-fundamentals",
+  "version": "1.0.0",
+  "description": "Javascript fundamentals tasks",
+  "main": "index.js",
+  "scripts": {
+    "t:example": "jest example.test.js",
+    "t:example-final": "jest example.final.test.js",
+    "t:array": "jest array.test.js --watch",
+    "format": "npx prettier *.js --write"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.1.2"
+  },
+  "dependencies": {
+    "@types/jest": "^29.1.2"
+  }
+
+}
