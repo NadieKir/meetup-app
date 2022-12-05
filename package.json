@@ -4,9 +4,12 @@
   "description": "Javascript fundamentals tasks",
   "main": "index.js",
   "scripts": {
-    "t:example": "jest example.test.js",
     "t:example-final": "jest example.final.test.js",
-    "t:array": "jest array.test.js --watch",
+    "t:array": "jest array.test.js",
+    "t:object": "jest object.test.js",
+    "t:functions": "jest functions.test.js",
+    "t:this": "jest this.test.js",
+    "t:async": "jest async.test.js",
     "format": "npx prettier *.js --write"
   },
   "author": "",
@@ -17,5 +20,4 @@
   "dependencies": {
     "@types/jest": "^29.1.2"
   }
-
 }
