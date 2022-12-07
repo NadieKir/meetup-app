@@ -4,7 +4,6 @@
   "description": "Javascript fundamentals tasks",
   "main": "index.js",
   "scripts": {
-    "t:example-final": "jest example.final.test.js",
     "t:array": "jest array.test.js",
     "t:object": "jest object.test.js",
     "t:functions": "jest functions.test.js",
