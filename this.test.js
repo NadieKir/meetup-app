@@ -42,40 +42,37 @@ describe('THIS', () => {
       expect(sayHelloToPerson()).toBe(person.sayHello());
     });
 
-    // describe('Math.max for array ', () => {
-    //   describe('using call', () => {
-    //     const findMax = (arr) => {
-    //       // TODO: fix me
-    //       return Math.max(arr);
-    //     };
+    describe('Math.max for array ', () => {
+      describe('using call', () => {
+        const findMax = (arr) => {
+          return Math.max.call(this, ...arr);
+        };
 
-    //     it('Finds max number in array', () => {
-    //       expect(findMax([1, 3, 5, 2])).toBe(5);
-    //     });
-    //   });
+        it('Finds max number in array', () => {
+          expect(findMax([1, 3, 5, 2])).toBe(5);
+        });
+      });
 
-    //   describe('using apply', () => {
-    //     const findMax = (arr) => {
-    //       // TODO: fix me
-    //       return Math.max(arr);
-    //     };
+      describe('using apply', () => {
+        const findMax = (arr) => {
+          return Math.max.apply(this, arr);
+        };
 
-    //     it('Finds max number in array', () => {
-    //       expect(findMax([1, 3, 5, 2])).toBe(5);
-    //     });
-    //   });
+        it('Finds max number in array', () => {
+          expect(findMax([1, 3, 5, 2])).toBe(5);
+        });
+      });
 
-    //   describe('using spread ...', () => {
-    //     const findMax = (arr) => {
-    //       // TODO: fix me
-    //       return Math.max(arr);
-    //     };
+      describe('using spread ...', () => {
+        const findMax = (arr) => {
+          return Math.max(...arr);
+        };
 
-    //     it('Finds max number in array', () => {
-    //       expect(findMax([1, 3, 5, 2])).toBe(5);
-    //     });
-    //   });
-    // });
+        it('Finds max number in array', () => {
+          expect(findMax([1, 3, 5, 2])).toBe(5);
+        });
+      });
+    });
   });
 
   // describe('arrow functions', () => {
