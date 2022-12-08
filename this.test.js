@@ -75,26 +75,47 @@ describe('THIS', () => {
     });
   });
 
-  // describe('arrow functions', () => {
-  //   test('Rewrite test to find mistake and fix implementation', () => {
-  //     const person = {
-  //       firstName: 'Ivan',
-  //       secondName: 'Ivanov',
-  //       age: 20,
+  describe('arrow functions', () => {
+    test('Rewrite test to find mistake and fix implementation', () => {
+      const person = {
+        firstName: 'Ivan',
+        secondName: 'Ivanov',
+        age: 20,
 
-  //       sayHello: () => {
-  //         return `Hi, ${this.firstName}!`;
-  //       },
-  //     };
+        sayHello() {
+          return `Hi, ${this.firstName}!`;
+        },
+      };
 
-  //     const sayHello = person.sayHello.bind(person);
+      const sayHello = person.sayHello.bind(person);
+      expect(sayHello()).toBe(person.sayHello());
 
-  //     // In this example assertion is true, but our code has a bug. Change assertion (toBe part) to find bug (test should fail)
-  //     expect(sayHello()).toBe(person.sayHello());
-  //   });
+      const sayHello2 = person.sayHello.bind({ firstName: 'Igor' });
+      expect(sayHello2()).toBe(`Hi, Igor!`);
+    });
 
-  //   test.todo(
-  //     'Rewrite previous exercise by creating the Person class with sayHello method using arrow function, write needed tests.'
-  //   );
-  // });
+    class Person {
+      constructor(firstName, age) {
+        this.firstName = firstName;
+        this.age = age;
+      }
+
+      sayHello = () => {
+        return `Hi, ${this.firstName}!`
+      }
+    }
+
+    const person1 = new Person('Ivan', 15);
+    const person2 = new Person('Igor', 23);
+    const person3 = {firstName: 'Petr', age: '22'};
+
+    test('Creates the Person class with sayHello method using arrow function', () => {
+      expect(person1.sayHello()).toBe('Hi, Ivan!');
+      expect(person2.sayHello()).toBe('Hi, Igor!');
+    });
+
+    test('Can\'t rebind arrow function', () => {
+      expect(person1.sayHello.call(person3)).toBe(person1.sayHello()); 
+    });
+  });
 });
