@@ -17,6 +17,14 @@
   flex-direction: column;
 }
 
+.tools {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0;
+
+  border-bottom: 1px solid $gray-04-color;
+}
+
 .navWrapper {
   height: 70px;
   width: 100%;
@@ -52,7 +60,7 @@
   &Link {
     position: relative;
 
-    @extend .font-family-primary;
+    @extend .font-family-secondary;
     @extend .font-weight-regular;
     @extend .font-size-s;
     @extend .line-height-s;
@@ -78,6 +86,28 @@
     &.active::after {
       transform: scaleX(1);
     }
+  }
+}
+
+.loginBtn {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  @extend .font-family-secondary;
+  @extend .font-weight-medium;
+  @extend .font-size-s;
+  @extend .font-color-white;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  .loginImage {
+    min-width: 20px;
+    min-height: 20px;
   }
 }
 

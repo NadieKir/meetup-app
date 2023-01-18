@@ -1,4 +1,4 @@
-import { httpClient } from "helpers";
+import { httpClient } from 'api/httpClient';
 import { ShortUser } from "model";
 
 export const getVotedUsers = async (id: string): Promise<ShortUser[]> => {

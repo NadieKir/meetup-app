@@ -14,8 +14,9 @@ export enum TooltipVariant {
 
 interface TooltipProps {
   variant?: TooltipVariant;
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  element?: JSX.Element;
 }
 
 export const Tooltip = ({
@@ -23,8 +24,9 @@ export const Tooltip = ({
   variant = TooltipVariant.Dark,
   title,
   description,
+  element,
 }: PropsWithChildren<TooltipProps>) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const showTooltip = () => setVisible(true);
   const hideTooltip = () => setVisible(false);
@@ -37,22 +39,29 @@ export const Tooltip = ({
     >
       {children}
       <div
-        className={classNames(styles.tooltip, styles[variant], {
+        className={classNames(styles.tooltipPad, {
           [styles.visible]: visible,
         })}
       >
-        <Typography
-          component={TypographyComponent.Heading3}
-          className={styles.title}
-        >
-          {title}
-        </Typography>
-        <Typography
-          component={TypographyComponent.Paragraph}
-          className={styles.description}
-        >
-          {description}
-        </Typography>
+        <div className={classNames(styles.tooltip, styles[variant])}>
+          {title && (
+            <Typography
+              component={TypographyComponent.Heading3}
+              className={styles.title}
+            >
+              {title}
+            </Typography>
+          )}
+          {description && (
+            <Typography
+              component={TypographyComponent.Paragraph}
+              className={styles.description}
+            >
+              {description}
+            </Typography>
+          )}
+          {element}
+        </div>
       </div>
     </div>
   );

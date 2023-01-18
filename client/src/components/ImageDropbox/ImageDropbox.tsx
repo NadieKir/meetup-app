@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import { Typography, TypographyComponent } from 'components';
 import { ReactComponent as UploadIcon } from './upload.svg';
-import { getFileSizeString } from 'helpers';
+import { getFileSizeString } from 'common/helpers';
 import { FileWithUrl } from 'types';
 import styles from './ImageDropbox.module.scss';
 

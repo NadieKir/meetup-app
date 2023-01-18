@@ -1,6 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
 import { NavLink, Outlet } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import {
   Typography,
@@ -21,26 +21,26 @@ enum MeetupTabLink {
 export const meetupTabsLinks = Object.values(MeetupTabLink);
 
 type MeetupTabDescriptor = {
-  label: string;
-  component: React.ReactNode | JSX.Element;
+  label: string | JSX.Element;
+  component: JSX.Element;
 };
 
 export const meetupTabToDescriptor: Record<MeetupTabLink, MeetupTabDescriptor> =
   {
     [MeetupTabLink.Topics]: {
-      label: 'Темы',
+      label: <FormattedMessage id="topics" />,
       component: <MeetupTabContent variant={MeetupCardVariant.Topic} />,
     },
     [MeetupTabLink.OnModeration]: {
-      label: 'На модерации',
+      label: <FormattedMessage id="onModeration" />,
       component: <MeetupTabContent variant={MeetupCardVariant.OnModeration} />,
     },
     [MeetupTabLink.Upcoming]: {
-      label: 'Будущие',
+      label: <FormattedMessage id="upcoming" />,
       component: <MeetupTabContent variant={MeetupCardVariant.Upcoming} />,
     },
     [MeetupTabLink.Finished]: {
-      label: 'Прошедшие',
+      label: <FormattedMessage id="finished" />,
       component: <MeetupTabContent variant={MeetupCardVariant.Finished} />,
     },
   };

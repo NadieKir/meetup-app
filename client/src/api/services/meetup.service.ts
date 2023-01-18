@@ -1,5 +1,5 @@
 import { getVotedUsers } from 'api';
-import { httpClient } from 'helpers';
+import { httpClient } from 'api/httpClient';
 import { Meetup, NewMeetup } from 'model';
 
 export const getMeetups = async (): Promise<Meetup[]> => {
