@@ -1,0 +1,8 @@
+@import '~style/typography';
+
+.counter {
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-s;
+  @extend .font-color-gray-01;
+}

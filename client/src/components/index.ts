@@ -31,3 +31,5 @@ export * from './StepperProgress/StepperProgress';
 export * from './ImageDropbox/ImageDropbox';
 export * from './ImagePreview/ImagePreview';
 export * from './ImageUploader/ImageUploader';
+export * from './LanguageSelector/LanguageSelector';
+export * from './CardsCounter/CardsCounter';

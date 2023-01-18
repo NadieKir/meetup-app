@@ -12,38 +12,44 @@
   }
 }
 
-.tooltip {
+.tooltipPad {
   position: absolute;
-  top: 40px;
   left: 50%;
 
-  width: max-content;
+  width: max-content;  
   max-width: 230px;
+  padding-top: 15px; // pad
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 5px;
   visibility: hidden;
+
+  opacity: 0;
+  transform: translate(-50%);
+  @include smooth-transition(opacity);
+}
+
+.tooltip {
+  position: relative;
+
   padding: 20px 30px;
   z-index: 1;
 
   border-radius: 3px;
-  opacity: 0;
-
-  transform: translate(-50%);
-  @include smooth-transition(opacity);
 
   &::before {
     content: '';
     position: absolute;
-    top: -7px;
+    top: 0px;
+    left: 50%;
 
     padding: 8px;
     z-index: 1;
 
     border-radius: 2px;
 
-    transform: rotate(45deg);
+    transform: rotate(45deg) translateX(-50%);
   }
 
   &.dark,
@@ -104,11 +110,13 @@
       content: '';
       position: absolute;
       top: 0px;
+      left: 50%;
 
-      padding: 8px 14px;
+      padding: 8px 15px;
       z-index: 1;
 
       background-color: $white-color;
+      transform: translateX(-50%);
     }
   }
 }

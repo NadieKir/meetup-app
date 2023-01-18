@@ -5,3 +5,7 @@ export const getFirstLetter = (text: string): string => {
 export const getInitials = (name: string, surname: string): string => {
   return `${getFirstLetter(name)}${getFirstLetter(surname)}`.toLocaleUpperCase();
 };
+
+export const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

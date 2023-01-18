@@ -1,18 +1,22 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import { Header, meetupTabsLinks, meetupTabToDescriptor } from 'components';
-import { MeetupPage, NotFoundPage, NewsPage, ViewMeetupPage } from 'pages';
-
-import styles from './App.module.scss';
-import { ViewNewsPage } from 'pages/ViewNewsPage/ViewNewsPage';
+import { meetupTabsLinks, meetupTabToDescriptor } from 'components';
+import {
+  MeetupPage,
+  NotFoundPage,
+  NewsPage,
+  ViewMeetupPage,
+  ViewNewsPage,
+  Layout,
+  LoginPage,
+} from 'pages';
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <main className={styles.container}>
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/meetups" />} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Navigate replace to="/meetups" />} />
           <Route path="meetups">
             <Route element={<MeetupPage />}>
               <Route
@@ -42,8 +46,9 @@ function App() {
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </main>
+        </Route>
+        <Route path="login" element={<LoginPage />} />
+      </Routes>
     </BrowserRouter>
   );
 }

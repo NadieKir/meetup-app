@@ -1,5 +1,3 @@
-@import '~style/typography';
-
 .topicsTab {
   display: flex;
   flex-direction: column;
@@ -9,13 +7,6 @@
 .wrapper {
   display: flex;
   justify-content: space-between;
-}
-
-.counter {
-  @extend .font-family-primary;
-  @extend .font-weight-regular;
-  @extend .font-size-s;
-  @extend .font-color-gray-01;
 }
 
 .topics {

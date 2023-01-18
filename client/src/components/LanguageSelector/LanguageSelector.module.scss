@@ -1,0 +1,32 @@
+@import '~style/colors';
+@import '~style/typography';
+
+.select {
+  appearance: none;
+  border: 0;
+  outline: 0;
+
+  height: 30px;
+  padding: 0 70px 0 15px;
+
+  @extend .font-family-secondary;
+  @extend .font-weight-regular;
+  @extend .font-size-2xs;
+  @extend .font-color-dark;
+
+  background: url(./arrow.svg)
+    no-repeat right 0.9em center / 1.0em,
+    linear-gradient(to left, rgba($white-color, .3) 3em, rgba($white-color, .2) 3em);
+  color: $white-color;
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  .option {
+    background-color: $blue-01-color;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

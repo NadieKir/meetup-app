@@ -1,4 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
+import { FormattedMessage, useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import {
@@ -7,13 +8,14 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { useNewsArticleQuery } from 'hooks';
+import { useNewsArticleQuery } from 'common/hooks';
 import { NotFoundPage } from 'pages';
 
 import styles from './ViewNewsPage.module.scss';
 import defaultImage from 'assets/images/default-background-blue.jpg';
 
 export const ViewNewsPage = () => {
+  const intl = useIntl();
   const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -38,7 +40,7 @@ export const ViewNewsPage = () => {
         <img
           className={styles.image}
           src={image ?? defaultImage}
-          alt="Изображение новости"
+          alt={intl.formatMessage({ id: 'newsPhotoAlt' })}
         />
       </figure>
     );
@@ -65,14 +67,11 @@ export const ViewNewsPage = () => {
     return (
       <div className={classNames(styles.textSection, styles.actions)}>
         <Button variant={ButtonVariant.Default} onClick={handleBack}>
-          Назад
+          <FormattedMessage id="goBackButton" />
         </Button>
         <div className={styles.actionGroup}>
-          <Button 
-            variant={ButtonVariant.Secondary} 
-            onClick={handleEdit}
-          >
-            Редактировать
+          <Button variant={ButtonVariant.Secondary} onClick={handleEdit}>
+            <FormattedMessage id="editButton" />
           </Button>
         </div>
       </div>
@@ -85,7 +84,7 @@ export const ViewNewsPage = () => {
         className={styles.heading}
         component={TypographyComponent.Heading1}
       >
-        Просмотр новости
+        <FormattedMessage id="newsView" />
       </Typography>
       <div className={styles.contentWrapper}>
         {renderImage()}

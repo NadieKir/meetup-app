@@ -1,4 +1,4 @@
-import { httpClient } from 'helpers';
+import { httpClient } from 'api/httpClient';
 import { NewNews, News } from 'model';
 
 export const getNews = async (): Promise<News[]> => {

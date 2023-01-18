@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router';
 import classNames from 'classnames';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import {
   Button,
@@ -10,8 +11,8 @@ import {
   UserPreviewVariant,
 } from 'components';
 import { MeetupStatus, ShortUser } from 'model';
-import { parseDateString } from 'helpers';
-import { useMeetupQuery } from 'hooks';
+import { capitalizeFirstLetter } from 'common/helpers';
+import { useMeetupQuery } from 'common/hooks';
 import { NotFoundPage } from 'pages';
 
 import styles from './ViewMeetupPage.module.scss';
@@ -23,9 +24,12 @@ import pin from './assets/pin.svg';
 const MAX_PREVIEW_USERS = 8;
 
 export const ViewMeetupPage = () => {
+  const intl = useIntl();
   const navigate = useNavigate();
+
   const { id } = useParams();
   const { meetup, isLoading } = useMeetupQuery(id!);
+
   const votedUsers = meetup?.votedUsers ?? [];
 
   if (isLoading || meetup === undefined) {
@@ -44,7 +48,7 @@ export const ViewMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            Название
+            <FormattedMessage id="name" />
           </Typography>
           <div className={styles.dataContent}>
             <Typography
@@ -63,7 +67,7 @@ export const ViewMeetupPage = () => {
         <img
           className={styles.image}
           src={defaultImage}
-          alt="Изображение митапа"
+          alt={intl.formatMessage({ id: 'meetupPhotoAlt' })}
         />
         <div className={styles.headerDataContent}>
           <Typography
@@ -85,17 +89,20 @@ export const ViewMeetupPage = () => {
     let date, time;
 
     if (meetup.start) {
-      const { formattedWeekdayLong, formattedDate, formattedTime } =
-        parseDateString(meetup.start);
+      const capitalizedWeekday = capitalizeFirstLetter(
+        intl.formatDate(meetup.start, {
+          weekday: 'long',
+        }),
+      );
 
-      date = `${formattedWeekdayLong}, ${formattedDate}`;
-      time = `${formattedTime}`;
+      date = `${capitalizedWeekday}, ${intl.formatDate(meetup.start, {
+        day: 'numeric',
+        month: 'long',
+      })}`;
+      time = intl.formatTime(meetup.start);
 
-      if (meetup.finish) {
-        const { formattedTime } = parseDateString(meetup.finish);
-
-        time = time + ` — ${formattedTime}`;
-      }
+      if (meetup.finish)
+        time = time.concat(` — ${intl.formatTime(meetup.finish)}`);
     }
 
     return (
@@ -104,24 +111,36 @@ export const ViewMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          Время и место проведения
+          <FormattedMessage id="timeAndLocation" />
         </Typography>
         <div className={styles.dataContent}>
           <div className={styles.timePlaceInfo}>
             <div className={styles.info}>
-              <img className={styles.image} src={calendar} alt="Дата" />
+              <img
+                className={styles.image}
+                src={calendar}
+                alt={intl.formatMessage({ id: 'dateAlt' })}
+              />
               <Typography component={TypographyComponent.Span}>
                 {date || '—'}
               </Typography>
             </div>
             <div className={styles.info}>
-              <img className={styles.image} src={clock} alt="Время" />
+              <img
+                className={styles.image}
+                src={clock}
+                alt={intl.formatMessage({ id: 'timeAlt' })}
+              />
               <Typography component={TypographyComponent.Span}>
                 {time || '—'}
               </Typography>
             </div>
             <div className={styles.info}>
-              <img className={styles.image} src={pin} alt="Место" />
+              <img
+                className={styles.image}
+                src={pin}
+                alt={intl.formatMessage({ id: 'locationAlt' })}
+              />
               <Typography component={TypographyComponent.Span}>
                 {meetup.place || '—'}
               </Typography>
@@ -138,7 +157,11 @@ export const ViewMeetupPage = () => {
         component={TypographyComponent.Span}
         className={styles.dataName}
       >
-        {meetup.status === MeetupStatus.DRAFT ? 'Автор' : 'Спикер'}
+        {meetup.status === MeetupStatus.DRAFT ? (
+          <FormattedMessage id="author" />
+        ) : (
+          <FormattedMessage id="speaker" />
+        )}
       </Typography>
       <div className={styles.dataContent}>
         {meetup.status === MeetupStatus.DRAFT ? (
@@ -167,7 +190,7 @@ export const ViewMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          Поддерживают
+          <FormattedMessage id="support" />
         </Typography>
         <div className={classNames(styles.dataContent, styles.votedUsers)}>
           {previewVotedUsers.map((user: ShortUser) => (
@@ -191,22 +214,32 @@ export const ViewMeetupPage = () => {
     return (
       <div className={classNames(styles.dataContent, styles.actions)}>
         <Button variant={ButtonVariant.Default} onClick={() => navigate(-1)}>
-          Назад
+          <FormattedMessage id="goBackButton" />
         </Button>
         {meetup.status === MeetupStatus.DRAFT && (
           <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>Удалить</Button>
-            <Button variant={ButtonVariant.Primary}>Одобрить тему</Button>
+            <Button variant={ButtonVariant.Secondary}>
+              <FormattedMessage id="deleteButton" />
+            </Button>
+            <Button variant={ButtonVariant.Primary}>
+              <FormattedMessage id="approveTopicButton" />
+            </Button>
           </div>
         )}
         {meetup.status === MeetupStatus.REQUEST && (
           <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>Удалить</Button>
-            <Button variant={ButtonVariant.Primary}>Опубликовать</Button>
+            <Button variant={ButtonVariant.Secondary}>
+              <FormattedMessage id="deleteButton" />
+            </Button>
+            <Button variant={ButtonVariant.Primary}>
+              <FormattedMessage id="publishButton" />
+            </Button>
           </div>
         )}
         {meetup.status === MeetupStatus.CONFIRMED && (
-          <Button variant={ButtonVariant.Secondary}>Удалить</Button>
+          <Button variant={ButtonVariant.Secondary}>
+            <FormattedMessage id="deleteButton" />
+          </Button>
         )}
       </div>
     );
@@ -218,7 +251,11 @@ export const ViewMeetupPage = () => {
         className={styles.heading}
         component={TypographyComponent.Heading1}
       >
-        Просмотр {meetup.status === MeetupStatus.DRAFT ? 'темы' : 'митапа'}
+        {meetup.status === MeetupStatus.DRAFT ? (
+          <FormattedMessage id="topicView" />
+        ) : (
+          <FormattedMessage id="meetupView" />
+        )}
       </Typography>
       <div className={styles.dataWrapper}>
         {renderHeader()}
@@ -229,7 +266,7 @@ export const ViewMeetupPage = () => {
             component={TypographyComponent.Span}
             className={styles.dataName}
           >
-            Описание
+            <FormattedMessage id="description" />
           </Typography>
           <div className={styles.dataContent}>
             <Typography

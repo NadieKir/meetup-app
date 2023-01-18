@@ -1,6 +1,8 @@
+import { FormattedDate } from 'react-intl';
+
 import { Typography, TypographyComponent } from 'components';
-import { parseDateString } from 'helpers';
 import { News } from 'model';
+
 import styles from './NewsCard.module.scss';
 
 interface NewsCardProps {
@@ -9,10 +11,6 @@ interface NewsCardProps {
 
 export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
   const { publicationDate, title, text, image } = news;
-
-  const { formattedDate } = parseDateString(publicationDate, {
-    dateOptions: { dateStyle: 'short' },
-  });
 
   return (
     <article className={styles.news}>
@@ -24,7 +22,7 @@ export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
           component={TypographyComponent.Paragraph}
           className={styles.date}
         >
-          {formattedDate}
+          <FormattedDate value={publicationDate} />
         </Typography>
         <Typography
           component={TypographyComponent.Heading2}

@@ -12,3 +12,5 @@ export interface User {
 }
 
 export type ShortUser = Pick<User, 'id' | 'name' | 'surname'>;
+
+export type AuthoraizedUser = Omit<User, 'password'>;

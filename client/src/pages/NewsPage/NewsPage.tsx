@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+
 import { getNews } from 'api';
 import {
   Button,
@@ -7,8 +11,6 @@ import {
   TypographyComponent,
 } from 'components';
 import { News } from 'model';
-import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
 
 import styles from './NewsPage.module.scss';
 
@@ -31,10 +33,10 @@ export const NewsPage = () => {
           component={TypographyComponent.Heading1}
           className={styles.heading}
         >
-          Новости
+          <FormattedMessage id="news" />
         </Typography>
         <Button variant={ButtonVariant.Secondary} onClick={openCreateNewsPage}>
-          + Создать новость
+          <FormattedMessage id="createNewsButton" />
         </Button>
       </div>
       <ul className={styles.newsList}>
