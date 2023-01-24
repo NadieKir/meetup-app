@@ -1,0 +1,12 @@
+import { createContext, PropsWithChildren } from 'react';
+import { observer } from 'mobx-react-lite';
+
+import userStore, { UserStore } from 'store/user';
+
+export const UserContext = createContext<UserStore>(userStore);
+
+export const LoginProvider = observer(({ children }: PropsWithChildren) => {
+  return (
+    <UserContext.Provider value={userStore}>{children}</UserContext.Provider>
+  );
+});

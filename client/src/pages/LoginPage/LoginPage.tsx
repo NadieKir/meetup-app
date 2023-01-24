@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { observer } from 'mobx-react-lite';
 
 import {
   Button,
@@ -13,16 +14,15 @@ import {
 } from 'components';
 import { login } from 'api';
 import { Credentials } from 'model';
-import { AppContext, AppContextType } from 'common/contexts';
+import { UserContext } from 'common/contexts';
 
 import styles from './LoginPage.module.scss';
 import logo from 'assets/images/logo.svg';
 
-export const LoginPage = () => {
+export const LoginPage = observer(() => {
+  const userStore = useContext(UserContext);
   const navigate = useNavigate();
   const intl = useIntl();
-
-  const { setUser } = useContext(AppContext) as AppContextType;
 
   const signInSchema = Yup.object().shape({
     username: Yup.string()
@@ -46,7 +46,8 @@ export const LoginPage = () => {
     login(values)
       .then(
         (user) => {
-          setUser(user);
+          userStore.setUser(user);
+          localStorage.setItem('user', user.id);
           navigate('/');
         },
         (error) => {
@@ -60,7 +61,7 @@ export const LoginPage = () => {
   };
 
   const handleGuestLogin = () => {
-    setUser(null);
+    userStore.setUser(null);
     navigate('/');
   };
 
@@ -118,4 +119,4 @@ export const LoginPage = () => {
       </div>
     </section>
   );
-};
+});

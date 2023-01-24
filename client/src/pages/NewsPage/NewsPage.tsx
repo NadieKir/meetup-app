@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { getNews } from 'api';
 import {
   Button,
   ButtonVariant,
@@ -11,43 +10,48 @@ import {
   TypographyComponent,
 } from 'components';
 import { News } from 'model';
+import { NewsContext, NewsProvider } from 'common/contexts';
+import { useNewsArticlesQuery } from 'common/hooks';
 
 import styles from './NewsPage.module.scss';
 
 export const NewsPage = () => {
-  const [news, setNews] = useState<News[]>([]);
+  const newsStore = useContext(NewsContext);
 
   const navigate = useNavigate();
+  const { newsArticles, isLoading } = useNewsArticlesQuery();
 
-  const openCreateNewsPage = () => navigate('/news/create');
+  if (isLoading || newsArticles === undefined)
+    return <FormattedMessage id="loading" />;
 
-  useEffect(() => {
-    const fetchNews = async () => setNews(await getNews());
-    fetchNews();
-  }, []);
+  if (newsArticles === null) return <></>;
+
+  const handleCreate = () => navigate('/news/create');
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <Typography
-          component={TypographyComponent.Heading1}
-          className={styles.heading}
-        >
-          <FormattedMessage id="news" />
-        </Typography>
-        <Button variant={ButtonVariant.Secondary} onClick={openCreateNewsPage}>
-          <FormattedMessage id="createNewsButton" />
-        </Button>
+    <NewsProvider>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <Typography
+            component={TypographyComponent.Heading1}
+            className={styles.heading}
+          >
+            <FormattedMessage id="news" />
+          </Typography>
+          <Button variant={ButtonVariant.Secondary} onClick={handleCreate}>
+            <FormattedMessage id="createNewsButton" />
+          </Button>
+        </div>
+        <ul className={styles.newsList}>
+          {newsStore.newsArticles.map((article: News) => (
+            <li key={article.id} className={styles.newsItem}>
+              <NavLink to={`/news/${article.id}`}>
+                <NewsCard news={article} />
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className={styles.newsList}>
-        {news.map((article: News) => (
-          <li key={article.id} className={styles.newsItem}>
-            <NavLink to={`/news/${article.id}`}>
-              <NewsCard news={article} />
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </NewsProvider>
   );
 };

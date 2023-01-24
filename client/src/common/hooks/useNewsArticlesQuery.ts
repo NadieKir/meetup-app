@@ -2,18 +2,18 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
-import { getNewsArticle } from 'api';
+import { getNews } from 'api';
+import { setupResponseInterceptor } from 'api/httpClient';
 import { NewsContext } from 'common/contexts';
 import { News } from 'model';
-import { setupResponseInterceptor } from 'api/httpClient';
 
-interface UseNewsArticleQueryResult {
-  newsArticle?: News | null;
+interface UseNewsArticlesQueryResult {
+  newsArticles?: News[];
   isLoading: boolean;
   error: string | null;
 }
 
-export function useNewsArticleQuery(id: string) : UseNewsArticleQueryResult {
+export function useNewsArticlesQuery() : UseNewsArticlesQueryResult {
   const newsStore = useContext(NewsContext);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,9 +26,9 @@ export function useNewsArticleQuery(id: string) : UseNewsArticleQueryResult {
       setupResponseInterceptor(navigate);
 
       try {
-        newsStore.setNewsArticle(await getNewsArticle(id));
+        newsStore.setNewsArticles(await getNews())
       }
-      catch(error) {
+      catch (error) {
         const status = (error as AxiosError).response?.status;
 
         switch(status){
@@ -43,11 +43,11 @@ export function useNewsArticleQuery(id: string) : UseNewsArticleQueryResult {
         setIsLoading(false);
       }
     })();
-  }, [id]);
+  }, []);
 
 
   return {
-    newsArticle: newsStore.newsArticle,
+    newsArticles: newsStore.newsArticles,
     error,
     isLoading,
   };

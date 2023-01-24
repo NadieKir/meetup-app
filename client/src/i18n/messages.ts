@@ -14,13 +14,18 @@ export const messages = {
     signInButton: 'Войти',
     signInAsGuestButton: 'Войти как гость',
     logOutButton: 'Выйти',
-    createMeetupButton: '+ Создать митап',
+    createMeetupButton: '+ Создать тему',
     createNewsButton: '+ Создать новость',
     deleteButton: 'Удалить',
     approveTopicButton: 'Одобрить тему',
+    supportTopicButton: 'Поддержать тему',
+    unsupportTopicButton: 'Отменить голос',
+    enrollMeetup: 'Записаться',
+    disenrollMeetup: 'Отменить запись',
     publishButton: 'Опубликовать',
     goBackButton: 'Назад',
     editButton: 'Редактировать',
+    goMainButton: 'Перейти на главную',
 
     /* Alts */
     logoAlt: 'Логотип',
@@ -52,11 +57,18 @@ export const messages = {
     /* Meetup */
     name: 'Название',
     supportUsers: '{votesCount, plural, one {# поддерживает} other {# поддерживают}}',
-    support: 'Поддерживают',
+    support: 'Поддерживают',    
+    enrolled: 'Записаны',
     timeAndLocation: 'Время и место проведения',
     author: 'Автор',
     speaker: 'Спикер',
     description: 'Описание',
+
+    /* 404 */
+    pageNotFound: 'Запрашиваемая страница на найдена',
+
+    /* Loader */
+    loading: 'Загрузка...',
   },
 
   [Locale.ENGLISH]: {
@@ -70,13 +82,18 @@ export const messages = {
     signInButton: 'Sign In',
     signInAsGuestButton: 'Sign In As Guest',
     logOutButton: 'Log Out',
-    createMeetupButton: '+ Create meetup',
+    createMeetupButton: '+ Create topic',
     createNewsButton: '+ Create news',
     deleteButton: 'Delete',
     approveTopicButton: 'Approve topic',
+    supportTopicButton: 'Support topic',
+    unsupportTopicButton: 'Cancel vote',
+    enrollMeetup: 'Enroll',
+    disenrollMeetup: 'Disenroll',
     publishButton: 'Publish',
     goBackButton: 'Back',
     editButton: 'Edit',
+    goMainButton: 'Go Home',
 
     logoAlt: 'Logo',
     loginAlt: 'Log In',
@@ -105,10 +122,15 @@ export const messages = {
     name: 'Name',
     supportUsers: '{votesCount, plural, one {# supports} other {# support}}',
     support: 'Support',
+    enrolled: 'Enrolled',
     timeAndLocation: 'Time and location',
     author: 'Author',
     speaker: 'Speaker',
     description: 'Description',
+
+    pageNotFound: 'The requested page was not found',
+
+    loading: 'Loading...',
 
     /* Meetup page */
     topicsCounter: ' {adjective} {cardsAmount, plural, one {topic} other {topics}}',

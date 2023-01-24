@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { MeetupCardVariant } from 'components';
-import { AppContext, AppContextType } from 'common/contexts';
+import { LocalizationContext } from 'common/contexts';
 import { Locale } from 'i18n';
 
 import styles from './CardsCounter.module.scss';
@@ -57,11 +57,11 @@ const getRuCounterEnding = (num: number, variant: MeetupCardVariant) => {
 };
 
 export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
-  const { currentLocale } = useContext(AppContext) as AppContextType;
+  const localeStore = useContext(LocalizationContext);
   const intl = useIntl();
 
   const renderLocaleEnding = () => {
-    if (currentLocale === Locale.RUSSIAN)
+    if (localeStore.locale === Locale.RUSSIAN)
       return getRuCounterEnding(amount, variant);
 
     switch (variant) {

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { observer } from 'mobx-react-lite';
 
 import {
   Button,
@@ -13,33 +14,33 @@ import {
   UserPreview,
   UserPreviewVariant,
 } from 'components';
-import { logout } from 'api';
-import { AppContext, AppContextType } from 'common/contexts';
+import { UserContext } from 'common/contexts';
 
 import styles from './Header.module.scss';
 import logo from 'assets/images/logo.svg';
 import login from './login.svg';
 
-export const Header = (): JSX.Element => {
+export const Header = observer((): JSX.Element => {
   const intl = useIntl();
+  const userStore = useContext(UserContext);
 
-  const { user, setUser } = useContext(AppContext) as AppContextType;
+  const renderLogoutButton = () => {
+    const handleLogout = () => userStore.logout();
 
-  const handleLogout = async () => {
-    await logout();
-    setUser(null);
+    return (
+      <Button onClick={handleLogout} variant={ButtonVariant.Primary}>
+        <FormattedMessage id="logOutButton" />
+      </Button>
+    );
   };
 
-  const renderLogoutButton = () => (
-    <Button onClick={handleLogout} variant={ButtonVariant.Primary}>
-      <FormattedMessage id="logOutButton" />
-    </Button>
-  );
-
   const renderUserPreview = () =>
-    user ? (
+    userStore.user ? (
       <Tooltip element={renderLogoutButton()} variant={TooltipVariant.White}>
-        <UserPreview variant={UserPreviewVariant.Header} user={user} />
+        <UserPreview
+          variant={UserPreviewVariant.Header}
+          user={userStore.user}
+        />
       </Tooltip>
     ) : (
       <NavLink className={styles.loginBtn} to="/login">
@@ -127,4 +128,4 @@ export const Header = (): JSX.Element => {
       </div>
     </header>
   );
-};
+});

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { FormattedDate, FormattedTime, useIntl } from 'react-intl';
 
 import {
-  DeleteButton,
   EditButton,
   Typography,
   TypographyComponent,
@@ -12,10 +11,10 @@ import {
   UserPreviewVariant,
   VotesCount,
 } from 'components';
-import { Meetup, MeetupStatus } from 'model';
+import { Meetup, MeetupStatus, UserRole } from 'model';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants/constants';
 import { Locale } from 'i18n';
-import { AppContext, AppContextType } from 'common/contexts';
+import { LocalizationContext, UserContext } from 'common/contexts';
 
 import styles from './MeetupCard.module.scss';
 
@@ -43,11 +42,10 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
     id,
   } = meetup;
 
-  const { currentLocale } = useContext(AppContext) as AppContextType;
+  const localeStore = useContext(LocalizationContext);
+  const userStore = useContext(UserContext);
   const navigate = useNavigate();
   const intl = useIntl();
-
-  const openEditMeetupPage = () => navigate(`/meetups/${id}/edit`);
 
   const getVariant = (): MeetupCardVariant => {
     switch (status) {
@@ -64,7 +62,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
   const variant = getVariant();
 
   const getFormattedWeekday = (): string => {
-    switch (currentLocale) {
+    switch (localeStore.locale) {
       case Locale.RUSSIAN:
         const weekday = intl.formatDate(start, {
           weekday: 'short',
@@ -76,6 +74,11 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           weekday: 'short',
         });
     }
+  };
+
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    navigate(`/meetups/${id}/edit`);
   };
 
   return (
@@ -109,17 +112,10 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
             )}
           </ul>
         )}
-        <div className={styles.controls}>
-          <DeleteButton />
-          {status !== MeetupStatus.DRAFT && (
-            <EditButton
-              onClick={(e) => {
-                e.preventDefault();
-                openEditMeetupPage();
-              }}
-            />
+        {status !== MeetupStatus.DRAFT &&
+          userStore.user?.roles === UserRole.CHIEF && (
+            <EditButton onClick={handleEdit} />
           )}
-        </div>
       </header>
 
       <div className={styles.body}>

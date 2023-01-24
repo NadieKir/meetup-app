@@ -3,7 +3,6 @@ import { AuthoraizedUser, Credentials, User } from 'model';
 
 export const login = async (credentials: Credentials): Promise<User> => {
   const { data: response } = await httpClient.post('/login', credentials);
-
   return response.user;
 };
 

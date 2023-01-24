@@ -9,9 +9,11 @@ import {
 } from 'components';
 
 import styles from './NotFoundPage.module.scss';
+import { FormattedMessage } from 'react-intl';
 
 export const NotFoundPage = () => {
   const navigate = useNavigate();
+  const handleGoHome = () => navigate('/');
 
   return (
     <section className={styles.wrapper}>
@@ -19,7 +21,7 @@ export const NotFoundPage = () => {
         component={TypographyComponent.Heading1}
         className={styles.text}
       >
-        Запрашиваемая страница на найдена
+        <FormattedMessage id="pageNotFound" />
       </Typography>
 
       <div className={styles.picture}>
@@ -49,8 +51,8 @@ export const NotFoundPage = () => {
         <div className={styles.number}>4</div>
       </div>
 
-      <Button variant={ButtonVariant.Primary} onClick={() => navigate('/')}>
-        Перейти на главную
+      <Button variant={ButtonVariant.Primary} onClick={handleGoHome}>
+        <FormattedMessage id="goMainButton" />
       </Button>
     </section>
   );
