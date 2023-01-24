@@ -21,6 +21,7 @@ export interface Meetup {
   isOver: boolean;
   image?: File;
   votedUsers?: ShortUser[];
+  participants?: ShortUser[];
 }
 
 export type NewMeetup = Omit<Meetup, 'id'>;

@@ -1,6 +1,8 @@
+import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import classNames from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { observer } from 'mobx-react-lite';
+import classNames from 'classnames';
 
 import {
   Button,
@@ -10,10 +12,11 @@ import {
   UserPreview,
   UserPreviewVariant,
 } from 'components';
-import { MeetupStatus, ShortUser } from 'model';
+import { MeetupStatus, ShortUser, UserRole } from 'model';
+import { NotFoundPage } from 'pages';
 import { capitalizeFirstLetter } from 'common/helpers';
 import { useMeetupQuery } from 'common/hooks';
-import { NotFoundPage } from 'pages';
+import { UserContext, MeetupContext } from 'common/contexts';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -21,24 +24,57 @@ import calendar from './assets/calendar.svg';
 import clock from './assets/clock.svg';
 import pin from './assets/pin.svg';
 
-const MAX_PREVIEW_USERS = 8;
+const MAX_PREVIEW_USERS = 8; // will be changed
 
-export const ViewMeetupPage = () => {
+export const ViewMeetupPage = observer(() => {
   const intl = useIntl();
   const navigate = useNavigate();
+
+  const userStore = useContext(UserContext);
+  const meetupStore = useContext(MeetupContext);
 
   const { id } = useParams();
   const { meetup, isLoading } = useMeetupQuery(id!);
 
-  const votedUsers = meetup?.votedUsers ?? [];
+  if (isLoading || meetup === undefined)
+    return <FormattedMessage id="loading" />;
 
-  if (isLoading || meetup === undefined) {
-    return <div>Загрузка...</div>;
-  }
+  if (meetup === null) return <></>;
 
-  if (meetup === null) {
-    return <NotFoundPage />;
-  }
+  const handleDelete = () => {
+    meetupStore.deleteMeetup(meetup.id);
+    navigate(-1);
+  };
+  const handleApprove = () => {
+    meetupStore.approveMeetup(meetup);
+    navigate('/meetups/moderation');
+  };
+  const handlePublish = () => {
+    meetupStore.publishMeetup(meetup);
+    navigate('/meetups/upcoming');
+  };
+
+  const handleSupport = () =>
+    meetupStore.supportMeetup(meetup, userStore.user!);
+  const handleUnsupport = () =>
+    meetupStore.unsupportMeetup(meetup, userStore.user!);
+  const handleEnroll = () => meetupStore.enrollMeetup(meetup, userStore.user!);
+  const handleDisenroll = () =>
+    meetupStore.disenrollMeetup(meetup, userStore.user!);
+
+  const handleGoBack = () => navigate(-1);
+
+  const isUserVoted = () => {
+    const users =
+      meetup.status === MeetupStatus.CONFIRMED
+        ? meetup.participants
+        : meetup.votedUsers;
+
+    if (userStore.user) {
+      return users?.map((user) => user.id).includes(userStore.user.id);
+    }
+    return false;
+  };
 
   const renderHeader = () => {
     if (meetup.status === MeetupStatus.DRAFT) {
@@ -82,9 +118,7 @@ export const ViewMeetupPage = () => {
   };
 
   const renderTimePlace = () => {
-    if (meetup.status === MeetupStatus.DRAFT) {
-      return null;
-    }
+    if (meetup.status === MeetupStatus.DRAFT) return null;
 
     let date, time;
 
@@ -177,12 +211,15 @@ export const ViewMeetupPage = () => {
     </div>
   );
 
-  const renderVotedUsers = () => {
-    if (votedUsers?.length === 0) {
-      return null;
-    }
+  const renderUsers = () => {
+    const users =
+      meetup.status === MeetupStatus.CONFIRMED
+        ? meetup.participants
+        : meetup.votedUsers;
 
-    const previewVotedUsers = votedUsers.slice(0, MAX_PREVIEW_USERS);
+    if (users?.length === 0) return null;
+
+    const previewUsers = users!.slice(0, MAX_PREVIEW_USERS);
 
     return (
       <div className={styles.data}>
@@ -190,19 +227,23 @@ export const ViewMeetupPage = () => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          <FormattedMessage id="support" />
+          {meetup.status === MeetupStatus.CONFIRMED ? (
+            <FormattedMessage id="enrolled" />
+          ) : (
+            <FormattedMessage id="support" />
+          )}
         </Typography>
-        <div className={classNames(styles.dataContent, styles.votedUsers)}>
-          {previewVotedUsers.map((user: ShortUser) => (
+        <div className={classNames(styles.dataContent, styles.users)}>
+          {previewUsers.map((user: ShortUser) => (
             <UserPreview
               key={user.id}
               variant={UserPreviewVariant.Image}
               user={user}
             />
           ))}
-          {votedUsers.length - MAX_PREVIEW_USERS > 0 && (
+          {users!.length - MAX_PREVIEW_USERS > 0 && (
             <div className={styles.restCounter}>
-              +{votedUsers.length - MAX_PREVIEW_USERS}
+              +{users!.length - MAX_PREVIEW_USERS}
             </div>
           )}
         </div>
@@ -210,39 +251,62 @@ export const ViewMeetupPage = () => {
     );
   };
 
-  const renderActions = () => {
-    return (
-      <div className={classNames(styles.dataContent, styles.actions)}>
-        <Button variant={ButtonVariant.Default} onClick={() => navigate(-1)}>
-          <FormattedMessage id="goBackButton" />
+  const renderChiefActions = () => (
+    <div className={styles.actionsWrapper}>
+      <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
+        <FormattedMessage id="deleteButton" />
+      </Button>
+      {meetup.status === MeetupStatus.DRAFT && (
+        <Button variant={ButtonVariant.Primary} onClick={handleApprove}>
+          <FormattedMessage id="approveTopicButton" />
         </Button>
-        {meetup.status === MeetupStatus.DRAFT && (
-          <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>
-              <FormattedMessage id="deleteButton" />
-            </Button>
-            <Button variant={ButtonVariant.Primary}>
-              <FormattedMessage id="approveTopicButton" />
-            </Button>
-          </div>
-        )}
-        {meetup.status === MeetupStatus.REQUEST && (
-          <div className={styles.actionsWrapper}>
-            <Button variant={ButtonVariant.Secondary}>
-              <FormattedMessage id="deleteButton" />
-            </Button>
-            <Button variant={ButtonVariant.Primary}>
-              <FormattedMessage id="publishButton" />
-            </Button>
-          </div>
-        )}
-        {meetup.status === MeetupStatus.CONFIRMED && (
-          <Button variant={ButtonVariant.Secondary}>
-            <FormattedMessage id="deleteButton" />
+      )}
+      {meetup.status === MeetupStatus.REQUEST && (
+        <Button variant={ButtonVariant.Primary} onClick={handlePublish}>
+          <FormattedMessage id="publishButton" />
+        </Button>
+      )}
+    </div>
+  );
+
+  const renderEmployeeActions = () => (
+    <>
+      {meetup.status === MeetupStatus.DRAFT && !isUserVoted() && (
+        <Button variant={ButtonVariant.Primary} onClick={handleSupport}>
+          <FormattedMessage id="supportTopicButton" />
+        </Button>
+      )}
+      {meetup.status === MeetupStatus.DRAFT && isUserVoted() && (
+        <Button variant={ButtonVariant.Primary} onClick={handleUnsupport}>
+          <FormattedMessage id="unsupportTopicButton" />
+        </Button>
+      )}
+      {meetup.status === MeetupStatus.CONFIRMED &&
+        !meetup.isOver &&
+        !isUserVoted() && (
+          <Button variant={ButtonVariant.Primary} onClick={handleEnroll}>
+            <FormattedMessage id="enrollMeetup" />
           </Button>
         )}
-      </div>
-    );
+      {meetup.status === MeetupStatus.CONFIRMED &&
+        !meetup.isOver &&
+        isUserVoted() && (
+          <Button variant={ButtonVariant.Primary} onClick={handleDisenroll}>
+            <FormattedMessage id="disenrollMeetup" />
+          </Button>
+        )}
+    </>
+  );
+
+  const renderActions = () => {
+    switch (userStore.user?.roles) {
+      case UserRole.CHIEF:
+        return renderChiefActions();
+      case UserRole.EMPLOYEE:
+        return renderEmployeeActions();
+      case undefined:
+        return;
+    }
   };
 
   return (
@@ -277,9 +341,14 @@ export const ViewMeetupPage = () => {
             </Typography>
           </div>
         </div>
-        {renderVotedUsers()}
-        {renderActions()}
+        {renderUsers()}
+        <div className={classNames(styles.dataContent, styles.actions)}>
+          <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
+            <FormattedMessage id="goBackButton" />
+          </Button>
+          {renderActions()}
+        </div>
       </div>
     </section>
   );
-};
+});

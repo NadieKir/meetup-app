@@ -1,7 +1,11 @@
-import { getMeetup } from 'api';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+
+import { getMeetup } from 'api';
+import { setupResponseInterceptor } from 'api/httpClient';
 import { Meetup } from 'model';
-import { useEffect, useState } from 'react';
+import { MeetupContext } from 'common/contexts';
 
 type UseMeetupQueryResult = {
   meetup?: Meetup | null;
@@ -10,15 +14,19 @@ type UseMeetupQueryResult = {
 }
 
 export function useMeetupQuery(id: string) : UseMeetupQueryResult {
-  const [meetup, setMeetup] = useState<Meetup | null>();
+  const meetupStore = useContext(MeetupContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+  
   useEffect(() => {
     (async () => {
       setIsLoading(true);
+      setupResponseInterceptor(navigate);
+      
       try {
-        setMeetup(await getMeetup(id));
+        meetupStore.setMeetup(await getMeetup(id));
       }
       catch(e) {
         const error = e as AxiosError;
@@ -26,8 +34,8 @@ export function useMeetupQuery(id: string) : UseMeetupQueryResult {
 
         switch(status){
           case 404:
-            setError('Митап не найден!');
-            setMeetup(null);
+            setError('404');
+            meetupStore.setMeetup(null);
             break;
           default:
             setError('Что-то пошло не так!');
@@ -41,7 +49,7 @@ export function useMeetupQuery(id: string) : UseMeetupQueryResult {
 
 
   return {
-    meetup,
+    meetup: meetupStore.meetup,
     isLoading,
     error,
   };

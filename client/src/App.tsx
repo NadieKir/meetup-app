@@ -45,7 +45,8 @@ function App() {
               <Route path="edit" element={<div>Edit news article</div>} />
             </Route>
           </Route>
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="not-found" element={<NotFoundPage />} />
+          <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Route>
         <Route path="login" element={<LoginPage />} />
       </Routes>

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import { AppProvider, LocalizationProvider } from 'common/contexts';
+import { LocalizationProvider, LoginProvider } from 'common/contexts';
 import reportWebVitals from './reportWebVitals';
 
 import 'style/index.scss';
@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <AppProvider>
-      <LocalizationProvider>
+    <LocalizationProvider>
+      <LoginProvider>
         <App />
-      </LocalizationProvider>
-    </AppProvider>
+      </LoginProvider>
+    </LocalizationProvider>
   </React.StrictMode>,
 );
 

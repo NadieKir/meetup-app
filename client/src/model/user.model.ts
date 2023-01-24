@@ -1,6 +1,6 @@
 export enum UserRole {
-  CHIEF = 'chief',
-  EMPLOYEE = 'employee',
+  CHIEF = 'CHIEF',
+  EMPLOYEE = 'EMPLOYEE',
 }
 
 export interface User {
@@ -9,6 +9,7 @@ export interface User {
   surname: string;
   post: string;
   roles: UserRole;
+  password: string;
 }
 
 export type ShortUser = Pick<User, 'id' | 'name' | 'surname'>;

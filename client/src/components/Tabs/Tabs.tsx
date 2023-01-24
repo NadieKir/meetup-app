@@ -48,12 +48,7 @@ export function Tabs({ children }: PropsWithChildren) {
 
   return (
     <>
-      <div
-        className={styles.tabs}
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      >
+      <div className={styles.tabs} onClick={handleClick}>
         {children}
       </div>
       <TabsIndicator
