@@ -1,21 +1,21 @@
 import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import { deleteNewsArticle, getNewsArticle } from 'api';
+import { getNews } from 'api';
 import { News } from 'model';
 
-export class NewsStore {
-  newsArticle: News | undefined;
+export class NewsListStore {
+  newsArticles: News[] = [];
   isLoading: boolean = false;
   error: AxiosError | null = null;
   
-  constructor(newsId: string) {
+  constructor() {
     makeAutoObservable(this);
-    this.getNews(newsId);
+    this.getNewsList();
   }
 
-  setNewsArticle(newNews: News | undefined) {
-    this.newsArticle = newNews;
+  setNewsArticles(newNewsList: News[]) {
+    this.newsArticles = newNewsList;
   }
 
   setIsLoading(isLoading: boolean) {
@@ -26,11 +26,11 @@ export class NewsStore {
     this.error = error;
   }
 
-  async getNews(id: string) {
+  async getNewsList() {
     this.setIsLoading(true);
 
     try {
-      this.setNewsArticle(await getNewsArticle(id));
+      this.setNewsArticles(await getNews());
     }
     catch (error) {
       this.setError(error as AxiosError);
@@ -39,8 +39,6 @@ export class NewsStore {
       this.setIsLoading(false);
     }
   }
-
-  async deleteNews(id: string) {
-    await deleteNewsArticle(id);
-  }
 }
+
+export default new NewsListStore();

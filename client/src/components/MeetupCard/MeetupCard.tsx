@@ -12,7 +12,7 @@ import {
   VotesCount,
 } from 'components';
 import { Meetup, MeetupStatus, UserRole } from 'model';
-import { FORMATTED_WEEKDAYS_RU } from 'common/constants/constants';
+import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
 import { Locale } from 'i18n';
 import { LocalizationContext, UserContext } from 'common/contexts';
 

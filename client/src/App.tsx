@@ -1,6 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 
-import { meetupTabsLinks, meetupTabToDescriptor } from 'components';
+import {
+  ErrorFallback,
+  meetupTabsLinks,
+  meetupTabToDescriptor,
+} from 'components';
+import { MeetupListProvider, NewsListProvider } from 'common/contexts';
+import { history, AppRouter } from 'common/router';
 import {
   MeetupPage,
   NotFoundPage,
@@ -13,12 +20,18 @@ import {
 
 function App() {
   return (
-    <BrowserRouter>
+    <AppRouter history={history}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate replace to="/meetups" />} />
           <Route path="meetups">
-            <Route element={<MeetupPage />}>
+            <Route
+              element={
+                <MeetupListProvider>
+                  <MeetupPage />
+                </MeetupListProvider>
+              }
+            >
               <Route
                 index
                 element={<Navigate replace to={meetupTabsLinks[0]} />}
@@ -33,15 +46,36 @@ function App() {
             </Route>
             <Route path="create" element={<div>Create meetup page</div>} />
             <Route path=":id">
-              <Route index element={<ViewMeetupPage />} />
+              <Route
+                index
+                element={
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <ViewMeetupPage />
+                  </ErrorBoundary>
+                }
+              />
               <Route path="edit" element={<div>Edit meetup</div>} />
             </Route>
           </Route>
           <Route path="news">
-            <Route index element={<NewsPage />} />
+            <Route
+              index
+              element={
+                <NewsListProvider>
+                  <NewsPage />
+                </NewsListProvider>
+              }
+            />
             <Route path="create" element={<div>Create news article</div>} />
             <Route path=":id">
-              <Route index element={<ViewNewsPage />} />
+              <Route
+                index
+                element={
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <ViewNewsPage />
+                  </ErrorBoundary>
+                }
+              />
               <Route path="edit" element={<div>Edit news article</div>} />
             </Route>
           </Route>
@@ -50,7 +84,7 @@ function App() {
         </Route>
         <Route path="login" element={<LoginPage />} />
       </Routes>
-    </BrowserRouter>
+    </AppRouter>
   );
 }
 

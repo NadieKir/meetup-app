@@ -6,9 +6,9 @@
 .card {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
+  row-gap: 20px;
 
-  padding: 17px 24px 22px 24px;
+  padding: 25px 35px;
   background-color: $white-color;
   border-radius: 6px;
 
@@ -70,7 +70,7 @@
   .body {
     display: flex;
     flex-direction: column;
-    row-gap: 12px;
+    row-gap: 10px;
 
     .subject {
       @extend .font-family-secondary;

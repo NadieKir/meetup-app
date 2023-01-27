@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { observer, useLocalObservable } from 'mobx-react-lite';
 import classNames from 'classnames';
 
 import {
@@ -9,36 +10,32 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { useNewsArticleQuery } from 'common/hooks';
-import { UserContext, NewsContext } from 'common/contexts';
+import { UserContext } from 'common/contexts';
+import { NewsStore } from 'store/news';
 import { UserRole } from 'model';
-import { NotFoundPage } from 'pages';
 
 import styles from './ViewNewsPage.module.scss';
 import defaultImage from 'assets/images/default-background-blue.jpg';
 
-export const ViewNewsPage = () => {
+export const ViewNewsPage = observer(() => {
   const intl = useIntl();
-
-  const userStore = useContext(UserContext);
-  const newsStore = useContext(NewsContext);
-
-  const { id } = useParams();
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const { pathname } = useLocation();
-  const { newsArticle, isLoading } = useNewsArticleQuery(id!);
 
-  if (isLoading || newsArticle === undefined)
-    return <FormattedMessage id="loading" />;
+  const { user } = useContext(UserContext);
+  const { newsArticle, deleteNews, isLoading, error } = useLocalObservable(
+    () => new NewsStore(id!),
+  );
 
-  if (newsArticle === null) return <></>;
+  if (isLoading) return <FormattedMessage id="loading" />;
+  if (!newsArticle) throw error;
 
   const handleGoBack = () => navigate(-1);
   const handleEdit = () => navigate(pathname + '/edit');
   const handleDelete = () => {
-    newsStore.deleteNews(newsArticle.id);
-    navigate(-1);
+    deleteNews(newsArticle.id);
+    handleGoBack();
   };
 
   const renderImage = (): JSX.Element => {
@@ -76,7 +73,7 @@ export const ViewNewsPage = () => {
         <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
           <FormattedMessage id="goBackButton" />
         </Button>
-        {userStore.user?.roles === UserRole.CHIEF && (
+        {user?.roles === UserRole.CHIEF && (
           <div className={styles.actionGroup}>
             <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
               <FormattedMessage id="deleteButton" />
@@ -105,4 +102,4 @@ export const ViewNewsPage = () => {
       </div>
     </section>
   );
-};
+});

@@ -18,7 +18,7 @@ export const newsRoutes = (db) => {
     if (!news) {
       return res.status(404).json({ message: 'News not found' });
     }
-  
+
     res.json(news);
   });
 

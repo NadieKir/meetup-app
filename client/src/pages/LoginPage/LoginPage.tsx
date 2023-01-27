@@ -20,9 +20,10 @@ import styles from './LoginPage.module.scss';
 import logo from 'assets/images/logo.svg';
 
 export const LoginPage = observer(() => {
-  const userStore = useContext(UserContext);
-  const navigate = useNavigate();
   const intl = useIntl();
+  const navigate = useNavigate();
+
+  const userStore = useContext(UserContext);
 
   const signInSchema = Yup.object().shape({
     username: Yup.string()

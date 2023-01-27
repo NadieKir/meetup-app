@@ -1,11 +1,11 @@
-import { MeetupProvider } from 'common/contexts';
-import { Typography, MeetupStagesTabs, TypographyComponent } from 'components';
 import { FormattedMessage } from 'react-intl';
+
+import { Typography, MeetupStagesTabs, TypographyComponent } from 'components';
 
 import styles from './MeetupPage.module.scss';
 
 export const MeetupPage = () => (
-  <MeetupProvider>
+  <section>
     <Typography
       component={TypographyComponent.Heading1}
       className={styles.heading}
@@ -13,5 +13,5 @@ export const MeetupPage = () => (
       <FormattedMessage id="meetups" />
     </Typography>
     <MeetupStagesTabs />
-  </MeetupProvider>
+  </section>
 );
