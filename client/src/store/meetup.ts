@@ -1,67 +1,110 @@
+import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import { ShortUser, User, Meetup, MeetupStatus } from 'model';
-import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, updateMeetup } from 'api';
+import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup } from 'api';
+import { Meetup, MeetupStatus } from 'model';
+import { UserStore } from 'store';
 
 export class MeetupStore {
-  meetup: Meetup | null = null;
-  meetups: Meetup[] = [];
-
-  constructor() {
+  meetup: Meetup | undefined;
+  userStore: UserStore;
+  isLoading: boolean = false;
+  error: AxiosError | null = null;
+  
+  constructor(meetupId: string, userStore: UserStore) {
     makeAutoObservable(this);
+    this.userStore = userStore;
+    this.getMeetup(meetupId);
   }
 
-  setMeetup(newMeetup: Meetup | null) {
+  setMeetup(newMeetup: Meetup) {
     this.meetup = newMeetup;
   }
 
-  setMeetups(newMeetups: Meetup[]) {
-    this.meetups = newMeetups;
+  setIsLoading(isLoading: boolean) {
+    this.isLoading = isLoading;
   }
 
-  async supportMeetup(meetup: Meetup, user: User) {
-    const shortUser: ShortUser = {id: user.id, name: user.name, surname: user.surname};
-    const updatedVotedUsers = await addVotedUser(meetup.id, shortUser);
-    const updatedMeetup = await updateMeetup({...meetup, votedUsers: updatedVotedUsers});
-
-    this.setMeetup(updatedMeetup);
+  setError(error: AxiosError) {
+    this.error = error;
   }
 
-  async unsupportMeetup(meetup: Meetup, user: User) {
-    const shortUser: ShortUser = {id: user.id, name: user.name, surname: user.surname};
-    const updatedVotedUsers = await deleteVotedUser(meetup.id, shortUser);
-    const updatedMeetup = await updateMeetup({...meetup, votedUsers: updatedVotedUsers});
-    
-    this.setMeetup(updatedMeetup);
+  get isUserVoted() {
+    if (this.meetup && this.userStore.user) {
+      const actedUsers = this.meetup.status === MeetupStatus.CONFIRMED
+      ? this.meetup.participants
+      : this.meetup.votedUsers;
+
+      return actedUsers!.map((user) => user.id).includes(this.userStore.user.id);
+    }  
+    return false;
   }
 
-  async enrollMeetup(meetup: Meetup, user: User) {
-    const shortUser: ShortUser = {id: user.id, name: user.name, surname: user.surname};
-    const updatedParticipants = await addParticipant(meetup.id, shortUser);
-    const updatedMeetup = await updateMeetup({...meetup, participants: updatedParticipants});
+  async getMeetup(id: string) {
+    this.setIsLoading(true);
 
-    this.setMeetup(updatedMeetup);
+    try {
+      this.setMeetup(await getMeetup(id));
+    }
+    catch (error) {
+      this.setError(error as AxiosError);
+    } 
+    finally {
+      this.setIsLoading(false);
+    }
   }
 
-  async disenrollMeetup(meetup: Meetup, user: User) {
-    const shortUser: ShortUser = {id: user.id, name: user.name, surname: user.surname};
-    const updatedParticipants = await deleteParticipant(meetup.id, shortUser);
-    const updatedMeetup = await updateMeetup({...meetup, participants: updatedParticipants});
-
-    this.setMeetup(updatedMeetup);
+  supportMeetup = async () =>  {
+    if (this.meetup && this.userStore.shortUser) {
+      const updatedVotedUsers = await addVotedUser(this.meetup.id, this.userStore.shortUser);
+      const updatedMeetup = await updateMeetup({...this.meetup, votedUsers: updatedVotedUsers});
+  
+      this.setMeetup(updatedMeetup);
+    }
   }
 
-  async approveMeetup(meetup: Meetup) {
-    await updateMeetup({...meetup, status: MeetupStatus.REQUEST});
+  unsupportMeetup = async () =>  {
+    if (this.meetup && this.userStore.shortUser) {
+      const updatedVotedUsers = await deleteVotedUser(this.meetup.id, this.userStore.shortUser);
+      const updatedMeetup = await updateMeetup({...this.meetup, votedUsers: updatedVotedUsers});
+      
+      this.setMeetup(updatedMeetup);
+    }
   }
 
-  async publishMeetup(meetup: Meetup) {
-    await updateMeetup({...meetup, status: MeetupStatus.CONFIRMED});
+  enrollMeetup = async () => {
+    if (this.meetup && this.userStore.shortUser) {
+      const updatedParticipants = await addParticipant(this.meetup.id, this.userStore.shortUser);
+      const updatedMeetup = await updateMeetup({...this.meetup, participants: updatedParticipants});
+
+      this.setMeetup(updatedMeetup);
+    }
   }
 
-  async deleteMeetup(id: string) {
-    await deleteMeetup(id);
+   disenrollMeetup = async () => {
+    if (this.meetup && this.userStore.shortUser) {
+      const updatedParticipants = await deleteParticipant(this.meetup.id, this.userStore.shortUser);
+      const updatedMeetup = await updateMeetup({...this.meetup, participants: updatedParticipants});
+
+      this.setMeetup(updatedMeetup); 
+    }
+  }
+
+  approveMeetup = async () =>  {
+    if (this.meetup) {
+      await updateMeetup({...this.meetup, status: MeetupStatus.REQUEST});
+    }
+  }
+
+  publishMeetup = async () =>  {
+    if (this.meetup) {
+      await updateMeetup({...this.meetup, status: MeetupStatus.CONFIRMED});
+    }
+  }
+
+  deleteMeetup = async () =>  {
+    if (this.meetup) {
+      await deleteMeetup(this.meetup.id); 
+    }
   }
 }
-
-export default new MeetupStore();

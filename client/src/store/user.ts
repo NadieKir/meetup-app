@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { getUser, logout } from 'api';
-import { User } from 'model';
+import { ShortUser, User } from 'model';
 
 export class UserStore {
   user: User | null = null;
@@ -11,6 +11,24 @@ export class UserStore {
     this.loadUser();
   }
 
+  setUser(newUser: User | null) {
+    this.user = newUser;
+  }
+
+  get shortUser() {
+    if (this.user) {
+      const shortUser: ShortUser = { 
+        id: this.user.id, 
+        name: this.user.name, 
+        surname: this.user.surname 
+      };
+      
+      return shortUser;
+    }
+
+    return null;
+  }
+
   async loadUser() {
     const savedUserId = localStorage.getItem('user');
 
@@ -18,10 +36,6 @@ export class UserStore {
 
     const savedUser = await getUser(savedUserId);
     this.setUser(savedUser);
-  }
-
-  setUser(newUser: User | null) {
-    this.user = newUser;
   }
 
   async logout() {

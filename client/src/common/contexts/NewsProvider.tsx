@@ -1,12 +1,14 @@
 import { createContext, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import newsStore, { NewsStore } from 'store/news';
+import newsListStore, { NewsListStore } from 'store/newsList';
 
-export const NewsContext = createContext<NewsStore>(newsStore);
+export const NewsListContext = createContext<NewsListStore>(newsListStore);
 
-export const NewsProvider = observer(({ children }: PropsWithChildren) => {
+export const NewsListProvider = observer(({ children }: PropsWithChildren) => {
   return (
-    <NewsContext.Provider value={newsStore}>{children}</NewsContext.Provider>
+    <NewsListContext.Provider value={newsListStore}>
+      {children}
+    </NewsListContext.Provider>
   );
 });

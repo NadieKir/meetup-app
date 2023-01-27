@@ -26,6 +26,7 @@ export const messages = {
     goBackButton: 'Назад',
     editButton: 'Редактировать',
     goMainButton: 'Перейти на главную',
+    tryAgainButton: 'Попробовать ещё раз',
 
     /* Alts */
     logoAlt: 'Логотип',
@@ -67,6 +68,9 @@ export const messages = {
     /* 404 */
     pageNotFound: 'Запрашиваемая страница на найдена',
 
+    /* Error page */
+    somethingIsWrong: 'Что-то пошло не так',
+
     /* Loader */
     loading: 'Загрузка...',
   },
@@ -94,6 +98,7 @@ export const messages = {
     goBackButton: 'Back',
     editButton: 'Edit',
     goMainButton: 'Go Home',
+    tryAgainButton: 'Try Again',
 
     logoAlt: 'Logo',
     loginAlt: 'Log In',
@@ -129,6 +134,8 @@ export const messages = {
     description: 'Description',
 
     pageNotFound: 'The requested page was not found',
+
+    somethingIsWrong: 'Something went wrong',
 
     loading: 'Loading...',
 

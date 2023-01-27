@@ -1,14 +1,17 @@
 import { createContext, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import meetupStore, { MeetupStore } from 'store/meetup';
+import meetupListStore, { MeetupListStore } from 'store/meetupList';
 
-export const MeetupContext = createContext<MeetupStore>(meetupStore);
+export const MeetupListContext =
+  createContext<MeetupListStore>(meetupListStore);
 
-export const MeetupProvider = observer(({ children }: PropsWithChildren) => {
-  return (
-    <MeetupContext.Provider value={meetupStore}>
-      {children}
-    </MeetupContext.Provider>
-  );
-});
+export const MeetupListProvider = observer(
+  ({ children }: PropsWithChildren) => {
+    return (
+      <MeetupListContext.Provider value={meetupListStore}>
+        {children}
+      </MeetupListContext.Provider>
+    );
+  },
+);

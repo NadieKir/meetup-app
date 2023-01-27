@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { observer } from 'mobx-react-lite';
+import { observer, useLocalObservable } from 'mobx-react-lite';
 import classNames from 'classnames';
 
 import {
@@ -13,10 +13,9 @@ import {
   UserPreviewVariant,
 } from 'components';
 import { MeetupStatus, ShortUser, UserRole } from 'model';
-import { NotFoundPage } from 'pages';
 import { capitalizeFirstLetter } from 'common/helpers';
-import { useMeetupQuery } from 'common/hooks';
-import { UserContext, MeetupContext } from 'common/contexts';
+import { UserContext } from 'common/contexts';
+import { MeetupStore } from 'store/meetup';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -29,52 +28,45 @@ const MAX_PREVIEW_USERS = 8; // will be changed
 export const ViewMeetupPage = observer(() => {
   const intl = useIntl();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const userStore = useContext(UserContext);
-  const meetupStore = useContext(MeetupContext);
+  const {
+    meetup,
+    error,
+    isLoading,
+    isUserVoted,
+    supportMeetup,
+    unsupportMeetup,
+    enrollMeetup,
+    disenrollMeetup,
+    approveMeetup,
+    publishMeetup,
+    deleteMeetup,
+  } = useLocalObservable(() => new MeetupStore(id!, userStore));
 
-  const { id } = useParams();
-  const { meetup, isLoading } = useMeetupQuery(id!);
-
-  if (isLoading || meetup === undefined)
-    return <FormattedMessage id="loading" />;
-
-  if (meetup === null) return <></>;
-
-  const handleDelete = () => {
-    meetupStore.deleteMeetup(meetup.id);
-    navigate(-1);
-  };
-  const handleApprove = () => {
-    meetupStore.approveMeetup(meetup);
-    navigate('/meetups/moderation');
-  };
-  const handlePublish = () => {
-    meetupStore.publishMeetup(meetup);
-    navigate('/meetups/upcoming');
-  };
-
-  const handleSupport = () =>
-    meetupStore.supportMeetup(meetup, userStore.user!);
-  const handleUnsupport = () =>
-    meetupStore.unsupportMeetup(meetup, userStore.user!);
-  const handleEnroll = () => meetupStore.enrollMeetup(meetup, userStore.user!);
-  const handleDisenroll = () =>
-    meetupStore.disenrollMeetup(meetup, userStore.user!);
+  if (isLoading) return <FormattedMessage id="loading" />;
+  if (!meetup) throw error;
 
   const handleGoBack = () => navigate(-1);
 
-  const isUserVoted = () => {
-    const users =
-      meetup.status === MeetupStatus.CONFIRMED
-        ? meetup.participants
-        : meetup.votedUsers;
-
-    if (userStore.user) {
-      return users?.map((user) => user.id).includes(userStore.user.id);
-    }
-    return false;
+  const handleDelete = () => {
+    deleteMeetup();
+    handleGoBack();
   };
+  const handleApprove = () => {
+    approveMeetup();
+    navigate('/meetups/moderation');
+  };
+  const handlePublish = () => {
+    publishMeetup();
+    navigate('/meetups/upcoming');
+  };
+
+  const handleSupport = () => supportMeetup();
+  const handleUnsupport = () => unsupportMeetup();
+  const handleEnroll = () => enrollMeetup();
+  const handleDisenroll = () => disenrollMeetup();
 
   const renderHeader = () => {
     if (meetup.status === MeetupStatus.DRAFT) {
@@ -271,26 +263,26 @@ export const ViewMeetupPage = observer(() => {
 
   const renderEmployeeActions = () => (
     <>
-      {meetup.status === MeetupStatus.DRAFT && !isUserVoted() && (
+      {meetup.status === MeetupStatus.DRAFT && !isUserVoted && (
         <Button variant={ButtonVariant.Primary} onClick={handleSupport}>
           <FormattedMessage id="supportTopicButton" />
         </Button>
       )}
-      {meetup.status === MeetupStatus.DRAFT && isUserVoted() && (
+      {meetup.status === MeetupStatus.DRAFT && isUserVoted && (
         <Button variant={ButtonVariant.Primary} onClick={handleUnsupport}>
           <FormattedMessage id="unsupportTopicButton" />
         </Button>
       )}
       {meetup.status === MeetupStatus.CONFIRMED &&
         !meetup.isOver &&
-        !isUserVoted() && (
+        !isUserVoted && (
           <Button variant={ButtonVariant.Primary} onClick={handleEnroll}>
             <FormattedMessage id="enrollMeetup" />
           </Button>
         )}
       {meetup.status === MeetupStatus.CONFIRMED &&
         !meetup.isOver &&
-        isUserVoted() && (
+        isUserVoted && (
           <Button variant={ButtonVariant.Primary} onClick={handleDisenroll}>
             <FormattedMessage id="disenrollMeetup" />
           </Button>

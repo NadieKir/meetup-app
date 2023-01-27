@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { LocalizationContext } from 'common/contexts';
 import { Locale } from 'i18n';
-import { LANGUAGES } from 'common/constants/constants';
+import { LANGUAGES } from 'common/constants';
 
 import styles from './LanguageSelector.module.scss';
 
