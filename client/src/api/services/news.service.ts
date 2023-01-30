@@ -1,5 +1,5 @@
 import { httpClient } from 'api/httpClient';
-import { NewNews, News } from 'model';
+import { NewNewsPayload, News } from 'model';
 
 export const getNews = async (): Promise<News[]> => {
   const { data: articles } = await httpClient.get<News[]>('/news');
@@ -12,20 +12,17 @@ export const getNewsArticle = async (id: string): Promise<News> => {
 };
 
 export const createNewsArticle = async (
-  newArticleData: NewNews,
+  newArticleData: NewNewsPayload,
 ): Promise<News> => {
-  const { data: createdArticle } = await httpClient.post<News>('/news', {
-    data: newArticleData,
-  });
+  const { data: createdArticle } = await httpClient.post<News>('/news', newArticleData);
   return createdArticle;
 };
 
 export const updateNewsArticle = async (
-  updatedArticleData: News,
+  id: string,
+  updatedArticleData: NewNewsPayload,
 ): Promise<News> => {
-  const { data: updatedArticle } = await httpClient.put<News>('/news', {
-    data: updatedArticleData,
-  });
+  const { data: updatedArticle } = await httpClient.put<News>(`/news/${id}`, updatedArticleData);
   return updatedArticle;
 };
 

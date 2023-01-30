@@ -22,15 +22,15 @@ export const newsRoutes = (db) => {
     res.json(news);
   });
 
-  newsRouter.post('/', ensureAuthenticated, isModerator, async (req, res) => {
+  newsRouter.post('/', async (req, res) => {
     try {
       const {
         title,
-        text,
+        content,
         image
       } = req.body;
 
-      if (!title || !text) {
+      if (!title || !content) {
         return res.status(400).json({ message: 'Invalid request data' });
       }
 
@@ -38,7 +38,7 @@ export const newsRoutes = (db) => {
         id: faker.datatype.uuid(),
         publicationDate: new Date().toISOString(),
         title,
-        text,
+        content,
         image: image || null
       };
 
@@ -51,7 +51,7 @@ export const newsRoutes = (db) => {
     }
   });
 
-  newsRouter.put('/:id', ensureAuthenticated, isModerator, async (req, res) => {
+  newsRouter.put('/:id', async (req, res) => {
     try {
       const newsId = req.params.id;
       const index = db.data.news.findIndex(n => n.id === newsId);
@@ -63,13 +63,13 @@ export const newsRoutes = (db) => {
       const news = db.data.news[index];
 
       const title = req.body.title || news.title;
-      const text = req.body.text || news.text;
-      const image = req.body.image || news.image;
+      const content = req.body.content || news.content;
+      const image = req.body.image;
 
       db.data.news[index] = {
         ...db.data.news[index],
         title,
-        text,
+        content,
         image
       };
 

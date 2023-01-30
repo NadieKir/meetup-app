@@ -9,11 +9,16 @@ export const messages = {
     topicView: 'Просмотр темы',
     meetupView: 'Просмотр митапа',
     newsView: 'Просмотр новости',
+    createNews: 'Создать новость',
+    createMeetup: 'Создать митап',
+    editNews: 'Редактировать новость',
+    editMeetup: 'Редактировать митап',
 
     /* Buttons */
     signInButton: 'Войти',
     signInAsGuestButton: 'Войти как гость',
     logOutButton: 'Выйти',
+    createButton: 'Создать тему',
     createMeetupButton: '+ Создать тему',
     createNewsButton: '+ Создать новость',
     deleteButton: 'Удалить',
@@ -27,6 +32,7 @@ export const messages = {
     editButton: 'Редактировать',
     goMainButton: 'Перейти на главную',
     tryAgainButton: 'Попробовать ещё раз',
+    saveButton: 'Сохранить',
 
     /* Alts */
     logoAlt: 'Логотип',
@@ -48,6 +54,15 @@ export const messages = {
     passwordMaxError: 'Пароль не может содержать более 40 символов',
     passwordRequiredError: 'Введите пароль',
     noUserError: 'Данный пользователь не существует',
+
+    /* Create News Form */
+    titleLabel: 'Заголовок',
+    contentLabel: 'Содержание',
+    imageLabel: 'Изображение',
+    titleMinError: 'Заголовок должен содержать минимум 3 символа',
+    titleMaxError: 'Заголовок не может содержать более 100 символов',
+    titleRequiredError: 'Введите заголовок',
+    contentRequiredError: 'Введите содержание',
 
     /* Tabs */
     topics: 'Темы',
@@ -76,16 +91,23 @@ export const messages = {
   },
 
   [Locale.ENGLISH]: {
+    /* Titles */
     meetups: `Meetups`,
     news: 'News',
     login: 'Sign In',
     topicView: 'View Topic',
     meetupView: 'View Meetup',
     newsView: 'View News',
+    createNews: 'Create News',
+    createMeetup: 'Create Meetup',
+    editNews: 'Edit News',
+    editMeetup: 'Edit Meetup',
 
+    /* Buttons */
     signInButton: 'Sign In',
     signInAsGuestButton: 'Sign In As Guest',
     logOutButton: 'Log Out',
+    createButton: 'Create',
     createMeetupButton: '+ Create topic',
     createNewsButton: '+ Create news',
     deleteButton: 'Delete',
@@ -99,7 +121,9 @@ export const messages = {
     editButton: 'Edit',
     goMainButton: 'Go Home',
     tryAgainButton: 'Try Again',
+    saveButton: 'Save',
 
+    /* Alts */
     logoAlt: 'Logo',
     loginAlt: 'Log In',
     meetupPhotoAlt: 'Meetup photo',
@@ -108,6 +132,7 @@ export const messages = {
     locationAlt: 'Location',
     newsPhotoAlt: 'News photo',
 
+    /* Sign In Form */
     usernameLabel: 'Name',
     passwordLabel: 'Password',
     usernameMinError: 'Name must have at least 2 symbols',
@@ -119,11 +144,22 @@ export const messages = {
     passwordRequiredError: 'Enter password',
     noUserError: 'This user doesn\'t exist',
 
+    /* Create News Form */
+    titleLabel: 'Title',
+    contentLabel: 'Content',
+    imageLabel: 'Image',
+    titleMinError: 'Title must have at least 3 symbols',
+    titleMaxError: 'Title can\'t have more than 100 symbols',
+    titleRequiredError: 'Enter title',
+    contentRequiredError: 'Enter content',
+
+    /* Tabs */
     topics: 'Topics',
     onModeration: 'On moderation',
     upcoming: 'Upcoming',
     finished: 'Finished',
 
+    /* Meetup */
     name: 'Name',
     supportUsers: '{votesCount, plural, one {# supports} other {# support}}',
     support: 'Support',
@@ -133,10 +169,13 @@ export const messages = {
     speaker: 'Speaker',
     description: 'Description',
 
+    /* 404 */
     pageNotFound: 'The requested page was not found',
 
+    /* Error page */
     somethingIsWrong: 'Something went wrong',
 
+    /* Loader */
     loading: 'Loading...',
 
     /* Meetup page */

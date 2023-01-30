@@ -1,0 +1,33 @@
+@use 'sass:color';
+@import '~style/colors';
+@import '~style/typography';
+@import '~style/mixins';
+
+.whiteContainer {
+  padding: 25px 35px;
+
+  background: $white-color;
+  box-shadow: 0px 4px 7px color.change($gray-shadow-05-color, $alpha: 0.4);
+  border-radius: 5px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  &Inputs {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    @extend .whiteContainer;
+  }
+
+  &Actions {
+    display: flex;
+    justify-content: space-between;
+
+    @extend .whiteContainer;
+  }
+}
