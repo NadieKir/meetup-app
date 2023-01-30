@@ -24,7 +24,7 @@ const newsArticle: News = {
   id: 'AAA-AAA',
   publicationDate: new Date().toISOString(),
   title: 'Our Vilnius office celebrates 1 year!',
-  text:
+  content:
     '🙌 The SaM Solutions office in #Vilnius celebrates a one-year anniversary.' +
     ' 🎉 Congratulations to our colleagues! Keep it up! More new victories and achievements ahead. 💪 #SaMSolutions',
   image: testImage,

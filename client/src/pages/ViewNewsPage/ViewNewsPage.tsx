@@ -15,7 +15,7 @@ import { NewsStore } from 'store/news';
 import { UserRole } from 'model';
 
 import styles from './ViewNewsPage.module.scss';
-import defaultImage from 'assets/images/default-background-blue.jpg';
+import defaultImage from 'assets/images/default-image.jpg';
 
 export const ViewNewsPage = observer(() => {
   const intl = useIntl();
@@ -43,7 +43,7 @@ export const ViewNewsPage = observer(() => {
       <figure className={classNames(styles.section, styles.imageWrapper)}>
         <img
           className={styles.image}
-          src={newsArticle.image ?? defaultImage}
+          src={newsArticle.image || defaultImage}
           alt={intl.formatMessage({ id: 'newsPhotoAlt' })}
         />
       </figure>
@@ -62,7 +62,7 @@ export const ViewNewsPage = observer(() => {
         className={styles.text}
         component={TypographyComponent.Paragraph}
       >
-        {newsArticle.text}
+        {newsArticle.content}
       </Typography>
     </div>
   );

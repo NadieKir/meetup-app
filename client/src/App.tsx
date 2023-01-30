@@ -16,6 +16,8 @@ import {
   ViewNewsPage,
   Layout,
   LoginPage,
+  CreateNewsPage,
+  EditNewsPage,
 } from 'pages';
 
 function App() {
@@ -66,7 +68,14 @@ function App() {
                 </NewsListProvider>
               }
             />
-            <Route path="create" element={<div>Create news article</div>} />
+            <Route
+              path="create"
+              element={
+                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <CreateNewsPage />
+                </ErrorBoundary>
+              }
+            />
             <Route path=":id">
               <Route
                 index
@@ -76,7 +85,14 @@ function App() {
                   </ErrorBoundary>
                 }
               />
-              <Route path="edit" element={<div>Edit news article</div>} />
+              <Route
+                path="edit"
+                element={
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <EditNewsPage />
+                  </ErrorBoundary>
+                }
+              />
             </Route>
           </Route>
           <Route path="not-found" element={<NotFoundPage />} />

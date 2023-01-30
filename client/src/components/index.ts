@@ -34,3 +34,4 @@ export * from './ImageUploader/ImageUploader';
 export * from './LanguageSelector/LanguageSelector';
 export * from './CardsCounter/CardsCounter';
 export * from './ErrorFallback/ErrorFallback';
+export * from './NewsForm/NewsForm';

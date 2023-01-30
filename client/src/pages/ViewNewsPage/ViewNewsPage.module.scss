@@ -6,17 +6,16 @@
 .container {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 40px;
 }
 
 .section {
-  border-radius: 5px;
+  border-radius: 6px;
   box-shadow: 0px 4px 7px color.adjust($gray-shadow-05-color, $alpha: +0.25);
 }
 
 .textSection {
   @extend .section;
-
   background-color: $white-color;
 }
 
@@ -32,13 +31,12 @@
 .contentWrapper {
   display: flex;
   flex-direction: column;
-  row-gap: 16px;
+  row-gap: 20px;
 }
 
 .imageWrapper {
   overflow: hidden;
 
-  margin-bottom: -8px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 
@@ -52,9 +50,9 @@
 .main {
   display: flex;
   flex-direction: column;
-  row-gap: 41px;
+  row-gap: 20px;
+  padding: 25px 35px;
 
-  padding: 24px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -62,17 +60,16 @@
 .title {
   @extend .font-family-secondary;
   @extend .font-weight-medium;
-  @extend .font-size-l;
+  @extend .font-size-xl;
   @extend .line-height-xxl;
   @extend .font-color-dark;
-  @extend .letter-spacing-smaller;
 }
 
 .text {
   @extend .font-family-primary;
   @extend .font-weight-regular;
   @extend .font-size-s;
-  @extend .line-height-m;
+  @extend .line-height-l;
   @extend .font-color-dark;
 }
 
@@ -81,7 +78,7 @@
   flex-direction: row;
   justify-content: space-between;
 
-  padding: 16px 24px;
+  padding: 15px 35px;
 }
 
 .actionGroup {

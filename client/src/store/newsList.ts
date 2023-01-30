@@ -30,7 +30,8 @@ export class NewsListStore {
     this.setIsLoading(true);
 
     try {
-      this.setNewsArticles(await getNews());
+      const news = await getNews();
+      this.setNewsArticles(news.sort((a, b) => Date.parse(b.publicationDate) - Date.parse(a.publicationDate)));
     }
     catch (error) {
       this.setError(error as AxiosError);
