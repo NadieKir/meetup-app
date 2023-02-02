@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import {
   Button,
   ButtonVariant,
+  PasswordField,
   TextField,
   Typography,
   TypographyComponent,
@@ -93,10 +94,9 @@ export const LoginPage = observer(() => {
                   labelText={intl.formatMessage({ id: 'usernameLabel' })}
                   multiline={false}
                 />
-                <TextField
+                <PasswordField
                   name="password"
                   labelText={intl.formatMessage({ id: 'passwordLabel' })}
-                  multiline={false}
                 />
                 <div className={styles.formActions}>
                   <Button
