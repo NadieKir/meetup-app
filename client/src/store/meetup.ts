@@ -1,12 +1,15 @@
+import { isConfirmedMeetup } from './../model/meetup.model';
 import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup } from 'api';
-import { Meetup, MeetupStatus } from 'model';
+import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup, getParticipants, getVotedUsers } from 'api';
+import { Meetup, MeetupFormData, MeetupStatus, ShortUser } from 'model';
 import { UserStore } from 'store';
 
 export class MeetupStore {
   meetup: Meetup | undefined;
+  votedUsers: ShortUser[] | undefined;
+  participants: ShortUser[] | undefined;
   userStore: UserStore;
   isLoading: boolean = false;
   error: AxiosError | null = null;
@@ -14,11 +17,19 @@ export class MeetupStore {
   constructor(meetupId: string, userStore: UserStore) {
     makeAutoObservable(this);
     this.userStore = userStore;
-    this.getMeetup(meetupId);
+    this.getFullMeetupData(meetupId);
   }
 
   setMeetup(newMeetup: Meetup) {
     this.meetup = newMeetup;
+  }
+
+  setVotedUsers(newVotedUsers: ShortUser[]) {
+    this.votedUsers = newVotedUsers;
+  }
+
+  setParticipants(newParticipants: ShortUser[] | undefined) {
+    this.participants = newParticipants;
   }
 
   setIsLoading(isLoading: boolean) {
@@ -31,20 +42,21 @@ export class MeetupStore {
 
   get isUserVoted() {
     if (this.meetup && this.userStore.user) {
-      const actedUsers = this.meetup.status === MeetupStatus.CONFIRMED
-      ? this.meetup.participants
-      : this.meetup.votedUsers;
+      const actedUsers = isConfirmedMeetup(this.meetup)
+      ? this.participants
+      : this.votedUsers;
 
-      return actedUsers!.map((user) => user.id).includes(this.userStore.user.id);
+      return actedUsers ? actedUsers.map((user) => user.id).includes(this.userStore.user.id) : false;
     }  
     return false;
   }
 
-  async getMeetup(id: string) {
+  async getFullMeetupData(id: string) {
     this.setIsLoading(true);
-
     try {
       this.setMeetup(await getMeetup(id));
+      this.setVotedUsers(await getVotedUsers(id)); 
+      this.setParticipants(await getParticipants(id));
     }
     catch (error) {
       this.setError(error as AxiosError);
@@ -57,36 +69,32 @@ export class MeetupStore {
   supportMeetup = async () =>  {
     if (this.meetup && this.userStore.shortUser) {
       const updatedVotedUsers = await addVotedUser(this.meetup.id, this.userStore.shortUser);
-      const updatedMeetup = await updateMeetup({...this.meetup, votedUsers: updatedVotedUsers});
-  
-      this.setMeetup(updatedMeetup);
+      
+      this.setVotedUsers(updatedVotedUsers);
     }
   }
 
   unsupportMeetup = async () =>  {
     if (this.meetup && this.userStore.shortUser) {
       const updatedVotedUsers = await deleteVotedUser(this.meetup.id, this.userStore.shortUser);
-      const updatedMeetup = await updateMeetup({...this.meetup, votedUsers: updatedVotedUsers});
       
-      this.setMeetup(updatedMeetup);
+      this.setVotedUsers(updatedVotedUsers);
     }
   }
 
   enrollMeetup = async () => {
     if (this.meetup && this.userStore.shortUser) {
       const updatedParticipants = await addParticipant(this.meetup.id, this.userStore.shortUser);
-      const updatedMeetup = await updateMeetup({...this.meetup, participants: updatedParticipants});
-
-      this.setMeetup(updatedMeetup);
+      
+      this.setParticipants(updatedParticipants);
     }
   }
 
    disenrollMeetup = async () => {
     if (this.meetup && this.userStore.shortUser) {
       const updatedParticipants = await deleteParticipant(this.meetup.id, this.userStore.shortUser);
-      const updatedMeetup = await updateMeetup({...this.meetup, participants: updatedParticipants});
-
-      this.setMeetup(updatedMeetup); 
+      
+      this.setParticipants(updatedParticipants);
     }
   }
 
@@ -96,9 +104,9 @@ export class MeetupStore {
     }
   }
 
-  publishMeetup = async () =>  {
+  publishMeetup = async (meetupData: MeetupFormData) =>  {
     if (this.meetup) {
-      await updateMeetup({...this.meetup, status: MeetupStatus.CONFIRMED});
+      await updateMeetup({...this.meetup, ...meetupData, status: MeetupStatus.CONFIRMED});
     }
   }
 

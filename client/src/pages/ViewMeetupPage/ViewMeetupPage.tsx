@@ -12,7 +12,13 @@ import {
   UserPreview,
   UserPreviewVariant,
 } from 'components';
-import { MeetupStatus, ShortUser, UserRole } from 'model';
+import {
+  MeetupStatus,
+  ShortUser,
+  UserRole,
+  isTopic,
+  isUpcomingMeetup,
+} from 'model';
 import { capitalizeFirstLetter } from 'common/helpers';
 import { UserContext } from 'common/contexts';
 import { MeetupStore } from 'store/meetup';
@@ -27,12 +33,14 @@ const MAX_PREVIEW_USERS = 8; // will be changed
 
 export const ViewMeetupPage = observer(() => {
   const intl = useIntl();
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const userStore = useContext(UserContext);
   const {
     meetup,
+    votedUsers,
+    participants,
     error,
     isLoading,
     isUserVoted,
@@ -41,7 +49,6 @@ export const ViewMeetupPage = observer(() => {
     enrollMeetup,
     disenrollMeetup,
     approveMeetup,
-    publishMeetup,
     deleteMeetup,
   } = useLocalObservable(() => new MeetupStore(id!, userStore));
 
@@ -54,13 +61,15 @@ export const ViewMeetupPage = observer(() => {
     deleteMeetup();
     handleGoBack();
   };
+
   const handleApprove = () => {
     approveMeetup();
     navigate('/meetups/moderation');
   };
-  const handlePublish = () => {
-    publishMeetup();
-    navigate('/meetups/upcoming');
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/meetups/${id}/edit`);
   };
 
   const handleSupport = () => supportMeetup();
@@ -69,7 +78,7 @@ export const ViewMeetupPage = observer(() => {
   const handleDisenroll = () => disenrollMeetup();
 
   const renderHeader = () => {
-    if (meetup.status === MeetupStatus.DRAFT) {
+    if (isTopic(meetup)) {
       return (
         <div className={styles.data}>
           <Typography
@@ -110,7 +119,7 @@ export const ViewMeetupPage = observer(() => {
   };
 
   const renderTimePlace = () => {
-    if (meetup.status === MeetupStatus.DRAFT) return null;
+    if (isTopic(meetup)) return null;
 
     let date, time;
 
@@ -183,14 +192,14 @@ export const ViewMeetupPage = observer(() => {
         component={TypographyComponent.Span}
         className={styles.dataName}
       >
-        {meetup.status === MeetupStatus.DRAFT ? (
+        {isTopic(meetup) ? (
           <FormattedMessage id="author" />
         ) : (
           <FormattedMessage id="speaker" />
         )}
       </Typography>
       <div className={styles.dataContent}>
-        {meetup.status === MeetupStatus.DRAFT ? (
+        {isTopic(meetup) ? (
           <UserPreview user={meetup.author} />
         ) : (
           <div className={styles.speakerWrapper}>
@@ -204,10 +213,7 @@ export const ViewMeetupPage = observer(() => {
   );
 
   const renderUsers = () => {
-    const users =
-      meetup.status === MeetupStatus.CONFIRMED
-        ? meetup.participants
-        : meetup.votedUsers;
+    const users = isTopic(meetup) ? votedUsers : participants;
 
     if (users?.length === 0) return null;
 
@@ -219,10 +225,10 @@ export const ViewMeetupPage = observer(() => {
           component={TypographyComponent.Span}
           className={styles.dataName}
         >
-          {meetup.status === MeetupStatus.CONFIRMED ? (
-            <FormattedMessage id="enrolled" />
-          ) : (
+          {isTopic(meetup) ? (
             <FormattedMessage id="support" />
+          ) : (
+            <FormattedMessage id="enrolled" />
           )}
         </Typography>
         <div className={classNames(styles.dataContent, styles.users)}>
@@ -254,8 +260,13 @@ export const ViewMeetupPage = observer(() => {
         </Button>
       )}
       {meetup.status === MeetupStatus.REQUEST && (
-        <Button variant={ButtonVariant.Primary} onClick={handlePublish}>
-          <FormattedMessage id="publishButton" />
+        <Button variant={ButtonVariant.Primary} onClick={handleEdit}>
+          <FormattedMessage id="editButton" />
+        </Button>
+      )}
+      {isUpcomingMeetup(meetup) && (
+        <Button variant={ButtonVariant.Primary} onClick={handleEdit}>
+          <FormattedMessage id="editButton" />
         </Button>
       )}
     </div>
@@ -273,20 +284,16 @@ export const ViewMeetupPage = observer(() => {
           <FormattedMessage id="unsupportTopicButton" />
         </Button>
       )}
-      {meetup.status === MeetupStatus.CONFIRMED &&
-        !meetup.isOver &&
-        !isUserVoted && (
-          <Button variant={ButtonVariant.Primary} onClick={handleEnroll}>
-            <FormattedMessage id="enrollMeetup" />
-          </Button>
-        )}
-      {meetup.status === MeetupStatus.CONFIRMED &&
-        !meetup.isOver &&
-        isUserVoted && (
-          <Button variant={ButtonVariant.Primary} onClick={handleDisenroll}>
-            <FormattedMessage id="disenrollMeetup" />
-          </Button>
-        )}
+      {isUpcomingMeetup(meetup) && !isUserVoted && (
+        <Button variant={ButtonVariant.Primary} onClick={handleEnroll}>
+          <FormattedMessage id="enrollMeetup" />
+        </Button>
+      )}
+      {isUpcomingMeetup(meetup) && isUserVoted && (
+        <Button variant={ButtonVariant.Primary} onClick={handleDisenroll}>
+          <FormattedMessage id="disenrollMeetup" />
+        </Button>
+      )}
     </>
   );
 
@@ -307,7 +314,7 @@ export const ViewMeetupPage = observer(() => {
         className={styles.heading}
         component={TypographyComponent.Heading1}
       >
-        {meetup.status === MeetupStatus.DRAFT ? (
+        {isTopic(meetup) ? (
           <FormattedMessage id="topicView" />
         ) : (
           <FormattedMessage id="meetupView" />

@@ -1,6 +1,5 @@
-import { getParticipants, getVotedUsers } from 'api';
 import { httpClient } from 'api/httpClient';
-import { Meetup, MeetupStatus, NewMeetup } from 'model';
+import { Meetup, Topic, ConfirmedMeetup, TopicFormData } from 'model';
 
 export const getMeetups = async (): Promise<Meetup[]> => {
   const { data: meetups } = await httpClient.get<Meetup[]>('/meetups');
@@ -8,28 +7,16 @@ export const getMeetups = async (): Promise<Meetup[]> => {
   return meetups;
 };
 
-export const getMeetupsByStatus = async (status: MeetupStatus): Promise<Meetup[]> => {
-  const { data: meetups } = await httpClient.get<Meetup[]>(`/meetups/status/${status}`);
-
-  return meetups;
-};
-
 export const getMeetup = async (id: string): Promise<Meetup> => {
   const { data: meetup } = await httpClient.get<Meetup>(`/meetups/${id}`);
-  const votedUsers = await getVotedUsers(id);
-  const participants = await getParticipants(id);
 
-  return  {
-    ...meetup,
-    votedUsers,
-    participants
-  };
+  return meetup;
 };
 
 export const createMeetup = async (
-  newMeetupData: NewMeetup,
-): Promise<Meetup> => {
-  const { data: createdMeetup } = await httpClient.post<Meetup>('/meetups', {
+  newMeetupData: TopicFormData,
+): Promise<Topic> => {
+  const { data: createdMeetup } = await httpClient.post<Topic>('/meetups', {
     data: newMeetupData,
   });
 
@@ -43,6 +30,15 @@ export const updateMeetup = async (
 
   return updatedMeetup;
 };
+
+export const approveMeetup = async (
+  updatedMeetupData: ConfirmedMeetup,
+): Promise<ConfirmedMeetup> => {
+  const { data: updatedMeetup } = await httpClient.put<ConfirmedMeetup>('/meetups/approve', updatedMeetupData);
+
+  return updatedMeetup;
+};
+
 
 export const deleteMeetup = async (id: string): Promise<void> => {
   await httpClient.delete(`/meetups/${id}`);

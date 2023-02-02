@@ -1,8 +1,5 @@
 import express from "express";
-import { ensureAuthenticated } from "../ensureAthenticated.mjs";
 import faker from "faker";
-import { isDateValid } from "../utils.mjs";
-import { compareDates } from "../utils.mjs";
 
 export const meetupsRoutes = (db) => {
   const meetupsRouter = express.Router();
@@ -12,49 +9,26 @@ export const meetupsRoutes = (db) => {
   });
 
   meetupsRouter.post("/", async (req, res) => {
-    //TODO: validate model data
     try {
       const response = {
         id: faker.datatype.uuid(),
-        modified: req.body.modified,
-        start: req.body.start,
-        finish: req.body.finish,
+        modified: new Date(),
         author: {
           id: req.body.author.id,
           name: req.body.author.name,
           surname: req.body.author.surname,
         },
-        speakers: req.body.speakers.map((s) => ({
-          id: faker.datatype.uuid(),
-          name: s.name,
-          surname: s.surname,
-        })),
         subject: req.body.subject,
         excerpt: req.body.excerpt,
-        place: req.body.place,
-        goCount: 0,
         status: "REQUEST",
-        isOver: false,
-        image: req.body.image,
       };
 
-      if (
-        (isDateValid(req.body.start) || req.body.start === undefined) &&
-        (isDateValid(req.body.finish) || req.body.finish === undefined) &&
-        compareDates(req.body.start, req.body.finish)
-      ) {
-        db.data.participants[response.id] = [];
-        db.data.votedUsers[response.id] = [];
-        const meetup = db.data.meetups.push(response);
-        await db.write();
-        res.send(response);
-      } else {
-        res
-          .status(500)
-          .send(
-            "Error. Dates must be valid and start date must be earlier than finish date!"
-          );
-      }
+      db.data.votedUsers[response.id] = [];
+      db.data.meetups.push(response);
+
+      await db.write();
+
+      res.send(response);
     } catch (err) {
       res.status(500).send(err);
     }
@@ -63,29 +37,41 @@ export const meetupsRoutes = (db) => {
   meetupsRouter.put("/", async (req, res) => {
     const index = db.data.meetups.findIndex((it) => it.id === req.body.id);
     db.data.meetups[index] = {...db.data.meetups[index], ...req.body, modified: new Date()};
+
+    if (db.data.participants[req.body.id] === undefined) db.data.participants[req.body.id] = [];
+    
     await db.write();
+
     res.send(db.data.meetups[index]);
   });
 
   meetupsRouter.get("/status/:status", async (req, res) => {
     const meetups = db.data.meetups.filter((it) => it.status === req.params.status);
+    
     res.send(meetups);
   });
 
   meetupsRouter.get("/:id", async (req, res) => {
     const meetup = db.data.meetups.find((m) => m.id === req.params.id);
+
     if (!meetup) {
       res.sendStatus(404);
     }
+
     res.send(meetup);
   });
 
   meetupsRouter.delete("/:id", async (req, res) => {
     const index = db.data.meetups.findIndex((it) => it.id === req.params.id);
+
     if (index >= 0) {
       db.data.meetups.splice(index, 1);
+      delete db.data.votedUsers[req.params.id];
+      delete db.data.participants[req.params.id];
     }
+
     await db.write();
+
     res.send({});
   });
 
@@ -108,8 +94,8 @@ export const meetupsRoutes = (db) => {
 
         const meetupId = req.params.id;
         const participants = db.data.participants[meetupId];
-
         const checkUser = participants.find((user) => user.id === id);
+
         if (checkUser) {
           return res.status(400).send({ message: 'Participant is already exist' });
         }
@@ -117,6 +103,7 @@ export const meetupsRoutes = (db) => {
         participants.unshift({ id, name, surname });
 
         await db.write();
+
         res.send(participants);
       } catch (e) {
         res.status(500).send(e);
@@ -144,9 +131,9 @@ export const meetupsRoutes = (db) => {
         db.data.participants[meetupId] = participants.filter(u => u.id !== userId);
 
         await db.write();
+
         res.send(db.data.participants[meetupId]);
       } catch (e) {
-        console.log(e);
         res.status(500).send(e);
       }
     }
@@ -171,6 +158,7 @@ export const meetupsRoutes = (db) => {
 
         const meetupId = req.params.id;
         const checkUser = db.data.votedUsers[meetupId].find((user) => user.id === id)
+        
         if (checkUser) {
           return res.status(400).send({ message: 'The user is already voted' });
         }
@@ -203,6 +191,7 @@ export const meetupsRoutes = (db) => {
         db.data.votedUsers[meetupId] = users.filter(u => u.id !== userId);
 
         await db.write();
+        
         res.send(db.data.votedUsers[meetupId]);
       } catch (e) {
         res.status(500).send(e);

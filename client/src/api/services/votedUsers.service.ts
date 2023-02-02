@@ -1,5 +1,11 @@
 import { httpClient } from 'api/httpClient';
-import { ShortUser } from "model";
+import { ShortUser, AllVotedUsers } from "model";
+
+export const getAllVotedUsers = async (): Promise<AllVotedUsers> => {
+  const { data: votedUsers } = await httpClient.get<AllVotedUsers>(`/votedusers`);
+
+  return votedUsers;
+};
 
 export const getVotedUsers = async (id: string): Promise<ShortUser[]> => {
   const { data: votedUsers } = await httpClient.get<ShortUser[]>(`/meetups/${id}/votedusers`);

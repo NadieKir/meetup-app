@@ -2,55 +2,49 @@ import classNames from 'classnames';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import {
-  Typography,
-  NavTabs,
-  MeetupTabContent,
-  MeetupCardVariant,
-} from 'components';
+import { Typography, NavTabs, MeetupTabContent } from 'components';
 
 import styles from './MeetupStagesTabs.module.scss';
 
-enum MeetupTabLink {
+export enum MeetupTab {
   Topics = 'topics',
   OnModeration = 'moderation',
   Upcoming = 'upcoming',
   Finished = 'finished',
 }
 
-export const meetupTabsLinks = Object.values(MeetupTabLink);
+export const meetupTabsLinks = Object.values(MeetupTab);
 
 type MeetupTabDescriptor = {
   label: string | JSX.Element;
   component: JSX.Element;
 };
 
-export const meetupTabToDescriptor: Record<MeetupTabLink, MeetupTabDescriptor> =
-  {
-    [MeetupTabLink.Topics]: {
-      label: <FormattedMessage id="topics" />,
-      component: <MeetupTabContent variant={MeetupCardVariant.Topic} />,
-    },
-    [MeetupTabLink.OnModeration]: {
-      label: <FormattedMessage id="onModeration" />,
-      component: <MeetupTabContent variant={MeetupCardVariant.OnModeration} />,
-    },
-    [MeetupTabLink.Upcoming]: {
-      label: <FormattedMessage id="upcoming" />,
-      component: <MeetupTabContent variant={MeetupCardVariant.Upcoming} />,
-    },
-    [MeetupTabLink.Finished]: {
-      label: <FormattedMessage id="finished" />,
-      component: <MeetupTabContent variant={MeetupCardVariant.Finished} />,
-    },
-  };
+export const meetupTabToDescriptor: Record<MeetupTab, MeetupTabDescriptor> = {
+  [MeetupTab.Topics]: {
+    label: <FormattedMessage id="topics" />,
+    component: <MeetupTabContent variant={MeetupTab.Topics} />,
+  },
+  [MeetupTab.OnModeration]: {
+    label: <FormattedMessage id="onModeration" />,
+    component: <MeetupTabContent variant={MeetupTab.OnModeration} />,
+  },
+  [MeetupTab.Upcoming]: {
+    label: <FormattedMessage id="upcoming" />,
+    component: <MeetupTabContent variant={MeetupTab.Upcoming} />,
+  },
+  [MeetupTab.Finished]: {
+    label: <FormattedMessage id="finished" />,
+    component: <MeetupTabContent variant={MeetupTab.Finished} />,
+  },
+};
 
 export function MeetupStagesTabs() {
   return (
     <>
       <NavTabs className={styles.tabs}>
         {meetupTabsLinks.map(
-          (tab: MeetupTabLink): JSX.Element => (
+          (tab: MeetupTab): JSX.Element => (
             <NavLink
               key={tab}
               to={tab}
