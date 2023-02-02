@@ -1,8 +1,8 @@
 import { httpClient } from 'api/httpClient';
 import { ShortUser } from "model";
 
-export const getParticipants = async (id: string): Promise<ShortUser[]> => {
-  const { data: participants } = await httpClient.get<ShortUser[]>(`/meetups/${id}/participants`);
+export const getParticipants = async (id: string): Promise<ShortUser[] | undefined> => {
+  const { data: participants } = await httpClient.get<ShortUser[] | undefined>(`/meetups/${id}/participants`);
 
   return participants;
 };

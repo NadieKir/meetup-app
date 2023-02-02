@@ -10,7 +10,7 @@ import {
   ButtonVariant,
   CardsCounter,
   MeetupCard,
-  MeetupCardVariant,
+  MeetupTab,
 } from 'components';
 import { MeetupListStore } from 'store';
 import { UserContext } from 'common/contexts';
@@ -18,17 +18,18 @@ import { UserContext } from 'common/contexts';
 import styles from './MeetupTabContent.module.scss';
 
 interface MeetupTabContentProps {
-  variant: MeetupCardVariant;
+  variant: MeetupTab;
 }
 
 export const MeetupTabContent = observer(
   ({ variant }: MeetupTabContentProps) => {
     const navigate = useNavigate();
 
-    const userStore = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const { isLoading, getTabMeetups } = useLocalObservable(
       () => new MeetupListStore(),
     );
+
     const tabMeetups = computed(() => getTabMeetups(variant)).get();
 
     if (isLoading) return <FormattedMessage id="loading" />;
@@ -39,7 +40,7 @@ export const MeetupTabContent = observer(
       <section className={styles.meetupsTab}>
         <div className={styles.wrapper}>
           <CardsCounter amount={tabMeetups.length} variant={variant} />
-          {variant === MeetupCardVariant.Topic && userStore.user && (
+          {variant === MeetupTab.Topics && user && (
             <Button variant={ButtonVariant.Secondary} onClick={handleCreate}>
               <FormattedMessage id="createMeetupButton" />
             </Button>

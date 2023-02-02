@@ -10,7 +10,7 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { News, UserRole } from 'model';
+import { News } from 'model';
 import { NewsListStore } from 'store';
 import { UserContext } from 'common/contexts';
 
@@ -19,7 +19,7 @@ import styles from './NewsPage.module.scss';
 export const NewsPage = observer(() => {
   const navigate = useNavigate();
 
-  const userStore = useContext(UserContext);
+  const { isChief } = useContext(UserContext);
   const { newsArticles, isLoading } = useLocalObservable(
     () => new NewsListStore(),
   );
@@ -37,7 +37,7 @@ export const NewsPage = observer(() => {
         >
           <FormattedMessage id="news" />
         </Typography>
-        {userStore.user?.roles === UserRole.CHIEF && (
+        {isChief && (
           <Button variant={ButtonVariant.Secondary} onClick={handleCreate}>
             <FormattedMessage id="createNewsButton" />
           </Button>

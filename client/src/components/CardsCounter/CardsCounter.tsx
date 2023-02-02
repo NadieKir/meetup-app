@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { MeetupCardVariant } from 'components';
+import { MeetupTab } from 'components';
 import { LocalizationContext } from 'common/contexts';
 import { Locale } from 'i18n';
 
@@ -9,15 +9,15 @@ import styles from './CardsCounter.module.scss';
 
 interface CardsCounterProps {
   amount: number;
-  variant: MeetupCardVariant;
+  variant: MeetupTab;
 }
 
-const getRuCounterEnding = (num: number, variant: MeetupCardVariant) => {
+const getRuCounterEnding = (num: number, variant: MeetupTab) => {
   const lastNumber = num % 10;
   const lastTwoNumbers = num % 100;
 
   switch (variant) {
-    case MeetupCardVariant.Topic:
+    case MeetupTab.Topics:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
@@ -26,7 +26,7 @@ const getRuCounterEnding = (num: number, variant: MeetupCardVariant) => {
       if ([2, 3, 4].includes(lastNumber)) return 'темы предложено';
       if (lastNumber === 1) return 'тема предложена';
       break;
-    case MeetupCardVariant.OnModeration:
+    case MeetupTab.OnModeration:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
@@ -35,7 +35,7 @@ const getRuCounterEnding = (num: number, variant: MeetupCardVariant) => {
       if ([2, 3, 4].includes(lastNumber)) return 'митапа на модерации';
       if (lastNumber === 1) return 'митап на модерации';
       break;
-    case MeetupCardVariant.Upcoming:
+    case MeetupTab.Upcoming:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
@@ -44,7 +44,7 @@ const getRuCounterEnding = (num: number, variant: MeetupCardVariant) => {
       if ([2, 3, 4].includes(lastNumber)) return 'митапа опубликовано';
       if (lastNumber === 1) return 'митап опубликован';
       break;
-    case MeetupCardVariant.Finished:
+    case MeetupTab.Finished:
       if (
         [5, 6, 7, 8, 9, 0].includes(lastNumber) ||
         [11, 12, 13, 14].includes(lastTwoNumbers)
@@ -65,7 +65,7 @@ export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
       return getRuCounterEnding(amount, variant);
 
     switch (variant) {
-      case MeetupCardVariant.Topic:
+      case MeetupTab.Topics:
         return (
           <FormattedMessage
             id="topicsCounter"
@@ -75,7 +75,7 @@ export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
             }}
           />
         );
-      case MeetupCardVariant.OnModeration:
+      case MeetupTab.OnModeration:
         return (
           <FormattedMessage
             id="meetupsCounter"
@@ -85,7 +85,7 @@ export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
             }}
           />
         );
-      case MeetupCardVariant.Upcoming:
+      case MeetupTab.Upcoming:
         return (
           <FormattedMessage
             id="meetupsCounter"
@@ -95,7 +95,7 @@ export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
             }}
           />
         );
-      case MeetupCardVariant.Finished:
+      case MeetupTab.Finished:
         return (
           <FormattedMessage
             id="meetupsCounter"

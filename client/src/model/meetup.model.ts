@@ -1,3 +1,4 @@
+import { isInThePast } from 'common/helpers';
 import { ShortUser } from 'model';
 
 export enum MeetupStatus {
@@ -6,22 +7,48 @@ export enum MeetupStatus {
   CONFIRMED = 'CONFIRMED',
 }
 
-export interface Meetup {
+interface MeetupBase {
   id: string;
   modified: string; // DateTime string
-  start?: string; // DateTime string
-  finish?: string; // DateTime string
   author: ShortUser;
-  speakers: ShortUser[];
   subject: string;
-  excerpt?: string;
-  place?: string;
-  goCount: number;
-  status: MeetupStatus;
-  isOver: boolean;
-  image?: File;
-  votedUsers?: ShortUser[];
-  participants?: ShortUser[];
+  excerpt: string;
 }
 
-export type NewMeetup = Omit<Meetup, 'id'>;
+export interface Topic extends MeetupBase {
+  status: MeetupStatus.REQUEST | MeetupStatus.DRAFT;
+}
+
+export interface ConfirmedMeetup extends MeetupBase {
+  status: MeetupStatus.CONFIRMED,
+  start: string; // DateTime string
+  finish: string; // DateTime string
+  speakers: ShortUser[];
+  place: string;
+  image?: File;
+}
+
+export const isTopic = (meetup: Meetup): meetup is Topic => {
+  return [MeetupStatus.REQUEST, MeetupStatus.DRAFT].includes((meetup as Topic).status);
+}
+
+export const isConfirmedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
+  return (meetup as ConfirmedMeetup).status === MeetupStatus.CONFIRMED;
+}
+
+export const isUpcomingMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
+  return isConfirmedMeetup(meetup) && !isInThePast(meetup.finish);
+}
+
+export const isFinishedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
+  return isConfirmedMeetup(meetup) && isInThePast(meetup.finish);
+}
+
+export type TopicFormData = Omit<Topic, 'id' | 'modified' | 'status'>;
+export type MeetupFormData = Omit<ConfirmedMeetup, keyof Topic>;
+
+export type TopicWithVotedUsers = Topic & { votedUsers: ShortUser[] };
+export type ConfirmedMeetupWithParticipants = ConfirmedMeetup & { participants: ShortUser[] };
+
+export type Meetup = Topic | ConfirmedMeetup;
+export type MeetupWithUsers = TopicWithVotedUsers | ConfirmedMeetupWithParticipants;

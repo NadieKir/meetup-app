@@ -1,7 +1,12 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { MeetupCard } from 'components';
-import { Meetup, MeetupStatus, ShortUser } from 'model';
 import { withRouter } from 'storybook-addon-react-router-v6';
+import { MeetupCard } from 'components';
+import {
+  MeetupStatus,
+  ShortUser,
+  TopicWithVotedUsers,
+  ConfirmedMeetupWithParticipants,
+} from 'model';
 
 export default {
   title: 'Components/MeetupCard',
@@ -27,76 +32,40 @@ const author: ShortUser = {
   surname: 'Jackson',
 };
 
-const meetupTopicNoExcerpt: Meetup = {
+const topic: TopicWithVotedUsers = {
   id: 'AAA-AAA',
   status: MeetupStatus.DRAFT,
   author,
   subject: 'EF Core от практикующих',
   modified: new Date().toLocaleString(),
-  speakers: [],
-  goCount: 23,
-  isOver: false,
-};
-
-const meetupTopicWithExcerpt: Meetup = {
-  ...meetupTopicNoExcerpt,
+  votedUsers: [],
   excerpt:
-    'Основные темы, которые буду рассказывать: Database-first (EF Core), Db migrations, Software triggers, DbSet pre-filter (tenant-solution)',
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. ',
 };
 
-const meetupOnModerationNoDate: Meetup = {
-  ...meetupTopicWithExcerpt,
-  status: MeetupStatus.REQUEST,
-};
-
-const meetupOnModeration: Meetup = {
-  ...meetupOnModerationNoDate,
-  start: new Date(2022, 3, 23, 15, 0).toISOString(),
-};
-
-const meetupUpcoming: Meetup = {
-  ...meetupOnModeration,
+const meetup: ConfirmedMeetupWithParticipants = {
+  id: 'AAA-AAA',
   status: MeetupStatus.CONFIRMED,
-  place: 'комн. 601b',
+  author,
+  subject: 'EF Core от практикующих',
+  modified: new Date().toLocaleString(),
+  speakers: [],
+  start: '2023-09-19T16:00:00.113Z',
+  finish: '2023-09-19T17:30:00.113Z',
+  place: '77818 Harber Villages',
+  participants: [],
+  excerpt:
+    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. ',
 };
 
-const meetupFinished: Meetup = {
-  ...meetupUpcoming,
-  isOver: true,
+export const MeetupCard_Topic = Template.bind({});
+
+MeetupCard_Topic.args = {
+  meetup: topic,
 };
 
-export const MeetupCard_Topic_NoExcerpt = Template.bind({});
+export const MeetupCard_ConfirmedMeetup = Template.bind({});
 
-MeetupCard_Topic_NoExcerpt.args = {
-  meetup: meetupTopicNoExcerpt,
-};
-
-export const MeetupCard_Topic_WithExcerpt = Template.bind({});
-
-MeetupCard_Topic_WithExcerpt.args = {
-  meetup: meetupTopicWithExcerpt,
-};
-
-export const MeetupCard_OnModerationNoDate = Template.bind({});
-
-MeetupCard_OnModerationNoDate.args = {
-  meetup: meetupOnModerationNoDate,
-};
-
-export const MeetupCard_OnModeration = Template.bind({});
-
-MeetupCard_OnModeration.args = {
-  meetup: meetupOnModeration,
-};
-
-export const MeetupCard_Upcoming = Template.bind({});
-
-MeetupCard_Upcoming.args = {
-  meetup: meetupUpcoming,
-};
-
-export const MeetupCard_Finished = Template.bind({});
-
-MeetupCard_Finished.args = {
-  meetup: meetupFinished,
+MeetupCard_ConfirmedMeetup.args = {
+  meetup: meetup,
 };

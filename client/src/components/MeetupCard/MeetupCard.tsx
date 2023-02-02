@@ -1,121 +1,83 @@
 import { useContext } from 'react';
-import classNames from 'classnames';
-import { useNavigate } from 'react-router';
 import { FormattedDate, FormattedTime, useIntl } from 'react-intl';
 
 import {
-  EditButton,
   Typography,
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
   VotesCount,
 } from 'components';
-import { Meetup, MeetupStatus, UserRole } from 'model';
-import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
+import {
+  ConfirmedMeetup,
+  isConfirmedMeetup,
+  isTopic,
+  TopicWithVotedUsers,
+} from 'model';
 import { Locale } from 'i18n';
-import { LocalizationContext, UserContext } from 'common/contexts';
+import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
+import { LocalizationContext } from 'common/contexts';
 
 import styles from './MeetupCard.module.scss';
 
 interface MeetupCardProps {
-  meetup: Meetup;
+  meetup: TopicWithVotedUsers | ConfirmedMeetup;
 }
 
-export enum MeetupCardVariant {
-  Topic = 'topic',
-  OnModeration = 'onModeration',
-  Upcoming = 'upcoming',
-  Finished = 'finished',
-}
-
-export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
-  const {
-    status,
-    author,
-    start,
-    place,
-    subject,
-    excerpt,
-    goCount,
-    isOver,
-    id,
-  } = meetup;
-
-  const localeStore = useContext(LocalizationContext);
-  const userStore = useContext(UserContext);
-  const navigate = useNavigate();
+export const MeetupCard = ({ meetup }: MeetupCardProps) => {
+  const { locale } = useContext(LocalizationContext);
   const intl = useIntl();
 
-  const getVariant = (): MeetupCardVariant => {
-    switch (status) {
-      case MeetupStatus.DRAFT:
-      default:
-        return MeetupCardVariant.Topic;
-      case MeetupStatus.REQUEST:
-        return MeetupCardVariant.OnModeration;
-      case MeetupStatus.CONFIRMED:
-        return isOver ? MeetupCardVariant.Finished : MeetupCardVariant.Upcoming;
-    }
-  };
-
-  const variant = getVariant();
-
-  const getFormattedWeekday = (): string => {
-    switch (localeStore.locale) {
+  const getFormattedWeekday = (date: string): string => {
+    switch (locale) {
       case Locale.RUSSIAN:
-        const weekday = intl.formatDate(start, {
+        const weekday = intl.formatDate(date, {
           weekday: 'short',
         }) as keyof typeof FORMATTED_WEEKDAYS_RU;
 
         return FORMATTED_WEEKDAYS_RU[weekday];
       case Locale.ENGLISH:
-        return intl.formatDate(start, {
+        return intl.formatDate(date, {
           weekday: 'short',
         });
     }
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    navigate(`/meetups/${id}/edit`);
-  };
-
   return (
-    <article className={classNames(styles.card, styles[variant])}>
+    <article className={styles.card}>
       <header className={styles.header}>
-        {status === MeetupStatus.DRAFT ? (
-          <UserPreview user={author} variant={UserPreviewVariant.Card} />
+        {isTopic(meetup) ? (
+          <UserPreview user={meetup.author} variant={UserPreviewVariant.Card} />
         ) : (
           <ul className={styles.appointment}>
-            {start !== undefined ? (
+            {isConfirmedMeetup(meetup) ? (
               <>
                 <li className={styles.appointmentItem} key="date">
                   <Typography className={styles.date}>
-                    {getFormattedWeekday()},{' '}
-                    <FormattedDate value={start} day="numeric" month="long" />
+                    {getFormattedWeekday(meetup.start)},{' '}
+                    <FormattedDate
+                      value={meetup.start}
+                      day="numeric"
+                      month="long"
+                    />
                   </Typography>
                 </li>
                 <li className={styles.appointmentItem} key="time">
                   <Typography className={styles.time}>
-                    <FormattedTime value={start} />
+                    <FormattedTime value={meetup.start} />
                   </Typography>
                 </li>
               </>
             ) : (
               '—'
             )}
-            {place !== undefined && (
-              <li className={styles.appointmentItem} key="location">
-                <Typography className={styles.location}>{place}</Typography>
-              </li>
-            )}
+            <li className={styles.appointmentItem} key="location">
+              <Typography className={styles.location}>
+                {meetup.place}
+              </Typography>
+            </li>
           </ul>
         )}
-        {status !== MeetupStatus.DRAFT &&
-          userStore.user?.roles === UserRole.CHIEF && (
-            <EditButton onClick={handleEdit} />
-          )}
       </header>
 
       <div className={styles.body}>
@@ -123,23 +85,24 @@ export const MeetupCard = ({ meetup }: MeetupCardProps): JSX.Element => {
           component={TypographyComponent.Heading2}
           className={styles.subject}
         >
-          {subject}
+          {meetup.subject}
         </Typography>
-        {excerpt !== undefined && (
-          <Typography
-            component={TypographyComponent.Paragraph}
-            className={styles.excerpt}
-          >
-            {excerpt}
-          </Typography>
-        )}
+
+        <Typography
+          component={TypographyComponent.Paragraph}
+          className={styles.excerpt}
+        >
+          {meetup.excerpt}
+        </Typography>
       </div>
 
       <footer className={styles.footer}>
-        {status === MeetupStatus.DRAFT ? (
-          goCount > 0 && <VotesCount votesCount={goCount} />
+        {isTopic(meetup) ? (
+          meetup.votedUsers.length > 0 && (
+            <VotesCount votesCount={meetup.votedUsers.length} />
+          )
         ) : (
-          <UserPreview user={author} variant={UserPreviewVariant.Card} />
+          <UserPreview user={meetup.author} variant={UserPreviewVariant.Card} />
         )}
       </footer>
     </article>

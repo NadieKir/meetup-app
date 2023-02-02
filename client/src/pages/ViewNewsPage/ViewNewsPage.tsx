@@ -23,7 +23,7 @@ export const ViewNewsPage = observer(() => {
   const { id } = useParams();
   const { pathname } = useLocation();
 
-  const { user } = useContext(UserContext);
+  const { isChief } = useContext(UserContext);
   const { newsArticle, deleteNews, isLoading, error } = useLocalObservable(
     () => new NewsStore(id!),
   );
@@ -73,7 +73,7 @@ export const ViewNewsPage = observer(() => {
         <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
           <FormattedMessage id="goBackButton" />
         </Button>
-        {user?.roles === UserRole.CHIEF && (
+        {isChief && (
           <div className={styles.actionGroup}>
             <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
               <FormattedMessage id="deleteButton" />

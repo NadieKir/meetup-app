@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { getUser, logout } from 'api';
-import { ShortUser, User } from 'model';
+import { ShortUser, User, UserRole } from 'model';
 
 export class UserStore {
   user: User | null = null;
@@ -27,6 +27,10 @@ export class UserStore {
     }
 
     return null;
+  }
+
+  get isChief() {
+    return this.user ? this.user?.roles === UserRole.CHIEF : null;
   }
 
   async loadUser() {
