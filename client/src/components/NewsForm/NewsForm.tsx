@@ -74,6 +74,7 @@ export const NewsForm = observer(
 
             <div className={styles.formActions}>
               <Button
+                type="button"
                 variant={ButtonVariant.Default}
                 onClick={() => handleReset(props.handleReset)}
               >

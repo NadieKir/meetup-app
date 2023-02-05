@@ -26,7 +26,7 @@ export class NewsStore {
     this.error = error;
   }
 
-  async getNews(id: string) {
+  getNews = async (id: string) => {
     this.setIsLoading(true);
 
     try {
@@ -40,7 +40,9 @@ export class NewsStore {
     }
   }
 
-  async updateNews(id: string, newData: NewNewsPayload) {
+  updateNews = async (id: string, newData: NewNewsPayload) => {
+    debugger;
+
     try {
       const news = await updateNewsArticle(id, newData);
       this.setNewsArticle(news);
@@ -50,7 +52,7 @@ export class NewsStore {
     } 
   }
 
-  async deleteNews(id: string) {
+  deleteNews = async (id: string) => {
     await deleteNewsArticle(id);
   }
 }
