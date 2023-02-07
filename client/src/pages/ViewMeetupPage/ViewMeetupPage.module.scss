@@ -18,6 +18,17 @@
   @extend .text-align-center;
 }
 
+.headingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:has(> h1:only-child) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .dataWrapper {
   display: flex;
   flex-direction: column;

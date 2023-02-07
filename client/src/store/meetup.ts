@@ -1,9 +1,8 @@
-import { isConfirmedMeetup } from './../model/meetup.model';
 import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
 import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup, getParticipants, getVotedUsers } from 'api';
-import { Meetup, MeetupFormData, MeetupStatus, ShortUser } from 'model';
+import { isConfirmedMeetup, Meetup, MeetupFormData, MeetupStatus, ShortUser } from 'model';
 import { UserStore } from 'store';
 
 export class MeetupStore {

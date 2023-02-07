@@ -1,4 +1,5 @@
 export * from './user';
 export * from './locale';
-export * from './meetupList';
 export * from './newsList';
+export * from './meetup';
+export * from './meetupList';
