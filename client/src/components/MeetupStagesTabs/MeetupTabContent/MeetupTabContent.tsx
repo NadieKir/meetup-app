@@ -1,19 +1,14 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { computed } from 'mobx';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 
-import {
-  Button,
-  ButtonVariant,
-  CardsCounter,
-  MeetupCard,
-  MeetupTab,
-} from 'components';
 import { MeetupListStore } from 'store';
+import { Button, ButtonVariant, CardsCounter, MeetupCard } from 'components';
 import { UserContext } from 'common/contexts';
+import { MeetupTab } from 'types/MeetupTab';
 
 import styles from './MeetupTabContent.module.scss';
 
@@ -25,7 +20,7 @@ export const MeetupTabContent = observer(
   ({ variant }: MeetupTabContentProps) => {
     const navigate = useNavigate();
 
-    const { user } = useContext(UserContext);
+    const { user, currentUserMeetupTabs } = useContext(UserContext);
     const { isLoading, getTabMeetups } = useLocalObservable(
       () => new MeetupListStore(),
     );
@@ -33,6 +28,9 @@ export const MeetupTabContent = observer(
     const tabMeetups = computed(() => getTabMeetups(variant)).get();
 
     if (isLoading) return <FormattedMessage id="loading" />;
+
+    if (currentUserMeetupTabs.find((tab) => tab.link === variant) === undefined)
+      return <Navigate to="/forbidden" />;
 
     const handleCreate = () => navigate('/meetups/create');
 

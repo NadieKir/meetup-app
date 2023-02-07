@@ -1,13 +1,8 @@
+import { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import {
-  ErrorFallback,
-  meetupTabsLinks,
-  meetupTabToDescriptor,
-} from 'components';
-import { MeetupListProvider, NewsListProvider } from 'common/contexts';
-import { history, AppRouter } from 'common/router';
+import { ErrorFallback, CheckRole, meetupTabs } from 'components';
 import {
   MeetupPage,
   NotFoundPage,
@@ -19,8 +14,18 @@ import {
   CreateNewsPage,
   EditNewsPage,
 } from 'pages';
+import {
+  MeetupListProvider,
+  NewsListProvider,
+  UserContext,
+} from 'common/contexts';
+import { history, AppRouter } from 'common/router';
 
 function App() {
+  const { currentUserMeetupTabs } = useContext(UserContext);
+
+  const initialTab = currentUserMeetupTabs[0];
+
   return (
     <AppRouter history={history}>
       <Routes>
@@ -36,13 +41,20 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate replace to={meetupTabsLinks[0]} />}
+                element={
+                  <Navigate
+                    replace
+                    to={initialTab ? initialTab.link : '/meetups'}
+                  />
+                }
               />
-              {meetupTabsLinks.map((tabLink) => (
+              {meetupTabs.map((tab) => (
                 <Route
-                  key={tabLink}
-                  path={tabLink}
-                  element={meetupTabToDescriptor[tabLink].component}
+                  key={tab.link}
+                  path={tab.link}
+                  element={
+                    <CheckRole roles={tab.canAccess}>{tab.component}</CheckRole>
+                  }
                 />
               ))}
             </Route>
@@ -96,6 +108,7 @@ function App() {
             </Route>
           </Route>
           <Route path="not-found" element={<NotFoundPage />} />
+          <Route path="forbidden" element={<div>Forbidden</div>} />
           <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Route>
         <Route path="login" element={<LoginPage />} />

@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { Navigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import classNames from 'classnames';
@@ -12,16 +13,10 @@ import {
   UserPreview,
   UserPreviewVariant,
 } from 'components';
-import {
-  MeetupStatus,
-  ShortUser,
-  UserRole,
-  isTopic,
-  isUpcomingMeetup,
-} from 'model';
+import { MeetupStatus, ShortUser, isTopic, isUpcomingMeetup } from 'model';
 import { capitalizeFirstLetter } from 'common/helpers';
 import { UserContext } from 'common/contexts';
-import { MeetupStore } from 'store/meetup';
+import { MeetupStore } from 'store';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -54,6 +49,10 @@ export const ViewMeetupPage = observer(() => {
 
   if (isLoading) return <FormattedMessage id="loading" />;
   if (!meetup) throw error;
+
+  const { user, isChief, canUserAccessMeetup } = userStore;
+
+  if (!canUserAccessMeetup(meetup)) return <Navigate to="/forbidden" />;
 
   const handleGoBack = () => navigate(-1);
 
@@ -272,7 +271,7 @@ export const ViewMeetupPage = observer(() => {
     </div>
   );
 
-  const renderEmployeeActions = () => (
+  const renderActions = () => (
     <>
       {meetup.status === MeetupStatus.DRAFT && !isUserVoted && (
         <Button variant={ButtonVariant.Primary} onClick={handleSupport}>
@@ -297,29 +296,22 @@ export const ViewMeetupPage = observer(() => {
     </>
   );
 
-  const renderActions = () => {
-    switch (userStore.user?.roles) {
-      case UserRole.CHIEF:
-        return renderChiefActions();
-      case UserRole.EMPLOYEE:
-        return renderEmployeeActions();
-      case undefined:
-        return;
-    }
-  };
-
   return (
     <section className={styles.container}>
-      <Typography
-        className={styles.heading}
-        component={TypographyComponent.Heading1}
-      >
-        {isTopic(meetup) ? (
-          <FormattedMessage id="topicView" />
-        ) : (
-          <FormattedMessage id="meetupView" />
-        )}
-      </Typography>
+      <div className={styles.headingWrapper}>
+        <Typography
+          className={styles.heading}
+          component={TypographyComponent.Heading1}
+        >
+          {isTopic(meetup) ? (
+            <FormattedMessage id="topicView" />
+          ) : (
+            <FormattedMessage id="meetupView" />
+          )}
+        </Typography>
+        {isChief && renderChiefActions()}
+      </div>
+
       <div className={styles.dataWrapper}>
         {renderHeader()}
         {renderTimePlace()}
@@ -345,7 +337,7 @@ export const ViewMeetupPage = observer(() => {
           <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
             <FormattedMessage id="goBackButton" />
           </Button>
-          {renderActions()}
+          {user && renderActions()}
         </div>
       </div>
     </section>

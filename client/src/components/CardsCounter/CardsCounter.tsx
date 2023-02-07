@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { MeetupTab } from 'components';
 import { LocalizationContext } from 'common/contexts';
 import { Locale } from 'i18n';
+import { MeetupTab } from 'types/MeetupTab';
 
 import styles from './CardsCounter.module.scss';
 

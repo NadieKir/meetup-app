@@ -1,65 +1,66 @@
-import classNames from 'classnames';
+import { useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { observer } from 'mobx-react-lite';
+import classNames from 'classnames';
 
 import { Typography, NavTabs, MeetupTabContent } from 'components';
+import { UserContext } from 'common/contexts';
+import { MeetupTab, MeetupTabDescriptor } from 'types';
+import { UserRole } from 'model';
 
 import styles from './MeetupStagesTabs.module.scss';
 
-export enum MeetupTab {
-  Topics = 'topics',
-  OnModeration = 'moderation',
-  Upcoming = 'upcoming',
-  Finished = 'finished',
-}
-
-export const meetupTabsLinks = Object.values(MeetupTab);
-
-type MeetupTabDescriptor = {
-  label: string | JSX.Element;
-  component: JSX.Element;
-};
-
-export const meetupTabToDescriptor: Record<MeetupTab, MeetupTabDescriptor> = {
-  [MeetupTab.Topics]: {
+export const meetupTabs: MeetupTabDescriptor[] = [
+  {
     label: <FormattedMessage id="topics" />,
+    link: MeetupTab.Topics,
     component: <MeetupTabContent variant={MeetupTab.Topics} />,
+    canAccess: [UserRole.CHIEF, UserRole.EMPLOYEE, UserRole.GUEST],
   },
-  [MeetupTab.OnModeration]: {
+  {
     label: <FormattedMessage id="onModeration" />,
+    link: MeetupTab.OnModeration,
     component: <MeetupTabContent variant={MeetupTab.OnModeration} />,
+    canAccess: [UserRole.CHIEF],
   },
-  [MeetupTab.Upcoming]: {
+  {
     label: <FormattedMessage id="upcoming" />,
+    link: MeetupTab.Upcoming,
     component: <MeetupTabContent variant={MeetupTab.Upcoming} />,
+    canAccess: [UserRole.CHIEF, UserRole.EMPLOYEE, UserRole.GUEST],
   },
-  [MeetupTab.Finished]: {
+  {
     label: <FormattedMessage id="finished" />,
+    link: MeetupTab.Finished,
     component: <MeetupTabContent variant={MeetupTab.Finished} />,
+    canAccess: [UserRole.CHIEF, UserRole.EMPLOYEE, UserRole.GUEST],
   },
-};
+];
 
-export function MeetupStagesTabs() {
+export const MeetupStagesTabs = observer(() => {
+  const { currentUserMeetupTabs } = useContext(UserContext);
+
+  if (currentUserMeetupTabs.length === 0) return null;
+
   return (
     <>
       <NavTabs className={styles.tabs}>
-        {meetupTabsLinks.map(
-          (tab: MeetupTab): JSX.Element => (
-            <NavLink
-              key={tab}
-              to={tab}
-              className={({ isActive }) =>
-                classNames(styles.tab, {
-                  [styles.active]: isActive,
-                })
-              }
-            >
-              <Typography>{meetupTabToDescriptor[tab].label}</Typography>
-            </NavLink>
-          ),
-        )}
+        {currentUserMeetupTabs.map((tab) => (
+          <NavLink
+            key={tab.link}
+            to={tab.link}
+            className={({ isActive }) =>
+              classNames(styles.tab, {
+                [styles.active]: isActive,
+              })
+            }
+          >
+            <Typography>{tab.label}</Typography>
+          </NavLink>
+        ))}
       </NavTabs>
       <Outlet />
     </>
   );
-}
+});

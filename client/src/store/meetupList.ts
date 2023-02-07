@@ -4,7 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import { getMeetups, getAllVotedUsers } from 'api';
 import { Meetup, MeetupStatus, AllVotedUsers, TopicWithVotedUsers, isConfirmedMeetup } from 'model';
 import { isInThePast } from 'common/helpers';
-import { MeetupTab } from 'components';
+import { MeetupTab } from 'types/MeetupTab';
 
 export class MeetupListStore {
   meetups: Meetup[] = [];
@@ -45,7 +45,6 @@ export class MeetupListStore {
 
   get upcomingMeetups() {
     return this.getSortedMeetups(false);
-
   }
 
   get finishedMeetups() {

@@ -1,9 +1,11 @@
 export * from './Typography/Typography';
+export * from './CheckRole/CheckRole';
 export * from './Button/Button';
 export * from './MeetupCard/MeetupCard';
-export * from './UserPreview/UserPreview';
 export * from './MeetupStagesTabs/MeetupTabContent/MeetupTabContent';
 export * from './VotesCount/VotesCount';
+export * from './UserPreview/UserPreview';
+export * from './MeetupStagesTabs/MeetupStagesTabs';
 export * from './IconButton/IconButton';
 export * from './DeleteButton/DeleteButton';
 export * from './EditButton/EditButton';
@@ -22,7 +24,6 @@ export * from './Tab/Tab';
 export * from './TabContent/TabContent';
 export * from './TabsManager/TabsManager';
 export * from './TabsIndicator/TabsIndicator';
-export * from './MeetupStagesTabs/MeetupStagesTabs';
 export * from './NewsCard/NewsCard';
 export * from './DateTimePicker/DateTimePicker';
 export * from './Stepper/Stepper';
@@ -36,3 +37,4 @@ export * from './LanguageSelector/LanguageSelector';
 export * from './CardsCounter/CardsCounter';
 export * from './ErrorFallback/ErrorFallback';
 export * from './NewsForm/NewsForm';
+
