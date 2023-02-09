@@ -7,3 +7,4 @@ export * from './LoginPage/LoginPage';
 export * from './Layout/Layout';
 export * from './CreateNewsPage/CreateNewsPage';
 export * from './EditNewsPage/EditNewsPage';
+export * from './CreateTopicPage/CreateTopicPage';

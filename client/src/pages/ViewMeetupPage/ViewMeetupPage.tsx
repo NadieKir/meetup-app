@@ -39,6 +39,8 @@ export const ViewMeetupPage = observer(() => {
     error,
     isLoading,
     isUserVoted,
+    isUserAuthor,
+    canUserAccessMeetup,
     supportMeetup,
     unsupportMeetup,
     enrollMeetup,
@@ -50,9 +52,9 @@ export const ViewMeetupPage = observer(() => {
   if (isLoading) return <FormattedMessage id="loading" />;
   if (!meetup) throw error;
 
-  const { user, isChief, canUserAccessMeetup } = userStore;
+  const { user, isChief } = userStore;
 
-  if (!canUserAccessMeetup(meetup)) return <Navigate to="/forbidden" />;
+  if (!canUserAccessMeetup) return <Navigate to="/forbidden" />;
 
   const handleGoBack = () => navigate(-1);
 
@@ -271,6 +273,16 @@ export const ViewMeetupPage = observer(() => {
     </div>
   );
 
+  const renderPrivilegedActions = () => {
+    return isChief
+      ? renderChiefActions()
+      : isUserAuthor && (
+          <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
+            <FormattedMessage id="deleteButton" />
+          </Button>
+        );
+  };
+
   const renderActions = () => (
     <>
       {meetup.status === MeetupStatus.DRAFT && !isUserVoted && (
@@ -309,7 +321,7 @@ export const ViewMeetupPage = observer(() => {
             <FormattedMessage id="meetupView" />
           )}
         </Typography>
-        {isChief && renderChiefActions()}
+        {renderPrivilegedActions()}
       </div>
 
       <div className={styles.dataWrapper}>

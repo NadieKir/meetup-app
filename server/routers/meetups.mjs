@@ -20,7 +20,7 @@ export const meetupsRoutes = (db) => {
         },
         subject: req.body.subject,
         excerpt: req.body.excerpt,
-        status: "REQUEST",
+        status: "DRAFT",
       };
 
       db.data.votedUsers[response.id] = [];

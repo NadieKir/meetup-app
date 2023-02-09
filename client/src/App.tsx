@@ -13,6 +13,7 @@ import {
   LoginPage,
   CreateNewsPage,
   EditNewsPage,
+  CreateTopicPage,
 } from 'pages';
 import {
   MeetupListProvider,
@@ -58,7 +59,7 @@ function App() {
                 />
               ))}
             </Route>
-            <Route path="create" element={<div>Create meetup page</div>} />
+            <Route path="create" element={<CreateTopicPage />} />
             <Route path=":id">
               <Route
                 index

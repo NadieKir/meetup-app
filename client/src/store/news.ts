@@ -41,8 +41,6 @@ export class NewsStore {
   }
 
   updateNews = async (id: string, newData: NewNewsPayload) => {
-    debugger;
-
     try {
       const news = await updateNewsArticle(id, newData);
       this.setNewsArticle(news);

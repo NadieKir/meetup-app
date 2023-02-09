@@ -13,13 +13,14 @@ export const messages = {
     createMeetup: 'Создать митап',
     editNews: 'Редактировать новость',
     editMeetup: 'Редактировать митап',
+    suggestTopic: 'Предложить тему',
 
     /* Buttons */
     signInButton: 'Войти',
     signInAsGuestButton: 'Войти как гость',
     logOutButton: 'Выйти',
-    createButton: 'Создать тему',
-    createMeetupButton: '+ Создать тему',
+    createButton: 'Создать',
+    createTopicButton: '+ Создать тему',
     createNewsButton: '+ Создать новость',
     deleteButton: 'Удалить',
     approveTopicButton: 'Одобрить тему',
@@ -64,6 +65,14 @@ export const messages = {
     titleRequiredError: 'Введите заголовок',
     contentRequiredError: 'Введите содержание',
 
+    /* Create Topic Form */
+    subjectLabel: 'Тема',
+    excerptLabel: 'Описание',
+    subjectMinError: 'Тема должна содержать минимум 3 символа',
+    subjectMaxError: 'Тема не может содержать более 100 символов',
+    subjectRequiredError: 'Введите тему',
+    excerptRequiredError: 'Введите описание',
+
     /* Tabs */
     topics: 'Темы',
     onModeration: 'На модерации',
@@ -102,13 +111,14 @@ export const messages = {
     createMeetup: 'Create Meetup',
     editNews: 'Edit News',
     editMeetup: 'Edit Meetup',
+    suggestTopic: 'Suggest Topic',
 
     /* Buttons */
     signInButton: 'Sign In',
     signInAsGuestButton: 'Sign In As Guest',
     logOutButton: 'Log Out',
     createButton: 'Create',
-    createMeetupButton: '+ Create topic',
+    createTopicButton: '+ Create topic',
     createNewsButton: '+ Create news',
     deleteButton: 'Delete',
     approveTopicButton: 'Approve topic',
@@ -152,6 +162,14 @@ export const messages = {
     titleMaxError: 'Title can\'t have more than 100 symbols',
     titleRequiredError: 'Enter title',
     contentRequiredError: 'Enter content',
+
+    /* Create Topic Form */
+    subjectLabel: 'Subject',
+    excerptLabel: 'Excerpt',
+    subjectMinError: 'Subject must have at least 3 symbols',
+    subjectMaxError: 'Subject can\'t have more than 100 symbols',
+    subjectRequiredError: 'Enter subject',
+    excerptRequiredError: 'Enter excerpt',
 
     /* Tabs */
     topics: 'Topics',
