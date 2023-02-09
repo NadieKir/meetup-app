@@ -16,9 +16,7 @@ export const getMeetup = async (id: string): Promise<Meetup> => {
 export const createMeetup = async (
   newMeetupData: TopicFormData,
 ): Promise<Topic> => {
-  const { data: createdMeetup } = await httpClient.post<Topic>('/meetups', {
-    data: newMeetupData,
-  });
+  const { data: createdMeetup } = await httpClient.post<Topic>('/meetups', newMeetupData);
 
   return createdMeetup;
 };
@@ -38,7 +36,6 @@ export const approveMeetup = async (
 
   return updatedMeetup;
 };
-
 
 export const deleteMeetup = async (id: string): Promise<void> => {
   await httpClient.delete(`/meetups/${id}`);

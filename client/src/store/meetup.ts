@@ -4,6 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup, getParticipants, getVotedUsers } from 'api';
 import { isConfirmedMeetup, Meetup, MeetupFormData, MeetupStatus, ShortUser } from 'model';
 import { UserStore } from 'store';
+import { getMeetupTab } from 'common/helpers';
 
 export class MeetupStore {
   meetup: Meetup | undefined;
@@ -47,6 +48,22 @@ export class MeetupStore {
 
       return actedUsers ? actedUsers.map((user) => user.id).includes(this.userStore.user.id) : false;
     }  
+    return false;
+  }
+
+  get isUserAuthor() {
+    return this.meetup && this.userStore.user 
+      ? this.userStore.user.id === this.meetup.author.id 
+      : false;
+  }
+
+  get canUserAccessMeetup() {
+    if (this.meetup) {
+      const meetupTab = getMeetupTab(this.meetup);
+    
+      return this.userStore.currentUserMeetupTabs.map(tab => tab.link).includes(meetupTab);
+    }
+
     return false;
   }
 

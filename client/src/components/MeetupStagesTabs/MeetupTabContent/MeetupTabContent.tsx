@@ -40,7 +40,7 @@ export const MeetupTabContent = observer(
           <CardsCounter amount={tabMeetups.length} variant={variant} />
           {variant === MeetupTab.Topics && user && (
             <Button variant={ButtonVariant.Secondary} onClick={handleCreate}>
-              <FormattedMessage id="createMeetupButton" />
+              <FormattedMessage id="createTopicButton" />
             </Button>
           )}
         </div>

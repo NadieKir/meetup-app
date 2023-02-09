@@ -36,5 +36,7 @@ export * from './ImageUploader/ImageUploader';
 export * from './LanguageSelector/LanguageSelector';
 export * from './CardsCounter/CardsCounter';
 export * from './ErrorFallback/ErrorFallback';
-export * from './NewsForm/NewsForm';
-
+export * from './CreateNewsForm/CreateNewsForm';
+export * from './EditNewsForm/EditNewsForm';
+export * from './CreateTopicForm/CreateTopicForm';
+export * from './Form/Form';

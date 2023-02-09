@@ -2,8 +2,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { meetupTabs } from 'components';
 import { getUser, logout } from 'api';
-import { getMeetupTab } from 'common/helpers';
-import { Meetup, ShortUser, User, UserRole } from 'model';
+import { ShortUser, User, UserRole } from 'model';
 
 export class UserStore {
   user: User | null = null;
@@ -45,12 +44,6 @@ export class UserStore {
         ? tab.canAccess.includes(this.user.roles)
         : tab.canAccess.includes(UserRole.GUEST),
     );
-  }
-
-  canUserAccessMeetup = (meetup: Meetup): boolean => {
-    const meetupTab = getMeetupTab(meetup);
-    
-    return this.currentUserMeetupTabs.map(tab => tab.link).includes(meetupTab);
   }
 
   async loadUser() {
