@@ -65,7 +65,7 @@ export const CreateNewsForm = () => {
         <TextField
           name="content"
           labelText={intl.formatMessage({ id: 'contentLabel' })}
-          multiline={true}
+          multiline
           maxLetterCount={1000}
         />
       </>
