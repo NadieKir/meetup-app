@@ -16,7 +16,7 @@
 
   border: 1px solid $gray-05-color;
   border-radius: 4px;
-  outline: none !important;
+  outline: none;
   background-color: color.change($gray-07-color, $alpha: 0.4);
 
   @include smooth-transition(all);
@@ -59,3 +59,4 @@
 .helperText {
   margin-top: 4px;
 }
+

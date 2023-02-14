@@ -97,6 +97,9 @@ export const messages = {
 
     /* Loader */
     loading: 'Загрузка...',
+
+    /* Multiselect */
+    noResults: 'Ничего не найдено',
   },
 
   [Locale.ENGLISH]: {
@@ -195,6 +198,9 @@ export const messages = {
 
     /* Loader */
     loading: 'Loading...',
+
+    /* Multiselect */
+    noResults: 'No results',
 
     /* Meetup page */
     topicsCounter: ' {adjective} {cardsAmount, plural, one {topic} other {topics}}',

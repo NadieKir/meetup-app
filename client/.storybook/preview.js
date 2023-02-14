@@ -1,3 +1,8 @@
+import { IntlProvider } from 'react-intl';
+
+import { Locale, messages } from 'i18n';
+import localeStore from 'store/locale';
+
 import '../src/style/index.scss';
 
 export const parameters = {
@@ -16,5 +21,17 @@ export const parameters = {
         value: '#ffffff',
       },
     ],
-  }
+  },
 };
+
+export const decorators = [
+  (Story) => (
+    <IntlProvider
+      messages={messages[localeStore.locale]}
+      locale={localeStore.locale}
+      defaultLocale={Locale.RUSSIAN}
+    >
+      <Story />
+    </IntlProvider>
+  ),
+];

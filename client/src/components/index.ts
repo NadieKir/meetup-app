@@ -40,3 +40,4 @@ export * from './CreateNewsForm/CreateNewsForm';
 export * from './EditNewsForm/EditNewsForm';
 export * from './CreateTopicForm/CreateTopicForm';
 export * from './Form/Form';
+export * from './MultiSelect/MultiSelect';
