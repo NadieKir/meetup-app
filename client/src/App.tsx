@@ -11,9 +11,9 @@ import {
   ViewNewsPage,
   Layout,
   LoginPage,
-  CreateNewsPage,
-  EditNewsPage,
   CreateTopicPage,
+  NewsFormPage,
+  MeetupFormPage,
 } from 'pages';
 import {
   MeetupListProvider,
@@ -69,7 +69,8 @@ function App() {
                   </ErrorBoundary>
                 }
               />
-              <Route path="edit" element={<div>Edit meetup</div>} />
+              <Route path="edit" element={<MeetupFormPage isEdit />} />
+              <Route path="publish" element={<MeetupFormPage />} />
             </Route>
           </Route>
           <Route path="news">
@@ -85,7 +86,7 @@ function App() {
               path="create"
               element={
                 <ErrorBoundary FallbackComponent={ErrorFallback}>
-                  <CreateNewsPage />
+                  <NewsFormPage />
                 </ErrorBoundary>
               }
             />
@@ -102,7 +103,7 @@ function App() {
                 path="edit"
                 element={
                   <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <EditNewsPage />
+                    <NewsFormPage isEdit />
                   </ErrorBoundary>
                 }
               />

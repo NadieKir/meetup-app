@@ -2,13 +2,17 @@ import React, {
   createContext,
   Dispatch,
   SetStateAction,
+  useCallback,
   useEffect,
   useState,
 } from 'react';
+import * as Yup from 'yup';
+import { FormikHelpers, FormikValues } from 'formik';
 
-import { StepperProgress, StepContent, Step } from 'components';
+import { StepperProgress, StepContent } from 'components';
 
 import styles from './Stepper.module.scss';
+import { useIntl } from 'react-intl';
 
 export enum StepVariant {
   Active = 'active',
@@ -22,41 +26,51 @@ export interface StepElementProps {
   index: number;
 }
 
-interface Step {
+export interface IStep {
   title: string;
-  element: ({ setConfirmed, index }: StepElementProps) => JSX.Element;
+  initialValues: FormikValues;
+  validateSchema: Yup.AnySchema;
+  fields: () => JSX.Element;
   noVerify?: boolean;
 }
 
-export interface StepDescriptor extends Step {
+export interface StepDescriptor extends IStep {
   variant: StepVariant;
   confirmed: boolean;
   visited: boolean;
 }
 
-export const StepperContext = createContext<StepperContextType | null>(null);
+export const StepperContext = createContext<StepperContextType<any> | null>(
+  null,
+);
 
-export type StepperContextType = {
+export type StepperContextType<T> = {
+  formData: T;
+  setFormData: Dispatch<SetStateAction<T>>;
   stepsDescriptor: StepDescriptor[];
-  setStepsDescriptor: Dispatch<SetStateAction<StepDescriptor[]>>;
-  finishButtonContent: JSX.Element | string;
+  finishButtonContent: JSX.Element | string | undefined;
   handleNextStep: () => void;
   handlePreviousStep: () => void;
-  handleFinish: () => void;
+  handleFinish: (values: T, actions: FormikHelpers<T>) => Promise<void>;
 };
 
-interface StepperProps {
-  steps: Step[];
-  onFinish: () => void;
+interface StepperProps<T extends FormikValues> {
+  steps: IStep[];
+  onFinish: (values: T, actions: FormikHelpers<T>) => Promise<void>;
   finishButtonContent?: JSX.Element | string;
 }
 
-export const Stepper = ({
+export function Stepper<T extends FormikValues>({
   steps,
   onFinish,
-  finishButtonContent = 'Создать',
-}: StepperProps) => {
+  finishButtonContent,
+}: StepperProps<T>) {
+  const intl = useIntl();
+
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [formData, setFormData] = useState<FormikValues>({});
+
+  finishButtonContent = intl.formatMessage({ id: 'createButton' });
 
   const [stepsDescriptor, setStepsDescriptor] = useState(
     steps.map((step) =>
@@ -89,44 +103,49 @@ export const Stepper = ({
     return step;
   };
 
-  const setConfirmed = (index: number, state: boolean) => {
-    setStepsDescriptor(
-      stepsDescriptor.map((step, i) => {
-        if (i === index) {
-          step.confirmed = state;
+  const setConfirmed = useCallback(
+    (index: number, state: boolean) => {
+      setStepsDescriptor(
+        stepsDescriptor.map((step, i) => {
+          if (i === index) {
+            step.confirmed = state;
 
-          /* Set appropriate variant to next steps (if they exist) if current step is confirmed */
-          if (stepsDescriptor[i + 1] && state)
-            for (
-              let nextStepIndex = i + 1;
-              nextStepIndex < stepsDescriptor.length;
-              nextStepIndex++
-            )
-              stepsDescriptor[nextStepIndex].variant = stepsDescriptor[
-                nextStepIndex
-              ].confirmed
-                ? StepVariant.Confirmed
-                : stepsDescriptor[nextStepIndex].visited ||
-                  nextStepIndex === i + 1
-                ? StepVariant.Available
-                : StepVariant.Disabled;
+            /* Set appropriate variant to next steps (if they exist) if current step is confirmed */
+            if (stepsDescriptor[i + 1] && state) {
+              for (
+                let nextStepIndex = i + 1;
+                nextStepIndex < stepsDescriptor.length;
+                nextStepIndex++
+              ) {
+                stepsDescriptor[nextStepIndex].variant = stepsDescriptor[
+                  nextStepIndex
+                ].confirmed
+                  ? StepVariant.Confirmed
+                  : stepsDescriptor[nextStepIndex].visited ||
+                    nextStepIndex === i + 1
+                  ? StepVariant.Available
+                  : StepVariant.Disabled;
+              }
+            }
 
-          /* Set disabled variant to next steps (if they exist) if current step is not confirmed */
-          if (stepsDescriptor[i + 1] && !state)
-            for (
-              let nextStepIndex = i + 1;
-              nextStepIndex < stepsDescriptor.length;
-              nextStepIndex++
-            )
-              stepsDescriptor[nextStepIndex].variant = StepVariant.Disabled;
+            /* Set disabled variant to next steps (if they exist) if current step is not confirmed */
+            if (stepsDescriptor[i + 1] && !state) {
+              for (
+                let nextStepIndex = i + 1;
+                nextStepIndex < stepsDescriptor.length;
+                nextStepIndex++
+              ) {
+                stepsDescriptor[nextStepIndex].variant = StepVariant.Disabled;
+              }
+            }
+          }
 
           return step;
-        }
-
-        return step;
-      }),
-    );
-  };
+        }),
+      );
+    },
+    [stepsDescriptor],
+  );
 
   useEffect(() => {
     if (stepsDescriptor[currentStep].noVerify) {
@@ -171,8 +190,9 @@ export const Stepper = ({
   return (
     <StepperContext.Provider
       value={{
+        formData,
+        setFormData,
         stepsDescriptor,
-        setStepsDescriptor,
         finishButtonContent,
         handleNextStep,
         handlePreviousStep,
@@ -190,20 +210,22 @@ export const Stepper = ({
           }
         >
           {steps.map(
-            (step: Step, index: number): JSX.Element => (
+            (step: IStep, index: number): JSX.Element => (
               <StepContent
+                stepDescriptor={step}
                 key={step.title}
                 step={index}
                 currentStep={currentStep}
                 isFirst={index === 0}
                 isLast={index === steps.length - 1}
-              >
-                {step.element({ setConfirmed, index })}
-              </StepContent>
+                setConfirmed={(isConfirmed: boolean) =>
+                  setConfirmed(index, isConfirmed)
+                }
+              />
             ),
           )}
         </div>
       </div>
     </StepperContext.Provider>
   );
-};
+}

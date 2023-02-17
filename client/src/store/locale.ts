@@ -1,5 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { Locale } from 'i18n';
+import { registerLocale } from 'react-datepicker';
+import ru from 'date-fns/locale/ru';
+import en from 'date-fns/locale/en-US';
 
 const getInitialLocale = () => {
   const allAppLocales = Object.values(Locale);
@@ -17,6 +20,9 @@ export class LocaleStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    registerLocale(Locale.RUSSIAN, ru);
+    registerLocale(Locale.ENGLISH, en);
   }
 
   updateLocale(newLocale: Locale) {

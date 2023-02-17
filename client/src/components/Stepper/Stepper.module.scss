@@ -3,8 +3,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin-top: 50px;
-
+  
   &Body {
     width: calc(100% * var(--numOfSteps));
     display: flex;

@@ -69,6 +69,7 @@ export class MeetupStore {
 
   async getFullMeetupData(id: string) {
     this.setIsLoading(true);
+    
     try {
       this.setMeetup(await getMeetup(id));
       this.setVotedUsers(await getVotedUsers(id)); 

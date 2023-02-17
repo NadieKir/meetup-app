@@ -25,7 +25,7 @@ export interface ConfirmedMeetup extends MeetupBase {
   finish: string; // DateTime string
   speakers: ShortUser[];
   place: string;
-  image?: File;
+  image: string | null;
 }
 
 export const isTopic = (meetup: Meetup): meetup is Topic => {
@@ -45,7 +45,7 @@ export const isFinishedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
 }
 
 export type TopicFormData = Omit<Topic, 'id' | 'modified' | 'status'>;
-export type MeetupFormData = Omit<ConfirmedMeetup, keyof Topic>;
+export type MeetupFormData = Omit<ConfirmedMeetup, 'id' | 'modified' | 'status' | 'author'>;
 
 export type TopicWithVotedUsers = Topic & { votedUsers: ShortUser[] };
 export type ConfirmedMeetupWithParticipants = ConfirmedMeetup & { participants: ShortUser[] };

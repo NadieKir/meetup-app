@@ -54,6 +54,7 @@ const meetup: ConfirmedMeetupWithParticipants = {
   finish: '2023-09-19T17:30:00.113Z',
   place: '77818 Harber Villages',
   participants: [],
+  image: null,
   excerpt:
     'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. ',
 };

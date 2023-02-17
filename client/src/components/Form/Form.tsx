@@ -15,18 +15,22 @@ import styles from './Form.module.scss';
 
 interface FormProps<T extends FormikValues> {
   initialValues: T;
-  handleSubmit: (values: T, actions: FormikHelpers<T>) => Promise<void>;
+  handleSubmit: (values: T, actions: FormikHelpers<T>) => Promise<void> | void;
+  handleGoBack?: () => void;
   validateSchema: Yup.AnySchema;
   fields: () => JSX.Element;
   submitButton: (props: FormikProps<T>) => JSX.Element;
+  onFormikPropsChange?: (props: FormikProps<T>) => void;
 }
 
 export function Form<T extends FormikValues>({
   handleSubmit,
+  handleGoBack,
   initialValues,
   validateSchema,
   fields,
   submitButton,
+  onFormikPropsChange,
 }: FormProps<T>) {
   const navigate = useNavigate();
 
@@ -37,6 +41,7 @@ export function Form<T extends FormikValues>({
 
   return (
     <Formik
+      innerRef={onFormikPropsChange}
       initialValues={initialValues}
       validationSchema={validateSchema}
       onSubmit={handleSubmit}
@@ -49,7 +54,7 @@ export function Form<T extends FormikValues>({
             <Button
               type="button"
               variant={ButtonVariant.Default}
-              onClick={() => handleReset(props.handleReset)}
+              onClick={handleGoBack || (() => handleReset(props.handleReset))}
             >
               <FormattedMessage id="goBackButton" />
             </Button>

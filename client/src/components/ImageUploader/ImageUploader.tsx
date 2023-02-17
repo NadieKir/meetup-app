@@ -1,3 +1,5 @@
+import { FieldProps } from 'formik';
+
 import {
   ImageDropbox,
   ImagePreview,
@@ -5,7 +7,7 @@ import {
   InputField,
   InputFieldExternalProps,
 } from 'components';
-import { FieldProps } from 'formik';
+import { readFileAsBase64 } from 'common/helpers';
 import { FileWithUrl } from 'types';
 
 type ImageUploaderProps = InputFieldExternalProps & {
@@ -22,10 +24,15 @@ export const ImageUploader = ({
       field: { name, value },
       form: { setFieldValue },
       meta: { error },
-    }: FieldProps<FileWithUrl | null>) => {
+    }: FieldProps<string | null>) => {
       const image = value;
-      const setImage = (image: FileWithUrl | null): void => {
-        setFieldValue(name, image);
+
+      const setImage = async (image: FileWithUrl | null): Promise<void> => {
+        if (image === null) setFieldValue(name, image);
+        else {
+          const fileAsBase64 = await readFileAsBase64(image);
+          setFieldValue(name, fileAsBase64);
+        }
       };
 
       const handleUpload = (image: FileWithUrl): void => {
@@ -33,17 +40,13 @@ export const ImageUploader = ({
       };
 
       const handleClear = (): void => {
-        if (image) {
-          URL.revokeObjectURL(image.url);
-        }
-
         setImage(null);
       };
 
       return !image ? (
         <ImageDropbox onDrop={handleUpload} externalError={error} />
       ) : (
-        <ImagePreview variant={variant} image={image} onClear={handleClear} />
+        <ImagePreview variant={variant} image={value} onClear={handleClear} />
       );
     }}
   </InputField>

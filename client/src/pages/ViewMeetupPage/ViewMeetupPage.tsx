@@ -73,6 +73,11 @@ export const ViewMeetupPage = observer(() => {
     navigate(`/meetups/${id}/edit`);
   };
 
+  const handlePublish = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/meetups/${id}/publish`);
+  };
+
   const handleSupport = () => supportMeetup();
   const handleUnsupport = () => unsupportMeetup();
   const handleEnroll = () => enrollMeetup();
@@ -104,7 +109,7 @@ export const ViewMeetupPage = observer(() => {
       <div className={styles.headerData}>
         <img
           className={styles.image}
-          src={defaultImage}
+          src={meetup.image || defaultImage}
           alt={intl.formatMessage({ id: 'meetupPhotoAlt' })}
         />
         <div className={styles.headerDataContent}>
@@ -261,8 +266,8 @@ export const ViewMeetupPage = observer(() => {
         </Button>
       )}
       {meetup.status === MeetupStatus.REQUEST && (
-        <Button variant={ButtonVariant.Primary} onClick={handleEdit}>
-          <FormattedMessage id="editButton" />
+        <Button variant={ButtonVariant.Primary} onClick={handlePublish}>
+          <FormattedMessage id="createMeetup" />
         </Button>
       )}
       {isUpcomingMeetup(meetup) && (

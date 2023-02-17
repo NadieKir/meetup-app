@@ -33,7 +33,7 @@ export const CreateTopicForm = observer(() => {
 
   const createTopicSchema = Yup.object().shape({
     subject: Yup.string()
-      .min(3, intl.formatMessage({ id: 'subjectMinError' }))
+      .min(2, intl.formatMessage({ id: 'subjectMinError' }))
       .max(100, intl.formatMessage({ id: 'subjectMaxError' }))
       .required(intl.formatMessage({ id: 'subjectRequiredError' })),
     excerpt: Yup.string().required(

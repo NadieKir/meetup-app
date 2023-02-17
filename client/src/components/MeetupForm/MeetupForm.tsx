@@ -1,0 +1,154 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FormikHelpers } from 'formik';
+import { useIntl } from 'react-intl';
+import { observer } from 'mobx-react-lite';
+import * as Yup from 'yup';
+
+import {
+  DateTimePicker,
+  ImagePreviewMode,
+  ImageUploader,
+  MultiSelect,
+  MultiSelectOption,
+  Stepper,
+  TextField,
+} from 'components';
+import { getShortUsers } from 'api';
+import { MeetupFormData, ShortUser } from 'model';
+
+import styles from './MeetupForm.module.scss';
+
+export type RequiredMeetupFields = Pick<
+  MeetupFormData,
+  'start' | 'finish' | 'speakers' | 'subject' | 'excerpt'
+>;
+export type AdditionalMeetupFields = Omit<
+  MeetupFormData,
+  keyof RequiredMeetupFields
+>;
+
+interface MeetupFormProps {
+  initialValuesRequiredStep: RequiredMeetupFields;
+  initialValuesAdditionalStep: AdditionalMeetupFields;
+  handleSubmit: (
+    values: MeetupFormData,
+    actions: FormikHelpers<MeetupFormData>,
+  ) => Promise<void>;
+  touchedNotRequired?: boolean;
+}
+
+export const MeetupForm = observer(
+  ({
+    initialValuesRequiredStep,
+    initialValuesAdditionalStep,
+    handleSubmit,
+    touchedNotRequired,
+  }: MeetupFormProps) => {
+    const intl = useIntl();
+
+    const [options, setOptions] = useState<MultiSelectOption<ShortUser>[]>([]);
+
+    useEffect(() => {
+      (async function () {
+        const users = await getShortUsers();
+
+        const options = users.map((user) => ({
+          value: user,
+          label: `${user.name} ${user.surname}`,
+        })) as MultiSelectOption<ShortUser>[];
+
+        setOptions(options);
+      })();
+    }, []);
+
+    const requiredMeetupFieldsSchema = Yup.object().shape({
+      subject: Yup.string()
+        .min(3, intl.formatMessage({ id: 'subjectMinError' }))
+        .max(100, intl.formatMessage({ id: 'subjectMaxError' }))
+        .required(intl.formatMessage({ id: 'subjectRequiredError' })),
+      excerpt: Yup.string().required(
+        intl.formatMessage({ id: 'excerptRequiredError' }),
+      ),
+      start: Yup.date()
+        .min(new Date(), intl.formatMessage({ id: 'startMinError' }))
+        .required(intl.formatMessage({ id: 'startRequiredError' })),
+      finish: Yup.date()
+        .min(Yup.ref('start'), intl.formatMessage({ id: 'finishMinError' }))
+        .required(intl.formatMessage({ id: 'finishRequiredError' })),
+      speakers: Yup.array()
+        .min(1, intl.formatMessage({ id: 'speakersRequiredError' }))
+        .required(intl.formatMessage({ id: 'speakersRequiredError' })),
+    });
+
+    const additionalMeetupFieldsSchema = Yup.object().shape({
+      place: Yup.string().max(50, intl.formatMessage({ id: 'placeMaxError' })),
+    });
+
+    const renderRequiredFields = () => (
+      <>
+        <TextField
+          name="subject"
+          labelText={intl.formatMessage({ id: 'subjectLabel' })}
+          multiline={false}
+        />
+        <TextField
+          name="excerpt"
+          labelText={intl.formatMessage({ id: 'excerptLabel' })}
+          multiline={true}
+          maxLetterCount={500}
+        />
+        <MultiSelect
+          name="speakers"
+          labelText={intl.formatMessage({ id: 'speakersLabel' })}
+          options={options}
+        />
+        <div className={styles.datesInputWrapper}>
+          <DateTimePicker
+            name="start"
+            labelText={intl.formatMessage({ id: 'startLabel' })}
+            excludePastDateTime
+          />
+          <DateTimePicker
+            name="finish"
+            labelText={intl.formatMessage({ id: 'finishLabel' })}
+            excludePastDateTime
+          />
+        </div>
+      </>
+    );
+
+    const renderAdditionalFields = () => (
+      <>
+        <TextField
+          name="place"
+          labelText={intl.formatMessage({ id: 'placeLabel' })}
+          multiline={false}
+        />
+        <ImageUploader
+          name="image"
+          variant={ImagePreviewMode.Large}
+          labelText={intl.formatMessage({ id: 'imageLabel' })}
+        />
+      </>
+    );
+
+    const steps = [
+      {
+        title: 'Обязательные поля',
+        initialValues: initialValuesRequiredStep,
+        validateSchema: requiredMeetupFieldsSchema,
+        fields: renderRequiredFields,
+      },
+      {
+        title: 'Дополнительные поля',
+        initialValues: initialValuesAdditionalStep,
+        validateSchema: additionalMeetupFieldsSchema,
+        fields: renderAdditionalFields,
+        noVerify: true,
+      },
+    ];
+
+    return <Stepper steps={steps} onFinish={handleSubmit} />;
+  },
+);
