@@ -12,7 +12,6 @@ import {
 } from 'components';
 import { UserContext } from 'common/contexts';
 import { NewsStore } from 'store/news';
-import { UserRole } from 'model';
 
 import styles from './ViewNewsPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';

@@ -1,11 +1,12 @@
 import classNames from 'classnames';
+
 import { Typography, TypographyComponent } from 'components';
+import { converStringToFileWithUrl, getFileSizeString } from 'common/helpers';
+
+import styles from './ImagePreview.module.scss';
 import { ReactComponent as ImagePlaceholder } from './assets/image-placeholder.svg';
 import { ReactComponent as CloseIcon } from './assets/close.svg';
 import { ReactComponent as ChangeImageIcon } from './assets/change-photo.svg';
-import { FileWithUrl } from 'types';
-import { getFileSizeString } from 'common/helpers';
-import styles from './ImagePreview.module.scss';
 
 export enum ImagePreviewMode {
   Thumbnail = 'thumbnail',
@@ -14,7 +15,7 @@ export enum ImagePreviewMode {
 
 interface ImagePreviewProps {
   variant?: ImagePreviewMode;
-  image: FileWithUrl;
+  image: string;
   onClear: () => void;
 }
 
@@ -23,7 +24,8 @@ export const ImagePreview = ({
   image,
   onClear,
 }: ImagePreviewProps): JSX.Element => {
-  const { name, size, url } = image;
+  const imageConvertedToFile = converStringToFileWithUrl(image);
+  const { name, size, url } = imageConvertedToFile!;
 
   const handleClear = (): void => {
     onClear();

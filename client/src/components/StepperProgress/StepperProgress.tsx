@@ -15,7 +15,9 @@ interface StepperProgressProps {
 }
 
 export const StepperProgress = ({ currentStep }: StepperProgressProps) => {
-  const { stepsDescriptor } = useContext(StepperContext) as StepperContextType;
+  const { stepsDescriptor } = useContext(
+    StepperContext,
+  ) as StepperContextType<any>;
 
   return (
     <div className={styles.stepperProgress}>

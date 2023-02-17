@@ -34,6 +34,7 @@ export const messages = {
     goMainButton: 'Перейти на главную',
     tryAgainButton: 'Попробовать ещё раз',
     saveButton: 'Сохранить',
+    nextButton: 'Далее',
 
     /* Alts */
     logoAlt: 'Логотип',
@@ -68,10 +69,22 @@ export const messages = {
     /* Create Topic Form */
     subjectLabel: 'Тема',
     excerptLabel: 'Описание',
-    subjectMinError: 'Тема должна содержать минимум 3 символа',
+    subjectMinError: 'Тема должна содержать минимум 2 символа',
     subjectMaxError: 'Тема не может содержать более 100 символов',
     subjectRequiredError: 'Введите тему',
     excerptRequiredError: 'Введите описание',
+
+    /* Create Meetup Form */
+    speakersLabel: 'Спикеры',
+    startLabel: 'Начало',
+    finishLabel: 'Конец',
+    placeLabel: 'Место',
+    speakersRequiredError: 'Митап должен иметь хотя бы одного спикера',
+    startMinError: 'Дата начала не может быть в прошлом',
+    startRequiredError: 'Введите дату и время начала',
+    finishMinError: 'Дата окончания должна идти после даты начала',
+    finishRequiredError: 'Введите дату и время окончания',
+    placeMaxError: 'Место не может содержать более 50 символов',
 
     /* Tabs */
     topics: 'Темы',
@@ -100,6 +113,9 @@ export const messages = {
 
     /* Multiselect */
     noResults: 'Ничего не найдено',
+
+    /* Datetime Picker */
+    time: 'Время',
   },
 
   [Locale.ENGLISH]: {
@@ -135,6 +151,7 @@ export const messages = {
     goMainButton: 'Go Home',
     tryAgainButton: 'Try Again',
     saveButton: 'Save',
+    nextButton: 'Next',
 
     /* Alts */
     logoAlt: 'Logo',
@@ -169,10 +186,22 @@ export const messages = {
     /* Create Topic Form */
     subjectLabel: 'Subject',
     excerptLabel: 'Excerpt',
-    subjectMinError: 'Subject must have at least 3 symbols',
+    subjectMinError: 'Subject must have at least 2 symbols',
     subjectMaxError: 'Subject can\'t have more than 100 symbols',
     subjectRequiredError: 'Enter subject',
     excerptRequiredError: 'Enter excerpt',
+
+    /* Create Meetup Form */
+    speakersLabel: 'Speakers',
+    startLabel: 'Start',
+    finishLabel: 'Finish',
+    placeLabel: 'Place',
+    speakersRequiredError: 'Meetup must have at least 1 speaker',
+    startMinError: 'Start date must be in future',
+    startRequiredError: 'Start date is required',
+    finishMinError: 'Finish date should go after start date',
+    finishRequiredError: 'Finish date is required',
+    placeMaxError: 'Place can\'t have more than 50 symbols',
 
     /* Tabs */
     topics: 'Topics',
@@ -201,6 +230,9 @@ export const messages = {
 
     /* Multiselect */
     noResults: 'No results',
+
+    /* Datetime Picker */
+    time: 'Time',
 
     /* Meetup page */
     topicsCounter: ' {adjective} {cardsAmount, plural, one {topic} other {topics}}',

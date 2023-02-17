@@ -4,6 +4,7 @@
 @import '~style/mixins';
 
 .react-datepicker {
+  width: auto;
   background: $white-color;
   border: 1px solid $gray-05-color;
   box-shadow: 0px 8px 16px $black-shadow-color;

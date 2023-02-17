@@ -23,7 +23,7 @@ type MultiSelectProps<T> = {
 } & InputFieldExternalProps;
 
 export function MultiSelect<T>({
-  placeholderText,
+  placeholderText = '',
   options,
   ...inputFieldProps
 }: MultiSelectProps<T>) {
@@ -63,6 +63,7 @@ export function MultiSelect<T>({
               }),
             }}
             isMulti
+            maxMenuHeight={145}
             defaultOptions={options}
             cacheOptions
             loadOptions={loadOptions}

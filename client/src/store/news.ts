@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
 import { deleteNewsArticle, getNewsArticle, updateNewsArticle } from 'api';
-import { News, NewNewsPayload } from 'model';
+import { News, NewsFormData } from 'model';
 
 export class NewsStore {
   newsArticle: News | undefined;
@@ -40,7 +40,7 @@ export class NewsStore {
     }
   }
 
-  updateNews = async (id: string, newData: NewNewsPayload) => {
+  updateNews = async (id: string, newData: NewsFormData) => {
     try {
       const news = await updateNewsArticle(id, newData);
       this.setNewsArticle(news);
