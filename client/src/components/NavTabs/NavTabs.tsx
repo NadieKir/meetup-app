@@ -2,7 +2,7 @@ import { Children, HTMLAttributes, ReactElement } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { TabsIndicator } from 'components';
+import { TabsIndicator, Scrollable } from 'components';
 
 import styles from './NavTabs.module.scss';
 
@@ -21,12 +21,12 @@ export const NavTabs = ({ className, children }: NavTabsProps) => {
     .indexOf(tabToOpen);
 
   return (
-    <>
+    <Scrollable>
       <div className={classNames(styles.tabs, className)}>{children}</div>
       <TabsIndicator
         tabsAmount={arrayChildren.length}
         currentTab={indexOfTabToOpen < 0 ? 0 : indexOfTabToOpen}
       />
-    </>
+    </Scrollable>
   );
 };

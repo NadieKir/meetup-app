@@ -6,6 +6,7 @@ import {
   StepperContext,
   StepperContextType,
   StepDescriptor,
+  Scrollable,
 } from 'components';
 
 import styles from './StepperProgress.module.scss';
@@ -20,7 +21,7 @@ export const StepperProgress = ({ currentStep }: StepperProgressProps) => {
   ) as StepperContextType<any>;
 
   return (
-    <div className={styles.stepperProgress}>
+    <Scrollable>
       <div className={styles.steps}>
         {stepsDescriptor.map(
           (step: StepDescriptor, i: number): JSX.Element => (
@@ -37,6 +38,6 @@ export const StepperProgress = ({ currentStep }: StepperProgressProps) => {
         tabsAmount={stepsDescriptor.length}
         currentTab={currentStep}
       />
-    </div>
+    </Scrollable>
   );
 };

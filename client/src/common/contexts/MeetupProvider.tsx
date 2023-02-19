@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import meetupListStore, { MeetupListStore } from 'store/meetupList';
+import meetupListStore, { MeetupListStore } from 'store/MeetupListStore';
 
 export const MeetupListContext =
   createContext<MeetupListStore>(meetupListStore);

@@ -1,5 +1,5 @@
 import { httpClient } from 'api/httpClient';
-import { ShortUser, User } from 'model';
+import { ShortUser, User } from 'common/model';
 
 export const getShortUsers = async (): Promise<ShortUser[]> => {
   const { data: users } = await httpClient.get<User[]>('/users');

@@ -1,8 +1,11 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { withRouter } from 'storybook-addon-react-router-v6';
 import { MeetupCard } from 'components';
-import { MeetupStatus, ShortUser } from 'model';
-import { ConfirmedMeetupWithParticipants, TopicWithVotedUsers } from 'types';
+import { MeetupStatus, ShortUser } from 'common/model';
+import {
+  ConfirmedMeetupWithParticipants,
+  TopicWithVotedUsers,
+} from 'common/types';
 
 export default {
   title: 'Components/MeetupCard',

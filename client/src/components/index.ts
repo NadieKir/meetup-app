@@ -45,3 +45,6 @@ export * from './MultiSelect/MultiSelect';
 export * from './NewsForm/NewsForm';
 export * from './MeetupForm/MeetupForm';
 export * from './EditMeetupForm/EditMeetupForm';
+export * from './SpeakersCount/SpeakersCount';
+export * from './Scrollable/Scrollable';
+export * from './VotedUsersPreview/VotedUsersPreview';

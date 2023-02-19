@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { FormikHelpers } from 'formik';
 
 import { NewsForm } from 'components';
-import { NewsFormData } from 'model';
+import { NewsFormData } from 'common/model';
 import { createNewsArticle } from 'api';
 
 export const CreateNewsForm = () => {

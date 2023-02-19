@@ -1,5 +1,7 @@
+@import '~style/variables';
+
 .container {
   width: 90%;
-  max-width: 550px;
+  max-width: $app-container-max-width;
   margin: 70px auto;
 }

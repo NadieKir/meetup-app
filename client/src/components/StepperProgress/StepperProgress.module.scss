@@ -1,11 +1,8 @@
 @import '~style/colors';
-
-.stepperProgress {
-  width: 100%;
-}
+@import '~style/variables';
 
 .steps {
-  width: 100%;
+  width: $app-container-max-width;
   display: flex;
 
   border-bottom: 1px solid $gray-06-color;

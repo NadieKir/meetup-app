@@ -1,5 +1,5 @@
 import { httpClient } from 'api/httpClient';
-import { ShortUser, AllVotedUsers } from "model";
+import { ShortUser, AllVotedUsers } from "common/model";
 
 export const getAllVotedUsers = async (): Promise<AllVotedUsers> => {
   const { data: votedUsers } = await httpClient.get<AllVotedUsers>(`/votedusers`);

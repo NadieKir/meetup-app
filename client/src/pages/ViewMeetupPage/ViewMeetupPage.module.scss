@@ -15,13 +15,19 @@
   @extend .font-size-xl;
   @extend .line-height-m;
   @extend .font-color-dark;
-  @extend .text-align-center;
+  @extend .text-align-left;
+  
+  &:only-child {
+    @extend .text-align-center;
+  }
 }
 
 .headingWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 20px;
 
   &:has(> h1:only-child) {
     display: flex;
@@ -121,23 +127,6 @@
 .users {
   display: flex;
   justify-content: space-between;
-}
-
-.restCounter {
-  min-width: 50px;
-  min-height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-  background-color: $gray-03-color;
-
-  @extend .font-family-primary;
-  @extend .font-weight-regular;
-  @extend .font-size-s;
-  @extend .font-color-white;
 }
 
 .actions {

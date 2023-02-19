@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,QAAQ,CAAC;EACP,KAAK,EAAE,IAAI;EACX,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,QAAQ,EAAE,MAAM;CAQjB;;AANE,AAAD,YAAK,CAAC;EACJ,KAAK,EAAE,8BAA8B;EACrC,OAAO,EAAE,IAAI;EACb,QAAQ,EAAE,MAAM;EAChB,SAAS,EAAE,+DAA+D;CAC3E",
-    "sources": [
-        "../Stepper/Stepper.module.scss"
-    ],
-    "names": [],
-    "file": "Stepper.module.css"
-}

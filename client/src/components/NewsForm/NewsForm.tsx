@@ -10,7 +10,7 @@ import {
   TextField,
   Form,
 } from 'components';
-import { NewsFormData } from 'model';
+import { NewsFormData } from 'common/model';
 
 interface NewsFormProps {
   initialValues: NewsFormData;

@@ -35,3 +35,5 @@ export const getFileSizeString = (
   result = toFixedIfAny(bytes, maxDecimalPlaces);
   return `${result} байт`;
 };
+
+export const clamp = (value: number, min: number, max: number) => (Math.min(Math.max(value, min), max))

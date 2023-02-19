@@ -1,5 +1,5 @@
 import { httpClient } from 'api/httpClient';
-import { AuthoraizedUser, Credentials, User } from 'model';
+import { AuthoraizedUser, Credentials, User } from 'common/model';
 
 export const login = async (credentials: Credentials): Promise<User> => {
   const { data: response } = await httpClient.post('/login', credentials);

@@ -6,8 +6,8 @@ import classNames from 'classnames';
 
 import { Typography, NavTabs, MeetupTabContent } from 'components';
 import { UserContext } from 'common/contexts';
-import { MeetupTab, MeetupTabDescriptor } from 'types';
-import { UserRole } from 'model';
+import { MeetupTab, MeetupTabDescriptor } from 'common/types';
+import { UserRole } from 'common/model';
 
 import styles from './MeetupStagesTabs.module.scss';
 

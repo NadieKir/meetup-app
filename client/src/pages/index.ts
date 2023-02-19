@@ -8,3 +8,4 @@ export * from './Layout/Layout';
 export * from './NewsFormPage/NewsFormPage';
 export * from './CreateTopicPage/CreateTopicPage';
 export * from './MeetupFormPage/MeetupFormPage';
+export * from './ForbiddenPage/ForbiddenPage';

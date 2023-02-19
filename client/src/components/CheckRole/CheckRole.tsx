@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { UserContext } from 'common/contexts';
-import { UserRole } from 'model';
+import { UserRole } from 'common/model';
 
 interface CheckRoleProps {
   roles: UserRole[];

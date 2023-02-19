@@ -8,7 +8,7 @@ import {
   InputFieldExternalProps,
 } from 'components';
 import { readFileAsBase64 } from 'common/helpers';
-import { FileWithUrl } from 'types';
+import { FileWithUrl } from 'common/types';
 
 type ImageUploaderProps = InputFieldExternalProps & {
   name: string;

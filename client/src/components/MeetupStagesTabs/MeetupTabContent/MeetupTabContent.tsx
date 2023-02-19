@@ -8,7 +8,7 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { MeetupListStore } from 'store';
 import { Button, ButtonVariant, CardsCounter, MeetupCard } from 'components';
 import { UserContext } from 'common/contexts';
-import { MeetupTab } from 'types/meetupTab';
+import { MeetupTab } from 'common/types/meetupTab';
 
 import styles from './MeetupTabContent.module.scss';
 

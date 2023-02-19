@@ -10,7 +10,7 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { News } from 'model';
+import { News } from 'common/model';
 import { NewsListStore } from 'store';
 import { UserContext } from 'common/contexts';
 

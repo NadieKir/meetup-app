@@ -3,8 +3,7 @@
 
 .user {
   display: flex;
-  flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -42,7 +41,7 @@
   .name,
   .initials {
     @extend .font-size-s;
-    @extend .line-height-s;
+    @extend .line-height-0;
     @extend .font-color-white;
   }
 }
@@ -58,7 +57,7 @@
   .name,
   .initials {
     @extend .font-size-xs;
-    @extend .line-height-xs;
+    @extend .line-height-0;
   }
 
   .name {
@@ -77,7 +76,7 @@
   .name,
   .initials {
     @extend .font-size-xs;
-    @extend .line-height-xs;
+    @extend .line-height-0;
   }
 
   .name {

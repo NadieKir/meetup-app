@@ -11,7 +11,7 @@ import {
   AdditionalMeetupFields,
   MeetupFormData,
   RequiredMeetupFields,
-} from 'types';
+} from 'common/types';
 
 export const CreateMeetupForm = observer(() => {
   const { id } = useParams();

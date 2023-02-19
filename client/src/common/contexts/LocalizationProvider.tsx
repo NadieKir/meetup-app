@@ -2,8 +2,8 @@ import { createContext, PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
 import { observer } from 'mobx-react-lite';
 
-import { Locale, messages } from 'i18n';
-import localeStore, { LocaleStore } from 'store/locale';
+import { Locale, messages } from 'common/i18n';
+import localeStore, { LocaleStore } from 'store/LocaleStore';
 
 export const LocalizationContext = createContext<LocaleStore>(localeStore);
 

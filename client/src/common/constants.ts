@@ -1,8 +1,7 @@
-import { Locale } from "i18n";
+import { Locale } from "common/i18n";
+import { Language } from "common/types";
 
 export const API_BASE_URL = 'http://localhost:8080/api';
-
-export type Language = { name: string; code: Locale };
 
 export const LANGUAGES: Language[] = [
   { name: 'English', code: Locale.ENGLISH },

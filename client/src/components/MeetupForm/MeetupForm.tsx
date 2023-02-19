@@ -18,8 +18,8 @@ import {
   MeetupFormData,
   RequiredMeetupFields,
   RequiredMeetupFieldsFormData,
-} from 'types';
-import { ShortUser } from 'model';
+} from 'common/types';
+import { ShortUser } from 'common/model';
 
 import styles from './MeetupForm.module.scss';
 
