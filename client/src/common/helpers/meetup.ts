@@ -1,5 +1,5 @@
-import { isFinishedMeetup, Meetup, MeetupStatus } from "model";
-import { MeetupTab } from "types";
+import { isFinishedMeetup, MeetupStatus } from "model";
+import { Meetup, MeetupTab } from "types";
 
 export const getMeetupTab = (meetup: Meetup) : MeetupTab=> {
     switch(meetup.status) {

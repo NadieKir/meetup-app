@@ -1,5 +1,6 @@
 import { isInThePast } from 'common/helpers';
 import { ShortUser } from 'model';
+import { Meetup } from 'types';
 
 export enum MeetupStatus {
   DRAFT = 'DRAFT',
@@ -44,11 +45,3 @@ export const isFinishedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
   return isConfirmedMeetup(meetup) && isInThePast(meetup.finish);
 }
 
-export type TopicFormData = Omit<Topic, 'id' | 'modified' | 'status'>;
-export type MeetupFormData = Omit<ConfirmedMeetup, 'id' | 'modified' | 'status' | 'author'>;
-
-export type TopicWithVotedUsers = Topic & { votedUsers: ShortUser[] };
-export type ConfirmedMeetupWithParticipants = ConfirmedMeetup & { participants: ShortUser[] };
-
-export type Meetup = Topic | ConfirmedMeetup;
-export type MeetupWithUsers = TopicWithVotedUsers | ConfirmedMeetupWithParticipants;

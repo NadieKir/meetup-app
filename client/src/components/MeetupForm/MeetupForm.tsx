@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
 import { useIntl } from 'react-intl';
 import { observer } from 'mobx-react-lite';
@@ -10,26 +9,24 @@ import {
   ImagePreviewMode,
   ImageUploader,
   MultiSelect,
-  MultiSelectOption,
   Stepper,
   TextField,
 } from 'components';
 import { getShortUsers } from 'api';
-import { MeetupFormData, ShortUser } from 'model';
+import {
+  AdditionalMeetupFields,
+  MeetupFormData,
+  RequiredMeetupFields,
+  RequiredMeetupFieldsFormData,
+} from 'types';
+import { ShortUser } from 'model';
 
 import styles from './MeetupForm.module.scss';
 
-export type RequiredMeetupFields = Pick<
-  MeetupFormData,
-  'start' | 'finish' | 'speakers' | 'subject' | 'excerpt'
->;
-export type AdditionalMeetupFields = Omit<
-  MeetupFormData,
-  keyof RequiredMeetupFields
->;
-
 interface MeetupFormProps {
-  initialValuesRequiredStep: RequiredMeetupFields;
+  initialValuesRequiredStep:
+    | RequiredMeetupFields
+    | RequiredMeetupFieldsFormData;
   initialValuesAdditionalStep: AdditionalMeetupFields;
   handleSubmit: (
     values: MeetupFormData,
@@ -43,22 +40,17 @@ export const MeetupForm = observer(
     initialValuesRequiredStep,
     initialValuesAdditionalStep,
     handleSubmit,
-    touchedNotRequired,
+    touchedNotRequired = false,
   }: MeetupFormProps) => {
     const intl = useIntl();
 
-    const [options, setOptions] = useState<MultiSelectOption<ShortUser>[]>([]);
+    const [options, setOptions] = useState<ShortUser[]>([]);
 
     useEffect(() => {
       (async function () {
         const users = await getShortUsers();
 
-        const options = users.map((user) => ({
-          value: user,
-          label: `${user.name} ${user.surname}`,
-        })) as MultiSelectOption<ShortUser>[];
-
-        setOptions(options);
+        setOptions(users);
       })();
     }, []);
 
@@ -102,6 +94,8 @@ export const MeetupForm = observer(
           name="speakers"
           labelText={intl.formatMessage({ id: 'speakersLabel' })}
           options={options}
+          getOptionLabel={(option) => `${option.name} ${option.surname}`}
+          getOptionValue={(option) => option.id}
         />
         <div className={styles.datesInputWrapper}>
           <DateTimePicker
@@ -139,6 +133,7 @@ export const MeetupForm = observer(
         initialValues: initialValuesRequiredStep,
         validateSchema: requiredMeetupFieldsSchema,
         fields: renderRequiredFields,
+        noVerify: touchedNotRequired,
       },
       {
         title: 'Дополнительные поля',

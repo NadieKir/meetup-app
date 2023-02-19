@@ -7,12 +7,12 @@ import React, {
   useState,
 } from 'react';
 import * as Yup from 'yup';
+import { useIntl } from 'react-intl';
 import { FormikHelpers, FormikValues } from 'formik';
 
 import { StepperProgress, StepContent } from 'components';
 
 import styles from './Stepper.module.scss';
-import { useIntl } from 'react-intl';
 
 export enum StepVariant {
   Active = 'active',

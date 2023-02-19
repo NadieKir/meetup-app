@@ -2,9 +2,10 @@ import { AxiosError } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
 import { getMeetups, getAllVotedUsers } from 'api';
-import { Meetup, MeetupStatus, AllVotedUsers, TopicWithVotedUsers, isConfirmedMeetup } from 'model';
+import {  MeetupStatus, AllVotedUsers, isConfirmedMeetup } from 'model';
 import { isInThePast } from 'common/helpers';
-import { MeetupTab } from 'types/MeetupTab';
+import { MeetupTab } from 'types/meetupTab';
+import { Meetup, TopicWithVotedUsers } from 'types';
 
 export class MeetupListStore {
   meetups: Meetup[] = [];

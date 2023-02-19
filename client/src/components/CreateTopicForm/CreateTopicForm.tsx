@@ -6,9 +6,10 @@ import { FormikHelpers, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
 import { Button, ButtonVariant, TextField, Form } from 'components';
-import { ShortUser, TopicFormData } from 'model';
+import { ShortUser } from 'model';
 import { UserContext } from 'common/contexts';
 import { createMeetup } from 'api';
+import { TopicFormData } from 'types';
 
 export const CreateTopicForm = observer(() => {
   const intl = useIntl();

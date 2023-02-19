@@ -1,4 +1,4 @@
-import AsyncSelect from 'react-select/async';
+import Select, { GetOptionLabel, GetOptionValue } from 'react-select';
 import { useFormikContext } from 'formik';
 import classNames from 'classnames';
 import { useIntl } from 'react-intl';
@@ -12,43 +12,30 @@ import { EmotionCacheProvider } from 'common/contexts';
 
 import styles from './MultiSelect.module.scss';
 
-export type MultiSelectOption<T> = {
-  value: T;
-  label: string;
-};
-
 type MultiSelectProps<T> = {
-  options: MultiSelectOption<T>[];
+  options: T[];
+  getOptionLabel: GetOptionLabel<T>;
+  getOptionValue: GetOptionValue<T>;
   placeholderText?: string;
 } & InputFieldExternalProps;
 
 export function MultiSelect<T>({
-  placeholderText = '',
   options,
+  getOptionLabel,
+  getOptionValue,
+  placeholderText = '',
   ...inputFieldProps
 }: MultiSelectProps<T>) {
   const intl = useIntl();
 
   const { setFieldValue, setFieldTouched } = useFormikContext();
 
-  const loadOptions = (
-    value: string,
-    callback: (options: MultiSelectOption<T>[]) => void,
-  ) => {
-    const filterColors = (arr: MultiSelectOption<T>[]) => {
-      return arr.filter((i) =>
-        i.label.toLowerCase().includes(value.toLowerCase()),
-      );
-    };
-
-    callback(filterColors(options));
-  };
-
   return (
     <EmotionCacheProvider>
       <InputField {...inputFieldProps}>
         {({ field, className }: InputRenderProps): JSX.Element => (
-          <AsyncSelect
+          <Select
+            options={options}
             classNames={{
               control: (state) =>
                 classNames(className, styles.multiSelect, {
@@ -64,17 +51,12 @@ export function MultiSelect<T>({
             }}
             isMulti
             maxMenuHeight={145}
-            defaultOptions={options}
-            cacheOptions
-            loadOptions={loadOptions}
+            defaultValue={field.value}
+            getOptionLabel={getOptionLabel}
+            getOptionValue={getOptionValue}
             onBlur={() => setFieldTouched(field.name, true)}
             onChange={(options) => {
-              const values = options.map((option) => option.value);
-
-              setFieldValue(
-                field.name,
-                values.length === 0 ? undefined : values,
-              );
+              setFieldValue(field.name, options);
             }}
             placeholder={placeholderText}
             noOptionsMessage={() => intl.formatMessage({ id: 'noResults' })}

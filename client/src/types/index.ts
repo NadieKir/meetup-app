@@ -1,2 +1,3 @@
-export * from './FileWithUrl';
-export * from './MeetupTab';
+export * from './meetup';
+export * from './fileWithUrl';
+export * from './meetupTab';
