@@ -1,5 +1,62 @@
-import React from 'react';
+import { useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { FormikHelpers } from 'formik';
+import { FormattedMessage } from 'react-intl';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import { parseISO } from 'date-fns';
 
-export const EditMeetupForm = () => {
-  return <div>EditMeetupForm</div>;
-};
+import { MeetupForm } from 'components';
+import { updateMeetup } from 'api';
+import { UserContext } from 'common/contexts';
+import { ConfirmedMeetup, isConfirmedMeetup } from 'model';
+import { MeetupStore } from 'store';
+import {
+  AdditionalMeetupFields,
+  MeetupFormData,
+  RequiredMeetupFieldsFormData,
+} from 'types';
+
+export const EditMeetupForm = observer(() => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const userStore = useContext(UserContext);
+  const { meetup, isLoading, error } = useLocalObservable(
+    () => new MeetupStore(id!, userStore),
+  );
+
+  if (isLoading) return <FormattedMessage id="loading" />;
+  if (!meetup || !isConfirmedMeetup(meetup)) throw error;
+
+  const initialValuesRequiredStep: RequiredMeetupFieldsFormData = {
+    start: parseISO(meetup.start),
+    finish: parseISO(meetup.finish),
+    speakers: meetup.speakers,
+    subject: meetup.subject,
+    excerpt: meetup.excerpt,
+  };
+
+  const initialValuesAdditionalStep: AdditionalMeetupFields = {
+    place: meetup.place,
+    image: meetup.image,
+  };
+
+  const handleSubmit = async (
+    values: MeetupFormData,
+    actions: FormikHelpers<MeetupFormData>,
+  ) => {
+    await updateMeetup({ ...meetup, ...values } as ConfirmedMeetup);
+
+    actions.setSubmitting(false);
+    navigate(-1);
+  };
+
+  return (
+    <MeetupForm
+      initialValuesRequiredStep={initialValuesRequiredStep}
+      initialValuesAdditionalStep={initialValuesAdditionalStep}
+      handleSubmit={handleSubmit}
+      touchedNotRequired
+    />
+  );
+});

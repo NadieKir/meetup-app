@@ -1,5 +1,6 @@
 import { httpClient } from 'api/httpClient';
-import { Meetup, Topic, ConfirmedMeetup, TopicFormData } from 'model';
+import { Topic } from 'model';
+import { Meetup, TopicFormData } from 'types';
 
 export const getMeetups = async (): Promise<Meetup[]> => {
   const { data: meetups } = await httpClient.get<Meetup[]>('/meetups');
@@ -25,14 +26,6 @@ export const updateMeetup = async (
   updatedMeetupData: Meetup,
 ): Promise<Meetup> => {
   const { data: updatedMeetup } = await httpClient.put<Meetup>('/meetups', updatedMeetupData);
-
-  return updatedMeetup;
-};
-
-export const approveMeetup = async (
-  updatedMeetupData: ConfirmedMeetup,
-): Promise<ConfirmedMeetup> => {
-  const { data: updatedMeetup } = await httpClient.put<ConfirmedMeetup>('/meetups/approve', updatedMeetupData);
 
   return updatedMeetup;
 };

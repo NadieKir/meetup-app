@@ -8,15 +8,11 @@ import {
   UserPreviewVariant,
   VotesCount,
 } from 'components';
-import {
-  ConfirmedMeetup,
-  isConfirmedMeetup,
-  isTopic,
-  TopicWithVotedUsers,
-} from 'model';
+import { ConfirmedMeetup, isConfirmedMeetup, isTopic } from 'model';
 import { Locale } from 'i18n';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
 import { LocalizationContext } from 'common/contexts';
+import { TopicWithVotedUsers } from 'types';
 
 import styles from './MeetupCard.module.scss';
 

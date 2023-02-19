@@ -4,14 +4,14 @@ import { FormikHelpers } from 'formik';
 import { FormattedMessage } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 
+import { MeetupForm } from 'components';
+import { UserContext } from 'common/contexts';
+import { MeetupStore } from 'store';
 import {
   AdditionalMeetupFields,
-  MeetupForm,
+  MeetupFormData,
   RequiredMeetupFields,
-} from 'components';
-import { UserContext } from 'common/contexts';
-import { MeetupFormData } from 'model';
-import { MeetupStore } from 'store';
+} from 'types';
 
 export const CreateMeetupForm = observer(() => {
   const { id } = useParams();
