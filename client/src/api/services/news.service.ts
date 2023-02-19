@@ -1,5 +1,5 @@
 import { httpClient } from 'api/httpClient';
-import { NewsFormData, News } from 'model';
+import { NewsFormData, News } from 'common/model';
 
 export const getNews = async (): Promise<News[]> => {
   const { data: articles } = await httpClient.get<News[]>('/news');

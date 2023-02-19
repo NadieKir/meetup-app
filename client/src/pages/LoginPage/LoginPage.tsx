@@ -14,7 +14,7 @@ import {
   TypographyComponent,
 } from 'components';
 import { login } from 'api';
-import { Credentials } from 'model';
+import { Credentials } from 'common/model';
 import { UserContext } from 'common/contexts';
 
 import styles from './LoginPage.module.scss';
@@ -100,17 +100,17 @@ export const LoginPage = observer(() => {
                 />
                 <div className={styles.formActions}>
                   <Button
+                    variant={ButtonVariant.Default}
+                    onClick={handleGuestLogin}
+                  >
+                    <FormattedMessage id="signInAsGuestButton" />
+                  </Button>
+                  <Button
                     type="submit"
                     variant={ButtonVariant.Primary}
                     disabled={!props.isValid || !props.dirty}
                   >
                     <FormattedMessage id="signInButton" />
-                  </Button>
-                  <Button
-                    variant={ButtonVariant.Default}
-                    onClick={handleGuestLogin}
-                  >
-                    <FormattedMessage id="signInAsGuestButton" />
                   </Button>
                 </div>
               </Form>

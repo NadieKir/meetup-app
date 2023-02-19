@@ -1,6 +1,6 @@
 import { httpClient } from 'api/httpClient';
-import { Topic } from 'model';
-import { Meetup, TopicFormData } from 'types';
+import { Topic } from 'common/model';
+import { Meetup, TopicFormData } from 'common/types';
 
 export const getMeetups = async (): Promise<Meetup[]> => {
   const { data: meetups } = await httpClient.get<Meetup[]>('/meetups');

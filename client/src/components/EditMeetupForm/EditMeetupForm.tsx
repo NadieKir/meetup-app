@@ -8,13 +8,14 @@ import { parseISO } from 'date-fns';
 import { MeetupForm } from 'components';
 import { updateMeetup } from 'api';
 import { UserContext } from 'common/contexts';
-import { ConfirmedMeetup, isConfirmedMeetup } from 'model';
+import { isConfirmedMeetup } from 'common/helpers';
+import { ConfirmedMeetup } from 'common/model';
 import { MeetupStore } from 'store';
 import {
   AdditionalMeetupFields,
   MeetupFormData,
   RequiredMeetupFieldsFormData,
-} from 'types';
+} from 'common/types';
 
 export const EditMeetupForm = observer(() => {
   const { id } = useParams();

@@ -1,0 +1,19 @@
+@import '~style/colors';
+@import '~style/typography';
+
+.restCounter {
+  min-width: 50px;
+  min-height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background-color: $gray-03-color;
+
+  @extend .font-family-primary;
+  @extend .font-weight-regular;
+  @extend .font-size-s;
+  @extend .font-color-white;
+}

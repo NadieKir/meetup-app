@@ -10,7 +10,7 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { ShortUser } from 'model';
+import { ShortUser } from 'common/model';
 
 export default {
   title: 'Components/MultiSelect',

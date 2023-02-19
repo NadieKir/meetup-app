@@ -2,17 +2,19 @@ import { useContext } from 'react';
 import { FormattedDate, FormattedTime, useIntl } from 'react-intl';
 
 import {
+  SpeakersCount,
   Typography,
   TypographyComponent,
   UserPreview,
   UserPreviewVariant,
   VotesCount,
 } from 'components';
-import { ConfirmedMeetup, isConfirmedMeetup, isTopic } from 'model';
-import { Locale } from 'i18n';
+import { ConfirmedMeetup } from 'common/model';
+import { Locale } from 'common/i18n';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
+import { isConfirmedMeetup, isTopic } from 'common/helpers';
 import { LocalizationContext } from 'common/contexts';
-import { TopicWithVotedUsers } from 'types';
+import { TopicWithVotedUsers } from 'common/types';
 
 import styles from './MeetupCard.module.scss';
 
@@ -94,11 +96,9 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
 
       <footer className={styles.footer}>
         {isTopic(meetup) ? (
-          meetup.votedUsers.length > 0 && (
-            <VotesCount votesCount={meetup.votedUsers.length} />
-          )
+          <VotesCount votesCount={meetup.votedUsers.length} />
         ) : (
-          <UserPreview user={meetup.author} variant={UserPreviewVariant.Card} />
+          <SpeakersCount meetup={meetup} />
         )}
       </footer>
     </article>

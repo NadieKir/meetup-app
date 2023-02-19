@@ -11,10 +11,14 @@ import {
   Typography,
   TypographyComponent,
   UserPreview,
-  UserPreviewVariant,
+  VotedUsersPreview,
 } from 'components';
-import { MeetupStatus, ShortUser, isTopic, isUpcomingMeetup } from 'model';
-import { capitalizeFirstLetter } from 'common/helpers';
+import { MeetupStatus } from 'common/model';
+import {
+  capitalizeFirstLetter,
+  isTopic,
+  isUpcomingMeetup,
+} from 'common/helpers';
 import { UserContext } from 'common/contexts';
 import { MeetupStore } from 'store';
 
@@ -23,8 +27,6 @@ import defaultImage from 'assets/images/default-image.jpg';
 import calendar from './assets/calendar.svg';
 import clock from './assets/clock.svg';
 import pin from './assets/pin.svg';
-
-const MAX_PREVIEW_USERS = 8; // will be changed
 
 export const ViewMeetupPage = observer(() => {
   const intl = useIntl();
@@ -221,9 +223,7 @@ export const ViewMeetupPage = observer(() => {
   const renderUsers = () => {
     const users = isTopic(meetup) ? votedUsers : participants;
 
-    if (users?.length === 0) return null;
-
-    const previewUsers = users!.slice(0, MAX_PREVIEW_USERS);
+    if (!users || users.length === 0) return null;
 
     return (
       <div className={styles.data}>
@@ -238,18 +238,7 @@ export const ViewMeetupPage = observer(() => {
           )}
         </Typography>
         <div className={classNames(styles.dataContent, styles.users)}>
-          {previewUsers.map((user: ShortUser) => (
-            <UserPreview
-              key={user.id}
-              variant={UserPreviewVariant.Image}
-              user={user}
-            />
-          ))}
-          {users!.length - MAX_PREVIEW_USERS > 0 && (
-            <div className={styles.restCounter}>
-              +{users!.length - MAX_PREVIEW_USERS}
-            </div>
-          )}
+          <VotedUsersPreview users={users} />
         </div>
       </div>
     );

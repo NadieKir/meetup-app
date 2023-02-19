@@ -1,0 +1,15 @@
+@import '~style/typography';
+
+.speakers {
+  display: flex;
+  column-gap: 15px;
+  align-items: center;
+
+  .restSpeakers {
+    @extend .font-family-primary;
+    @extend .font-weight-regular;
+    @extend .font-size-xs;
+    @extend .font-color-gray-02;
+    @extend .line-height-0;
+  }
+}

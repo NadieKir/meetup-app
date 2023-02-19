@@ -2,7 +2,7 @@ import classNames from 'classnames';
 
 import { Typography } from 'components';
 import { getInitials } from 'common/helpers';
-import { ShortUser } from 'model';
+import { ShortUser } from 'common/model';
 
 import styles from './UserPreview.module.scss';
 

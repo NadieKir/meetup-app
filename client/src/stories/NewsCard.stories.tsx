@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { NewsCard } from 'components';
-import { News } from 'model';
+import { News } from 'common/model';
 import testImage from './assets/news-img.jpg';
 
 export default {

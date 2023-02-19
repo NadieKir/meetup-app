@@ -14,17 +14,17 @@ import {
   CreateTopicPage,
   NewsFormPage,
   MeetupFormPage,
+  ForbiddenPage,
 } from 'pages';
 import {
   MeetupListProvider,
   NewsListProvider,
   UserContext,
 } from 'common/contexts';
-import { history, AppRouter } from 'common/router';
+import { history, AppRouter } from 'router';
 
 function App() {
   const { currentUserMeetupTabs } = useContext(UserContext);
-
   const initialTab = currentUserMeetupTabs[0];
 
   return (
@@ -110,7 +110,7 @@ function App() {
             </Route>
           </Route>
           <Route path="not-found" element={<NotFoundPage />} />
-          <Route path="forbidden" element={<div>Forbidden</div>} />
+          <Route path="forbidden" element={<ForbiddenPage />} />
           <Route path="*" element={<Navigate replace to="/not-found" />} />
         </Route>
         <Route path="login" element={<LoginPage />} />

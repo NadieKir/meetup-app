@@ -5,8 +5,8 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { FormikHelpers } from 'formik';
 
 import { NewsForm } from 'components';
-import { NewsFormData } from 'model';
-import { NewsStore } from 'store/news';
+import { NewsFormData } from 'common/model';
+import { NewsStore } from 'store/NewsStore';
 
 export const EditNewsForm = observer(() => {
   const { id } = useParams();

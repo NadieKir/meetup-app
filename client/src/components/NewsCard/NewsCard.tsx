@@ -1,7 +1,7 @@
 import { FormattedDate } from 'react-intl';
 
 import { Typography, TypographyComponent } from 'components';
-import { News } from 'model';
+import { News } from 'common/model';
 
 import styles from './NewsCard.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';

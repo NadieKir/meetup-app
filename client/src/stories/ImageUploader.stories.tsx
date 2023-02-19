@@ -8,7 +8,7 @@ import {
   TypographyComponent,
 } from 'components';
 import { Form, Formik } from 'formik';
-import { FileWithUrl } from 'types';
+import { FileWithUrl } from 'common/types';
 import * as yup from 'yup';
 
 export default {
