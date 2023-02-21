@@ -1,8 +1,7 @@
 import { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
 
-import { ErrorFallback, CheckRole, meetupTabs } from 'components';
+import { CheckRole, meetupTabs, UserStatus } from 'components';
 import {
   MeetupPage,
   NotFoundPage,
@@ -21,6 +20,7 @@ import {
   NewsListProvider,
   UserContext,
 } from 'common/contexts';
+import { UserRole } from 'common/model';
 import { history, AppRouter } from 'router';
 
 function App() {
@@ -59,18 +59,32 @@ function App() {
                 />
               ))}
             </Route>
-            <Route path="create" element={<CreateTopicPage />} />
+            <Route
+              path="create"
+              element={
+                <CheckRole roles={[UserStatus.AUTHORIZED]}>
+                  <CreateTopicPage />
+                </CheckRole>
+              }
+            />
             <Route path=":id">
+              <Route index element={<ViewMeetupPage />} />
               <Route
-                index
+                path="edit"
                 element={
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <ViewMeetupPage />
-                  </ErrorBoundary>
+                  <CheckRole roles={[UserRole.CHIEF]}>
+                    <MeetupFormPage isEdit />
+                  </CheckRole>
                 }
               />
-              <Route path="edit" element={<MeetupFormPage isEdit />} />
-              <Route path="publish" element={<MeetupFormPage />} />
+              <Route
+                path="publish"
+                element={
+                  <CheckRole roles={[UserRole.CHIEF]}>
+                    <MeetupFormPage />
+                  </CheckRole>
+                }
+              />
             </Route>
           </Route>
           <Route path="news">
@@ -85,26 +99,19 @@ function App() {
             <Route
               path="create"
               element={
-                <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <CheckRole roles={[UserRole.CHIEF]}>
                   <NewsFormPage />
-                </ErrorBoundary>
+                </CheckRole>
               }
             />
             <Route path=":id">
-              <Route
-                index
-                element={
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <ViewNewsPage />
-                  </ErrorBoundary>
-                }
-              />
+              <Route index element={<ViewNewsPage />} />
               <Route
                 path="edit"
                 element={
-                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                  <CheckRole roles={[UserRole.CHIEF]}>
                     <NewsFormPage isEdit />
-                  </ErrorBoundary>
+                  </CheckRole>
                 }
               />
             </Route>

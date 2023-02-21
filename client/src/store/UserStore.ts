@@ -37,7 +37,7 @@ export class UserStore {
   get isGuest() {
     return this.user === null;
   }
-
+  
   get currentUserMeetupTabs() {
     return meetupTabs.filter((tab) =>
       this.user

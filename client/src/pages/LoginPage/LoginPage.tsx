@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -8,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import {
   Button,
   ButtonVariant,
+  ErrorFallback,
   PasswordField,
   TextField,
   Typography,
@@ -68,56 +70,58 @@ export const LoginPage = observer(() => {
   };
 
   return (
-    <section className={styles.loginSection}>
-      <div className={styles.container}>
-        <img
-          className={styles.logo}
-          src={logo}
-          alt={intl.formatMessage({ id: 'logoAlt' })}
-        />
-        <div className={styles.formWrapper}>
-          <Typography
-            className={styles.heading}
-            component={TypographyComponent.Heading1}
-          >
-            <FormattedMessage id="login" />
-          </Typography>
-          <Formik
-            initialValues={{ username: '', password: '' }}
-            validationSchema={signInSchema}
-            onSubmit={handleSubmit}
-          >
-            {(props) => (
-              <Form className={styles.form}>
-                <TextField
-                  name="username"
-                  labelText={intl.formatMessage({ id: 'usernameLabel' })}
-                  multiline={false}
-                />
-                <PasswordField
-                  name="password"
-                  labelText={intl.formatMessage({ id: 'passwordLabel' })}
-                />
-                <div className={styles.formActions}>
-                  <Button
-                    variant={ButtonVariant.Default}
-                    onClick={handleGuestLogin}
-                  >
-                    <FormattedMessage id="signInAsGuestButton" />
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant={ButtonVariant.Primary}
-                    disabled={!props.isValid || !props.dirty}
-                  >
-                    <FormattedMessage id="signInButton" />
-                  </Button>
-                </div>
-              </Form>
-            )}
-          </Formik>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <section className={styles.loginSection}>
+        <div className={styles.container}>
+          <img
+            className={styles.logo}
+            src={logo}
+            alt={intl.formatMessage({ id: 'logoAlt' })}
+          />
+          <div className={styles.formWrapper}>
+            <Typography
+              className={styles.heading}
+              component={TypographyComponent.Heading1}
+            >
+              <FormattedMessage id="login" />
+            </Typography>
+            <Formik
+              initialValues={{ username: '', password: '' }}
+              validationSchema={signInSchema}
+              onSubmit={handleSubmit}
+            >
+              {(props) => (
+                <Form className={styles.form}>
+                  <TextField
+                    name="username"
+                    labelText={intl.formatMessage({ id: 'usernameLabel' })}
+                    multiline={false}
+                  />
+                  <PasswordField
+                    name="password"
+                    labelText={intl.formatMessage({ id: 'passwordLabel' })}
+                  />
+                  <div className={styles.formActions}>
+                    <Button
+                      variant={ButtonVariant.Default}
+                      onClick={handleGuestLogin}
+                    >
+                      <FormattedMessage id="signInAsGuestButton" />
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant={ButtonVariant.Primary}
+                      disabled={!props.isValid || !props.dirty}
+                    >
+                      <FormattedMessage id="signInButton" />
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ErrorBoundary>
   );
 });
