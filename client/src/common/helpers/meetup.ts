@@ -12,11 +12,11 @@ export const isConfirmedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => 
 }
 
 export const isUpcomingMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
-  return isConfirmedMeetup(meetup) && !isInThePast(meetup.finish);
+  return isConfirmedMeetup(meetup) && !isInThePast(meetup.start);
 }
 
 export const isFinishedMeetup = (meetup: Meetup): meetup is ConfirmedMeetup => {
-  return isConfirmedMeetup(meetup) && isInThePast(meetup.finish);
+  return isConfirmedMeetup(meetup) && isInThePast(meetup.start);
 }
 
 export const getMeetupTab = (meetup: Meetup) : MeetupTab=> {

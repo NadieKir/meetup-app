@@ -4,8 +4,7 @@ import { makeAutoObservable } from 'mobx';
 import { getMeetups, getAllVotedUsers } from 'api';
 import { MeetupStatus, AllVotedUsers } from 'common/model';
 import { isConfirmedMeetup, isInThePast } from 'common/helpers';
-import { MeetupTab } from 'common/types/meetupTab';
-import { Meetup, TopicWithVotedUsers } from 'common/types';
+import { Meetup, MeetupTab, TopicWithVotedUsers } from 'common/types';
 
 export class MeetupListStore {
   meetups: Meetup[] = [];
@@ -62,7 +61,7 @@ export class MeetupListStore {
   getSortedMeetups = (isFinished: boolean) => {
     return this.meetups
     .filter(isConfirmedMeetup)
-    .filter(meetup => isInThePast(meetup.finish) === isFinished)
+    .filter(meetup => isInThePast(meetup.start) === isFinished)
     .sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
   }
 

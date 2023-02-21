@@ -76,8 +76,8 @@ export const messages = {
 
     /* Create Meetup Form */
     speakersLabel: 'Спикеры',
-    startLabel: 'Начало',
-    finishLabel: 'Конец',
+    startLabel: 'Дата и время начала',
+    finishLabel: 'Время окончания',
     placeLabel: 'Место',
     speakersRequiredError: 'Митап должен иметь хотя бы одного спикера',
     startMinError: 'Дата начала не может быть в прошлом',
@@ -197,8 +197,8 @@ export const messages = {
 
     /* Create Meetup Form */
     speakersLabel: 'Speakers',
-    startLabel: 'Start',
-    finishLabel: 'Finish',
+    startLabel: 'Start date and time',
+    finishLabel: 'End time',
     placeLabel: 'Place',
     speakersRequiredError: 'Meetup must have at least 1 speaker',
     startMinError: 'Start date must be in future',

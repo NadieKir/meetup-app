@@ -12,29 +12,19 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.scss';
 
-type DateTimePickerConstraints = Pick<
-  ComponentProps<typeof DatePicker>,
-  | 'filterDate'
-  | 'filterTime'
-  | 'startDate'
-  | 'endDate'
-  | 'minDate'
-  | 'minTime'
-  | 'maxDate'
-  | 'maxTime'
-  | 'allowSameDay'
-  | 'required'
->;
+type DateTimePickerConstraints = Partial<ComponentProps<typeof DatePicker>>;
 
 type DateTimePickerProps = InputFieldExternalProps & {
   excludePastDateTime?: boolean;
   placeholderText?: string;
+  customHandleChange?: (date: Date | null) => void;
   constraints?: DateTimePickerConstraints;
 };
 
 export const DateTimePicker = ({
   excludePastDateTime = false,
   placeholderText = '',
+  customHandleChange,
   constraints = {},
   ...inputFieldProps
 }: DateTimePickerProps): JSX.Element => {
@@ -48,7 +38,7 @@ export const DateTimePicker = ({
     >
       {({
         field: { name, value },
-        form: { setFieldValue, setFieldTouched, handleBlur },
+        form: { setFieldValue },
         className,
       }: InputRenderProps): JSX.Element => {
         const now = new Date();
@@ -68,7 +58,9 @@ export const DateTimePicker = ({
           : undefined;
 
         const handleChange = (date: Date | null): void => {
-          setFieldValue(name, date);
+          customHandleChange
+            ? customHandleChange(date)
+            : setFieldValue(name, date);
         };
 
         const adjustTimeListHeight = () => {
@@ -98,8 +90,6 @@ export const DateTimePicker = ({
             name={name}
             selected={value}
             onChange={handleChange}
-            onBlur={handleBlur}
-            onCalendarClose={() => setFieldTouched(name, true, false)}
             showTimeSelect
             dateFormat="Pp"
             placeholderText={placeholderText}

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import * as Yup from 'yup';
 
 import {
-  DateTimePicker,
+  DateTimeRangePicker,
   ImagePreviewMode,
   ImageUploader,
   MultiSelect,
@@ -49,7 +49,6 @@ export const MeetupForm = observer(
     useEffect(() => {
       (async function () {
         const users = await getShortUsers();
-
         setOptions(users);
       })();
     }, []);
@@ -88,7 +87,7 @@ export const MeetupForm = observer(
           name="excerpt"
           labelText={intl.formatMessage({ id: 'excerptLabel' })}
           multiline={true}
-          maxLetterCount={500}
+          maxLetterCount={1000}
         />
         <MultiSelect
           name="speakers"
@@ -97,18 +96,11 @@ export const MeetupForm = observer(
           getOptionLabel={(option) => `${option.name} ${option.surname}`}
           getOptionValue={(option) => option.id}
         />
-        <div className={styles.datesInputWrapper}>
-          <DateTimePicker
-            name="start"
-            labelText={intl.formatMessage({ id: 'startLabel' })}
-            excludePastDateTime
-          />
-          <DateTimePicker
-            name="finish"
-            labelText={intl.formatMessage({ id: 'finishLabel' })}
-            excludePastDateTime
-          />
-        </div>
+        <DateTimeRangePicker
+          startRangeName="start"
+          endRangeName="finish"
+          className={styles.datesInputWrapper}
+        />
       </>
     );
 

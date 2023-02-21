@@ -42,14 +42,15 @@ const generateTopic = (users) => {
 };
 
 const generateMeetup = (users) => {
-  const start = faker.date.future();
-  const finish = new Date(
-    start.getTime() + faker.datatype.number({ min: 15, max: 240 }) * 60 * 1000
-  );
+  const start = faker.date.between('2023-01-01T00:00:00.000Z', '2024-01-01T00:00:00.000Z');
+  
+  let finish = new Date(start);
+  finish.setHours(finish.getHours() + Math.random() * (24 - start.getHours()) + 1);
+  finish = finish.toISOString();
 
   return {
     id: faker.datatype.uuid(),
-    modified: faker.date.past(),
+    modified: faker.date.past(1, start),
     start,
     finish,
     author: getShortUser(users),
