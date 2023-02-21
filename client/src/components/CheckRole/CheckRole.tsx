@@ -4,8 +4,14 @@ import { Navigate } from 'react-router-dom';
 import { UserContext } from 'common/contexts';
 import { UserRole } from 'common/model';
 
+export enum UserStatus {
+  AUTHORIZED = 'AUTHORIZED',
+}
+
+type Role = UserStatus | UserRole;
+
 interface CheckRoleProps {
-  roles: UserRole[];
+  roles: Role[];
   children: JSX.Element;
 }
 
@@ -14,7 +20,9 @@ export const CheckRole = ({ roles, children }: CheckRoleProps) => {
 
   if (
     (isGuest && !roles.includes(UserRole.GUEST)) ||
-    (user && !roles.includes(user.roles))
+    (isGuest && roles.includes(UserStatus.AUTHORIZED)) ||
+    (user &&
+      !roles.some((role) => [user.roles, UserStatus.AUTHORIZED].includes(role)))
   ) {
     return <Navigate to="/forbidden" />;
   }

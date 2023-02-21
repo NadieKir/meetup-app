@@ -270,7 +270,7 @@ export const ViewMeetupPage = observer(() => {
   const renderPrivilegedActions = () => {
     return isChief
       ? renderChiefActions()
-      : isUserAuthor && (
+      : isUserAuthor && isTopic(meetup) && (
           <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
             <FormattedMessage id="deleteButton" />
           </Button>

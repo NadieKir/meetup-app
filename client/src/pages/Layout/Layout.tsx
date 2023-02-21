@@ -1,6 +1,7 @@
+import { ErrorBoundary } from 'react-error-boundary';
 import { Outlet } from 'react-router-dom';
 
-import { Header } from 'components';
+import { ErrorFallback, Header } from 'components';
 
 import styles from './Layout.module.scss';
 
@@ -9,7 +10,9 @@ export const Layout = () => {
     <>
       <Header />
       <main className={styles.container}>
-        <Outlet />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Outlet />
+        </ErrorBoundary>
       </main>
     </>
   );
