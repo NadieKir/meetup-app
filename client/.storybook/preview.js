@@ -1,7 +1,7 @@
 import { IntlProvider } from 'react-intl';
 
-import { Locale, messages } from 'i18n';
-import localeStore from 'store/locale';
+import { Locale, messages } from 'common/i18n';
+import localeStore from 'store/LocaleStore';
 
 import '../src/style/index.scss';
 

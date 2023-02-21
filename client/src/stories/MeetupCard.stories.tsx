@@ -25,7 +25,7 @@ const Template: ComponentStory<typeof MeetupCard> = (args) => (
   </div>
 );
 
-const author: ShortUser = {
+const user: ShortUser = {
   id: 'AAA-AAA',
   name: 'Joe',
   surname: 'Jackson',
@@ -34,7 +34,7 @@ const author: ShortUser = {
 const topic: TopicWithVotedUsers = {
   id: 'AAA-AAA',
   status: MeetupStatus.DRAFT,
-  author,
+  author: user,
   subject: 'EF Core от практикующих',
   modified: new Date().toLocaleString(),
   votedUsers: [],
@@ -45,10 +45,10 @@ const topic: TopicWithVotedUsers = {
 const meetup: ConfirmedMeetupWithParticipants = {
   id: 'AAA-AAA',
   status: MeetupStatus.CONFIRMED,
-  author,
+  author: user,
   subject: 'EF Core от практикующих',
   modified: new Date().toLocaleString(),
-  speakers: [],
+  speakers: [user, user],
   start: '2023-09-19T16:00:00.113Z',
   finish: '2023-09-19T17:30:00.113Z',
   place: '77818 Harber Villages',

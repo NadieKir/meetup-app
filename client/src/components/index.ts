@@ -48,3 +48,4 @@ export * from './EditMeetupForm/EditMeetupForm';
 export * from './SpeakersCount/SpeakersCount';
 export * from './Scrollable/Scrollable';
 export * from './VotedUsersPreview/VotedUsersPreview';
+export * from './DateTimeRangePicker/DateTimeRangePicker';
