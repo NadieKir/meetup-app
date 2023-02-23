@@ -10,11 +10,13 @@ import { ShortUser } from 'common/model';
 import { UserContext } from 'common/contexts';
 import { createMeetup } from 'api';
 import { TopicFormData } from 'common/types';
+import { usePushNotification } from 'common/hooks';
 
 export const CreateTopicForm = observer(() => {
   const intl = useIntl();
   const navigate = useNavigate();
   const { shortUser } = useContext(UserContext);
+  const { pushSuccess } = usePushNotification();
 
   const initialValues = {
     subject: '',
@@ -29,6 +31,7 @@ export const CreateTopicForm = observer(() => {
     await createMeetup(values);
 
     actions.setSubmitting(false);
+    pushSuccess(intl.formatMessage({ id: 'topicCreated' }));
     navigate(-1);
   };
 

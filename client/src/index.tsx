@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import { LocalizationProvider, LoginProvider } from 'common/contexts';
+import {
+  LocalizationProvider,
+  LoginProvider,
+  NotificationsProvider,
+} from 'common/contexts';
 import reportWebVitals from './reportWebVitals';
 
 import 'style/index.scss';
@@ -15,7 +19,9 @@ root.render(
   <React.StrictMode>
     <LocalizationProvider>
       <LoginProvider>
-        <App />
+        <NotificationsProvider>
+          <App />
+        </NotificationsProvider>
       </LoginProvider>
     </LocalizationProvider>
   </React.StrictMode>,

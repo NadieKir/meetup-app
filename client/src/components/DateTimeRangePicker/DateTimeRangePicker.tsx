@@ -47,7 +47,8 @@ export function DateTimeRangePicker<T extends FormikValues>({
     if (!endValue || endValue <= newStartDate) {
       newEndDate.setMinutes(newStartDate.getMinutes() + 15);
     } else {
-      newEndDate.setTime(endValue.getTime());
+      newEndDate.setHours(endValue.getHours());
+      newEndDate.setMinutes(endValue.getMinutes());
     }
 
     setStartDate(newStartDate);
@@ -81,7 +82,7 @@ export function DateTimeRangePicker<T extends FormikValues>({
           minTime: new Date(
             !startValue
               ? now.setHours(0, 0, 0, 0)
-              : now.setMinutes(startValue.getMinutes() + 15),
+              : new Date(startValue).setMinutes(startValue.getMinutes() + 15),
           ),
           maxTime: new Date(now.setHours(23, 59, 0, 0)),
         }}

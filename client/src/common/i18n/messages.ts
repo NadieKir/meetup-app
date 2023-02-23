@@ -44,6 +44,8 @@ export const messages = {
     timeAlt: 'Время',
     locationAlt: 'Место',
     newsPhotoAlt: 'Изображение новости',
+    closeAlt: 'Закрыть',
+    notificationTypeAlt: 'Иконка типа уведомления',
 
     /* Sign In Form */
     usernameLabel: 'Имя',
@@ -55,7 +57,6 @@ export const messages = {
     passwordMinError: 'Пароль должен содержать минимум 6 символов',
     passwordMaxError: 'Пароль не может содержать более 40 символов',
     passwordRequiredError: 'Введите пароль',
-    noUserError: 'Данный пользователь не существует',
 
     /* Create News Form */
     titleLabel: 'Заголовок',
@@ -102,6 +103,17 @@ export const messages = {
     speaker: 'Спикер',
     description: 'Описание',
     restSpeakers: '+ ещё {restSpeakers}',
+
+    /* Notifications */
+    noUserErrorHeading: 'Данный пользователь не существует',
+    noUserErrorDescription: 'Проверьте корректность введённых логина и пароля',
+    topicCreated: 'Тема успешно создана',
+    meetupCreated: 'Митап успешно создан',
+    newsCreated: 'Новость успешно создана',
+    changesSaved: 'Изменения сохранены',
+    topicDeleted: 'Тема удалена',
+    meetupDeleted: 'Митап удалён',
+    newsDeleted: 'Новость удалена',
 
     /* 404 */
     pageNotFound: 'Запрашиваемая страница на найдена',
@@ -165,6 +177,8 @@ export const messages = {
     timeAlt: 'Time',
     locationAlt: 'Location',
     newsPhotoAlt: 'News photo',
+    closeAlt: 'Close',
+    notificationTypeAlt: 'Notification type alt',
 
     /* Sign In Form */
     usernameLabel: 'Name',
@@ -176,7 +190,6 @@ export const messages = {
     passwordMinError: 'Password must have at least 6 symbols',
     passwordMaxError: 'Password can\'t have more than 40 symbols',
     passwordRequiredError: 'Enter password',
-    noUserError: 'This user doesn\'t exist',
 
     /* Create News Form */
     titleLabel: 'Title',
@@ -223,6 +236,17 @@ export const messages = {
     speaker: 'Speaker',
     description: 'Description',
     restSpeakers: '+ {restSpeakers} more',
+
+    /* Notifications */
+    noUserErrorHeading: 'This user doesn\'t exist',
+    noUserErrorDescription: 'Please check login and password spelling',
+    topicCreated: 'Topic is successfully created',
+    meetupCreated: 'Meetup is successfully created',
+    newsCreated: 'News is successfully created',
+    changesSaved: 'Changes saved',
+    topicDeleted: 'Topic was deleted',
+    meetupDeleted: 'Meetup was deleted',
+    newsDeleted: 'News was deleted',
 
     /* 404 */
     pageNotFound: 'The requested page was not found',

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 
 import { MeetupForm } from 'components';
@@ -12,10 +12,13 @@ import {
   MeetupFormData,
   RequiredMeetupFields,
 } from 'common/types';
+import { usePushNotification } from 'common/hooks';
 
 export const CreateMeetupForm = observer(() => {
+  const intl = useIntl();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { pushSuccess } = usePushNotification();
 
   const userStore = useContext(UserContext);
   const { meetup, isLoading, error, publishMeetup } = useLocalObservable(
@@ -45,6 +48,7 @@ export const CreateMeetupForm = observer(() => {
     await publishMeetup(values);
 
     actions.setSubmitting(false);
+    pushSuccess(intl.formatMessage({ id: 'meetupCreated' }));
     navigate('/meetups/upcoming');
   };
 
