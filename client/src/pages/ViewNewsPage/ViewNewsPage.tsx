@@ -10,8 +10,9 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { UserContext } from 'common/contexts';
 import { NewsStore } from 'store/NewsStore';
+import { UserContext } from 'common/contexts';
+import { usePushNotification } from 'common/hooks';
 
 import styles from './ViewNewsPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -21,6 +22,7 @@ export const ViewNewsPage = observer(() => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { pathname } = useLocation();
+  const { pushSuccess } = usePushNotification();
 
   const { isChief } = useContext(UserContext);
   const { newsArticle, deleteNews, isLoading, error } = useLocalObservable(
@@ -34,6 +36,7 @@ export const ViewNewsPage = observer(() => {
   const handleEdit = () => navigate(pathname + '/edit');
   const handleDelete = () => {
     deleteNews(newsArticle.id);
+    pushSuccess(intl.formatMessage({ id: 'newsDeleted' }));
     handleGoBack();
   };
 

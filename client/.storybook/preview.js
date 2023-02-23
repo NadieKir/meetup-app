@@ -1,5 +1,6 @@
 import { IntlProvider } from 'react-intl';
 
+import { NotificationsProvider } from 'common/contexts';
 import { Locale, messages } from 'common/i18n';
 import localeStore from 'store/LocaleStore';
 
@@ -27,11 +28,13 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <IntlProvider
-      messages={messages[localeStore.locale]}
-      locale={localeStore.locale}
-      defaultLocale={Locale.RUSSIAN}
+    messages={messages[localeStore.locale]}
+    locale={localeStore.locale}
+    defaultLocale={Locale.RUSSIAN}
     >
-      <Story />
+      <NotificationsProvider>
+        <Story />
+      </NotificationsProvider>
     </IntlProvider>
   ),
 ];

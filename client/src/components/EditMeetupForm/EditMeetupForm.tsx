@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { parseISO } from 'date-fns';
 
@@ -16,10 +16,13 @@ import {
   MeetupFormData,
   RequiredMeetupFieldsFormData,
 } from 'common/types';
+import { usePushNotification } from 'common/hooks';
 
 export const EditMeetupForm = observer(() => {
+  const intl = useIntl();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { pushSuccess } = usePushNotification();
 
   const userStore = useContext(UserContext);
   const { meetup, isLoading, error } = useLocalObservable(
@@ -49,6 +52,7 @@ export const EditMeetupForm = observer(() => {
     await updateMeetup({ ...meetup, ...values } as ConfirmedMeetup);
 
     actions.setSubmitting(false);
+    pushSuccess(intl.formatMessage({ id: 'changesSaved' }));
     navigate(-1);
   };
 

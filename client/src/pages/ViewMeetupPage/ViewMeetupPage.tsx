@@ -13,6 +13,7 @@ import {
   UserPreview,
   VotedUsersPreview,
 } from 'components';
+import { MeetupStore } from 'store';
 import { MeetupStatus } from 'common/model';
 import {
   capitalizeFirstLetter,
@@ -20,7 +21,7 @@ import {
   isUpcomingMeetup,
 } from 'common/helpers';
 import { UserContext } from 'common/contexts';
-import { MeetupStore } from 'store';
+import { usePushNotification } from 'common/hooks';
 
 import styles from './ViewMeetupPage.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -32,6 +33,7 @@ export const ViewMeetupPage = observer(() => {
   const intl = useIntl();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { pushSuccess } = usePushNotification();
 
   const userStore = useContext(UserContext);
   const {
@@ -62,6 +64,11 @@ export const ViewMeetupPage = observer(() => {
 
   const handleDelete = () => {
     deleteMeetup();
+    pushSuccess(
+      intl.formatMessage({
+        id: isTopic(meetup) ? 'topicDeleted' : 'meetupDeleted',
+      }),
+    );
     handleGoBack();
   };
 

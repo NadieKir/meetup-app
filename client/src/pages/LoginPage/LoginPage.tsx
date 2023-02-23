@@ -18,6 +18,7 @@ import {
 import { login } from 'api';
 import { Credentials } from 'common/model';
 import { UserContext } from 'common/contexts';
+import { usePushNotification } from 'common/hooks';
 
 import styles from './LoginPage.module.scss';
 import logo from 'assets/images/logo.svg';
@@ -25,6 +26,7 @@ import logo from 'assets/images/logo.svg';
 export const LoginPage = observer(() => {
   const intl = useIntl();
   const navigate = useNavigate();
+  const { pushError } = usePushNotification();
 
   const userStore = useContext(UserContext);
 
@@ -56,7 +58,10 @@ export const LoginPage = observer(() => {
         },
         (error) => {
           if (error.response.data === 'Unauthorized')
-            alert(intl.formatMessage({ id: 'noUserError' }));
+            pushError(
+              intl.formatMessage({ id: 'noUserErrorHeading' }),
+              intl.formatMessage({ id: 'noUserErrorDescription' }),
+            );
         },
       )
       .finally(() => {
