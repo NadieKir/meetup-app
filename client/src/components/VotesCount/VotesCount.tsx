@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl';
 
-import { Typography, TypographyComponent } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
 
 import styles from './VotesCount.module.scss';
 import { ReactComponent as ProfileIcon } from './profile.svg';

@@ -17,7 +17,7 @@ interface FormProps<T extends FormikValues> {
   initialValues: T;
   handleSubmit: (values: T, actions: FormikHelpers<T>) => Promise<void> | void;
   handleGoBack?: () => void;
-  validateSchema: Yup.AnySchema;
+  validateSchema?: Yup.AnySchema;
   fields: () => JSX.Element;
   submitButton: (props: FormikProps<T>) => JSX.Element;
   onFormikPropsChange?: (props: FormikProps<T>) => void;

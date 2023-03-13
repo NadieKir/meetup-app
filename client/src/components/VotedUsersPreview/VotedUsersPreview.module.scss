@@ -1,6 +1,11 @@
 @import '~style/colors';
 @import '~style/typography';
 
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
 .restCounter {
   min-width: 50px;
   min-height: 50px;

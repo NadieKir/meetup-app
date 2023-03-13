@@ -22,10 +22,10 @@ import login from './login.svg';
 
 export const Header = observer((): JSX.Element => {
   const intl = useIntl();
-  const userStore = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
 
   const renderLogoutButton = () => {
-    const handleLogout = () => userStore.logout();
+    const handleLogout = () => logout();
 
     return (
       <Button onClick={handleLogout} variant={ButtonVariant.Primary}>
@@ -35,12 +35,9 @@ export const Header = observer((): JSX.Element => {
   };
 
   const renderUserPreview = () =>
-    userStore.user ? (
+    user ? (
       <Tooltip element={renderLogoutButton()} variant={TooltipVariant.White}>
-        <UserPreview
-          variant={UserPreviewVariant.Header}
-          user={userStore.user}
-        />
+        <UserPreview variant={UserPreviewVariant.Header} user={user} />
       </Tooltip>
     ) : (
       <NavLink className={styles.loginBtn} to="/login">

@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import classNames from 'classnames';
+
 import styles from './Button.module.scss';
 
 export enum ButtonVariant {

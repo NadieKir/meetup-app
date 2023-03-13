@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import { DetailedHTMLProps, HTMLAttributes, PropsWithChildren } from 'react';
+import classNames from 'classnames';
 
 import styles from './Typography.module.scss';
 

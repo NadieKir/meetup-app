@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import { Typography } from 'components';
+import { Typography } from 'components/Typography';
 import { getInitials } from 'common/helpers';
 import { ShortUser } from 'common/model';
 

@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
-import { Typography, TypographyComponent } from 'components';
-import { ReactComponent as UploadIcon } from './upload.svg';
+
+import { Typography, TypographyComponent } from 'components/Typography';
 import { getFileSizeString } from 'common/helpers';
 import { FileWithUrl } from 'common/types';
+
 import styles from './ImageDropbox.module.scss';
+import { ReactComponent as UploadIcon } from './upload.svg';
 
 const ACCEPT_FORMATS = ['.jpg', '.jpeg', '.png'];
 
@@ -20,6 +23,8 @@ export const ImageDropbox = ({
   onDrop,
   externalError,
 }: ImageDropboxProps): JSX.Element => {
+  const intl = useIntl();
+
   const [internalErrors, setInternalErrors] = useState<string[]>([]);
 
   const acceptOptions = ACCEPT_FORMATS.reduce((formats, format) => {
@@ -89,29 +94,31 @@ export const ImageDropbox = ({
   return (
     <div className={styles.container}>
       <div {...getRootProps()} className={classList}>
-        <input {...getInputProps()} />
+        <input {...getInputProps()} type="file" data-testid="fileUploader" />
         <UploadIcon />
         <Typography
           component={TypographyComponent.Paragraph}
           className={styles.promptText}
         >
-          Перетащите изображения сюда
+          {intl.formatMessage({ id: 'dropImageHere' })}
           <br />
-          или
+          {intl.formatMessage({ id: 'or' })}
           <button
             type="button"
             className={styles.browseFileLink}
             onClick={open}
           >
-            загрузите
+            {intl.formatMessage({ id: 'browse' })}
           </button>
         </Typography>
         <div className={styles.constraints}>
           <Typography component={TypographyComponent.Paragraph}>
-            Разрешенные форматы: {acceptFileExtensions}
+            {intl.formatMessage({ id: 'allowedFormates' })}:{' '}
+            {acceptFileExtensions}
           </Typography>
           <Typography component={TypographyComponent.Paragraph}>
-            Максимальный размер файла: {getFileSizeString(MAX_FILESIZE)}
+            {intl.formatMessage({ id: 'maxFileSize' })}:{' '}
+            {getFileSizeString(MAX_FILESIZE)}
           </Typography>
         </div>
         {errors.length > 0 ? (

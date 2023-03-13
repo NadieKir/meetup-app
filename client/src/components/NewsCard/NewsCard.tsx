@@ -1,6 +1,6 @@
 import { FormattedDate } from 'react-intl';
 
-import { Typography, TypographyComponent } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
 import { News } from 'common/model';
 
 import styles from './NewsCard.module.scss';

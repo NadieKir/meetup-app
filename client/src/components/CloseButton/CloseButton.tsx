@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react';
 import { useIntl } from 'react-intl';
 
-import { IconButton } from 'components';
+import { IconButton } from 'components/IconButton';
 
 import closeIcon from './close.svg';
 

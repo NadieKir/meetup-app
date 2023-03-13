@@ -7,7 +7,7 @@ import {
   InputField,
   InputFieldExternalProps,
   InputRenderProps,
-} from 'components';
+} from 'components/InputField';
 import { EmotionCacheProvider } from 'common/contexts';
 
 import styles from './MultiSelect.module.scss';

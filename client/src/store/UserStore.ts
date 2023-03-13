@@ -46,7 +46,7 @@ export class UserStore {
     );
   }
 
-  async loadUser() {
+  loadUser = async () => {
     const savedUserId = localStorage.getItem('user');
 
     if (!savedUserId) return;
@@ -55,7 +55,7 @@ export class UserStore {
     this.setUser(savedUser);
   }
 
-  async logout() {
+  logout = async() => {
     await logout();
     this.setUser(null);
     localStorage.removeItem('user');

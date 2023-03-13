@@ -1,5 +1,5 @@
 export * from './NotificationsProvider';
-export * from './LocalizationProvider';
+export * from './InternationalizationProvider';
 export * from './LoginProvider';
 export * from './MeetupProvider';
 export * from './NewsProvider';

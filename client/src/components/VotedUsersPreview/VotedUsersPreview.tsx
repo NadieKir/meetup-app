@@ -1,4 +1,4 @@
-import { UserPreviewVariant, UserPreview } from 'components';
+import { UserPreviewVariant, UserPreview } from 'components/UserPreview';
 import { useVisibleUsersAmount } from 'common/hooks';
 import { ShortUser } from 'common/model';
 
@@ -18,7 +18,7 @@ export const VotedUsersPreview = ({ users }: VotedUsersPreviewProps) => {
   );
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {usersToPreview.map((user: ShortUser) => (
         <UserPreview
           key={user.id}
@@ -27,10 +27,10 @@ export const VotedUsersPreview = ({ users }: VotedUsersPreviewProps) => {
         />
       ))}
       {isCounterNeeded && (
-        <div className={styles.restCounter}>
+        <div className={styles.restCounter} data-testid="counter">
           +{users!.length - visibleUsersAmount}
         </div>
       )}
-    </>
+    </div>
   );
 };

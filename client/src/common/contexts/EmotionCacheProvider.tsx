@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 
-export const EmotionCacheProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const EmotionCacheProvider = ({ children }: PropsWithChildren) => {
   const cache = React.useMemo(
     () =>
       createCache({

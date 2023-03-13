@@ -1,13 +1,12 @@
-import { ComponentProps, useContext } from 'react';
+import { ComponentProps } from 'react';
 import DatePicker from 'react-datepicker';
 import { useIntl } from 'react-intl';
 
-import { LocalizationContext } from 'common/contexts';
 import {
   InputField,
   InputFieldExternalProps,
   InputRenderProps,
-} from 'components';
+} from 'components/InputField';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.scss';
@@ -29,7 +28,6 @@ export const DateTimePicker = ({
   ...inputFieldProps
 }: DateTimePickerProps): JSX.Element => {
   const intl = useIntl();
-  const localeStore = useContext(LocalizationContext);
 
   return (
     <InputField
@@ -85,7 +83,7 @@ export const DateTimePicker = ({
         return (
           <DatePicker
             className={className}
-            locale={localeStore.locale}
+            locale={intl.locale}
             timeCaption={intl.formatMessage({ id: 'time' })}
             name={name}
             selected={value}

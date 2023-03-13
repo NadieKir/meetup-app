@@ -1,7 +1,5 @@
-import { useContext } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-import { LocalizationContext } from 'common/contexts';
 import { MeetupTab } from 'common/types';
 import { Locale } from 'common/i18n';
 
@@ -57,11 +55,10 @@ const getRuCounterEnding = (num: number, variant: MeetupTab) => {
 };
 
 export const CardsCounter = ({ amount, variant }: CardsCounterProps) => {
-  const localeStore = useContext(LocalizationContext);
   const intl = useIntl();
 
   const renderLocaleEnding = () => {
-    if (localeStore.locale === Locale.RUSSIAN)
+    if (intl.locale === Locale.RUSSIAN)
       return getRuCounterEnding(amount, variant);
 
     switch (variant) {
