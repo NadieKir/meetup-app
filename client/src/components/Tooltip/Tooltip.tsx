@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import classNames from 'classnames';
 
-import { Typography, TypographyComponent } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
 
 import styles from './Tooltip.module.scss';
 
@@ -42,6 +42,7 @@ export const Tooltip = ({
         className={classNames(styles.tooltipPad, {
           [styles.visible]: visible,
         })}
+        data-testid="tooltip"
       >
         <div className={classNames(styles.tooltip, styles[variant])}>
           {title && (

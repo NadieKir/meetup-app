@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
-import { INotification, Notification } from 'components';
+import { INotification, Notification } from 'components/Notification';
 
 type NotificationsContextData = {
   notification: INotification | null;

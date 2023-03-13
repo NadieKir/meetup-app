@@ -1,6 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 
-import { CreateTopicForm, Typography, TypographyComponent } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
+import { CreateTopicForm } from 'forms';
 
 import styles from './CreateTopicPage.module.scss';
 

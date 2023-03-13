@@ -46,6 +46,8 @@ export const messages = {
     newsPhotoAlt: 'Изображение новости',
     closeAlt: 'Закрыть',
     notificationTypeAlt: 'Иконка типа уведомления',
+    uploadedImageAlt: 'Загруженное изображение',
+    stepCompletedAlt: 'Шаг завершён',
 
     /* Sign In Form */
     usernameLabel: 'Имя',
@@ -132,6 +134,16 @@ export const messages = {
 
     /* Datetime Picker */
     time: 'Время',
+
+    /* ImageUploader */
+    fileSize: 'Размер файла',
+
+    /* ImageDropbox */
+    dropImageHere: 'Перетащите изображения сюда',
+    or: 'или',
+    browse: 'загрузите',
+    allowedFormates: 'Разрешенные форматы',
+    maxFileSize: 'Максимальный размер файла',
   },
 
   [Locale.ENGLISH]: {
@@ -179,6 +191,8 @@ export const messages = {
     newsPhotoAlt: 'News photo',
     closeAlt: 'Close',
     notificationTypeAlt: 'Notification type alt',
+    uploadedImageAlt: 'Uploaded image',
+    stepCompletedAlt: 'Step completed',
 
     /* Sign In Form */
     usernameLabel: 'Name',
@@ -265,6 +279,16 @@ export const messages = {
 
     /* Datetime Picker */
     time: 'Time',
+
+    /* ImageUploader */
+    fileSize: 'File size',
+
+    /* ImageDropbox */
+    dropImageHere: 'Drop image here',
+    or: 'or',
+    browse: 'browse',
+    allowedFormates: 'Allowed formates',
+    maxFileSize: 'Max file size',
 
     /* Meetup page */
     topicsCounter: ' {adjective} {cardsAmount, plural, one {topic} other {topics}}',

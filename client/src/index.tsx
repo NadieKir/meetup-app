@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import {
-  LocalizationProvider,
+  InternationalizationProvider,
   LoginProvider,
   NotificationsProvider,
 } from 'common/contexts';
@@ -17,13 +17,13 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <LocalizationProvider>
+    <InternationalizationProvider>
       <LoginProvider>
         <NotificationsProvider>
           <App />
         </NotificationsProvider>
       </LoginProvider>
-    </LocalizationProvider>
+    </InternationalizationProvider>
   </React.StrictMode>,
 );
 

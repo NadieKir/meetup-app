@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import { StepVariant } from 'components';
@@ -12,11 +13,16 @@ interface StepProps {
 }
 
 export const Step = ({ variant, title, stepNumber }: StepProps) => {
+  const intl = useIntl();
+
   return (
     <div className={classNames(styles.step, styles[variant])}>
       <div className={styles.number}>
         {variant === StepVariant.Confirmed ? (
-          <img src={check} alt="Шаг завершён" />
+          <img
+            src={check}
+            alt={intl.formatMessage({ id: 'stepCompletedAlt' })}
+          />
         ) : (
           stepNumber
         )}

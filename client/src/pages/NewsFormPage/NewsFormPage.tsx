@@ -1,11 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 
-import {
-  CreateNewsForm,
-  EditNewsForm,
-  Typography,
-  TypographyComponent,
-} from 'components';
+import { Typography, TypographyComponent } from 'components';
+import { CreateNewsForm, EditNewsForm } from 'forms';
 
 import styles from './NewsFormPage.module.scss';
 

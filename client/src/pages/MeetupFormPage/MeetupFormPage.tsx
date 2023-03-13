@@ -1,11 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 
-import {
-  CreateMeetupForm,
-  Typography,
-  TypographyComponent,
-  EditMeetupForm,
-} from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
+import { CreateMeetupForm, EditMeetupForm } from 'forms';
 
 import styles from './MeetupFormPage.module.scss';
 

@@ -1,6 +1,7 @@
+import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
-import { Typography, TypographyComponent } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
 import { converStringToFileWithUrl, getFileSizeString } from 'common/helpers';
 
 import styles from './ImagePreview.module.scss';
@@ -24,6 +25,8 @@ export const ImagePreview = ({
   image,
   onClear,
 }: ImagePreviewProps): JSX.Element => {
+  const intl = useIntl();
+
   const imageConvertedToFile = converStringToFileWithUrl(image);
   const { name, size, url } = imageConvertedToFile!;
 
@@ -35,7 +38,7 @@ export const ImagePreview = ({
     <div className={classNames(styles.preview, styles[variant])}>
       <figure className={styles.image}>
         {url ? (
-          <img src={url} alt="Загруженное изображение" />
+          <img src={url} alt={intl.formatMessage({ id: 'uploadedImageAlt' })} />
         ) : (
           <ImagePlaceholder className={styles.placeholder} />
         )}
@@ -52,7 +55,8 @@ export const ImagePreview = ({
             component={TypographyComponent.Paragraph}
             className={styles.fileSize}
           >
-            Размер файла: {getFileSizeString(size, 1)}
+            {intl.formatMessage({ id: 'fileSize' })}:{' '}
+            {getFileSizeString(size, 1)}
           </Typography>
         </div>
       )}

@@ -1,7 +1,9 @@
 import { PropsWithChildren, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 
-import { Typography, TypographyComponent, InputFieldVariant } from 'components';
+import { Typography, TypographyComponent } from 'components/Typography';
+import { InputFieldVariant } from 'components/InputField';
+
 import styles from './HelperText.module.scss';
 
 type HelperTextProps = {

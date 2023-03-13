@@ -37,4 +37,4 @@ export class LocaleStore {
   }
 }
 
-export default new LocaleStore();
+export const localeStore = new LocaleStore();

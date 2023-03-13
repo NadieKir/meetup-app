@@ -244,7 +244,7 @@ export const ViewMeetupPage = observer(() => {
             <FormattedMessage id="enrolled" />
           )}
         </Typography>
-        <div className={classNames(styles.dataContent, styles.users)}>
+        <div className={styles.dataContent}>
           <VotedUsersPreview users={users} />
         </div>
       </div>

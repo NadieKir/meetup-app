@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { LocalizationContext } from 'common/contexts';
 import { Locale } from 'common/i18n';
 import { LANGUAGES } from 'common/constants';
+import { localeStore } from 'store';
 
 import styles from './LanguageSelector.module.scss';
 
 export const LanguageSelector = () => {
-  const localeStore = useContext(LocalizationContext);
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     localeStore.updateLocale(e.target.value as Locale);
   };
@@ -17,7 +15,7 @@ export const LanguageSelector = () => {
     <select
       className={styles.select}
       value={localeStore.locale}
-      onChange={(e) => handleChange(e)}
+      onChange={handleChange}
     >
       {LANGUAGES.map((language) => (
         <option

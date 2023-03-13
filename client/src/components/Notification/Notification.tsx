@@ -3,7 +3,8 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 import 'animate.css';
 
-import { CloseButton, Typography, TypographyComponent } from 'components';
+import { CloseButton } from 'components/CloseButton';
+import { Typography, TypographyComponent } from 'components/Typography';
 import { useNotificationsContext } from 'common/contexts';
 
 import styles from './Notification.module.scss';

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { clamp } from 'common/helpers';
-import { useCurrentWidth } from '.';
+import { useCurrentWidth } from 'common/hooks';
 
 const USER_ICON_WIDTH = 50;
 const MIN_DESKTOP_WIDTH = 580;

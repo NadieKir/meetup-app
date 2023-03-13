@@ -1,10 +1,11 @@
 import { FunctionComponent, HTMLAttributes } from 'react';
 import { Field, FieldProps } from 'formik';
+import classNames from 'classnames';
 
-import { InputLabel, HelperText } from 'components';
+import { InputLabel } from 'components/InputLabel';
+import { HelperText } from 'components/HelperText';
 
 import styles from './InputField.module.scss';
-import classNames from 'classnames';
 
 export enum InputFieldVariant {
   Error = 'error',

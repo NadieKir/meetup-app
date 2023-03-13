@@ -1,12 +1,8 @@
 import { FieldProps } from 'formik';
 
-import {
-  ImageDropbox,
-  ImagePreview,
-  ImagePreviewMode,
-  InputField,
-  InputFieldExternalProps,
-} from 'components';
+import { ImageDropbox } from 'components/ImageDropbox';
+import { ImagePreview, ImagePreviewMode } from 'components/ImagePreview';
+import { InputField, InputFieldExternalProps } from 'components/InputField';
 import { readFileAsBase64 } from 'common/helpers';
 import { FileWithUrl } from 'common/types';
 

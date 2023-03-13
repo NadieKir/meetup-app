@@ -1,19 +1,13 @@
-import { useContext } from 'react';
 import { FormattedDate, FormattedTime, useIntl } from 'react-intl';
 
-import {
-  SpeakersCount,
-  Typography,
-  TypographyComponent,
-  UserPreview,
-  UserPreviewVariant,
-  VotesCount,
-} from 'components';
+import { SpeakersCount } from 'components/SpeakersCount';
+import { VotesCount } from 'components/VotesCount';
+import { UserPreview, UserPreviewVariant } from 'components/UserPreview';
+import { Typography, TypographyComponent } from 'components/Typography';
 import { ConfirmedMeetup } from 'common/model';
 import { Locale } from 'common/i18n';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
-import { isConfirmedMeetup, isTopic } from 'common/helpers';
-import { LocalizationContext } from 'common/contexts';
+import { isTopic } from 'common/helpers';
 import { TopicWithVotedUsers } from 'common/types';
 
 import styles from './MeetupCard.module.scss';
@@ -23,11 +17,10 @@ interface MeetupCardProps {
 }
 
 export const MeetupCard = ({ meetup }: MeetupCardProps) => {
-  const { locale } = useContext(LocalizationContext);
   const intl = useIntl();
 
-  const getFormattedWeekday = (date: string): string => {
-    switch (locale) {
+  const getFormattedWeekday = (date: string) => {
+    switch (intl.locale) {
       case Locale.RUSSIAN:
         const weekday = intl.formatDate(date, {
           weekday: 'short',
@@ -35,6 +28,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
 
         return FORMATTED_WEEKDAYS_RU[weekday];
       case Locale.ENGLISH:
+      default:
         return intl.formatDate(date, {
           weekday: 'short',
         });
@@ -48,27 +42,21 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
           <UserPreview user={meetup.author} variant={UserPreviewVariant.Card} />
         ) : (
           <ul className={styles.appointment}>
-            {isConfirmedMeetup(meetup) ? (
-              <>
-                <li className={styles.appointmentItem} key="date">
-                  <Typography className={styles.date}>
-                    {getFormattedWeekday(meetup.start)},{' '}
-                    <FormattedDate
-                      value={meetup.start}
-                      day="numeric"
-                      month="long"
-                    />
-                  </Typography>
-                </li>
-                <li className={styles.appointmentItem} key="time">
-                  <Typography className={styles.time}>
-                    <FormattedTime value={meetup.start} />
-                  </Typography>
-                </li>
-              </>
-            ) : (
-              '—'
-            )}
+            <li className={styles.appointmentItem} key="date">
+              <Typography className={styles.date}>
+                {getFormattedWeekday(meetup.start)},{' '}
+                <FormattedDate
+                  value={meetup.start}
+                  day="numeric"
+                  month="long"
+                />
+              </Typography>
+            </li>
+            <li className={styles.appointmentItem} key="time">
+              <Typography className={styles.time}>
+                <FormattedTime value={meetup.start} />
+              </Typography>
+            </li>
             <li className={styles.appointmentItem} key="location">
               <Typography className={styles.location}>
                 {meetup.place}
@@ -98,7 +86,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
         {isTopic(meetup) ? (
           <VotesCount votesCount={meetup.votedUsers.length} />
         ) : (
-          <SpeakersCount meetup={meetup} />
+          <SpeakersCount speakers={meetup.speakers} />
         )}
       </footer>
     </article>

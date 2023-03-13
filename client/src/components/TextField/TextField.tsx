@@ -1,11 +1,10 @@
+import { Input, InputType } from 'components/Input';
+import { TextArea } from 'components/TextArea';
 import {
   InputFieldExternalProps,
   InputField,
   InputRenderProps,
-  Input,
-  TextArea,
-  InputType,
-} from 'components';
+} from 'components/InputField';
 
 type TextInputOrAreaProps = {
   placeholderText?: string;

@@ -2,17 +2,19 @@ import { HTMLAttributes, useEffect } from 'react';
 import { FormikValues, useFormikContext } from 'formik';
 import { useIntl } from 'react-intl';
 
-import { DateTimePicker } from 'components';
+import { DateTimePicker } from 'components/DateTimePicker';
 
 interface DateTimeRangePickerProps extends HTMLAttributes<unknown> {
   startRangeName: string;
   endRangeName: string;
+  excludePastDateTime?: boolean;
   timeIntervals?: number;
 }
 
 export function DateTimeRangePicker<T extends FormikValues>({
   startRangeName,
   endRangeName,
+  excludePastDateTime = false,
   timeIntervals = 15,
   ...nativeHtmlProps
 }: DateTimeRangePickerProps) {
@@ -65,7 +67,7 @@ export function DateTimeRangePicker<T extends FormikValues>({
         name={startRangeName}
         labelText={intl.formatMessage({ id: 'startLabel' })}
         customHandleChange={handleStartChange}
-        excludePastDateTime
+        excludePastDateTime={excludePastDateTime}
         constraints={{
           selected: startValue,
           timeIntervals: timeIntervals,
