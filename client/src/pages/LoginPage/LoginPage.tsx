@@ -108,6 +108,7 @@ export const LoginPage = observer(() => {
                   />
                   <div className={styles.formActions}>
                     <Button
+                      type="button"
                       variant={ButtonVariant.Default}
                       onClick={handleGuestLogin}
                     >

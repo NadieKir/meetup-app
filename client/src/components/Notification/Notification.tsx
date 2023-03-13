@@ -69,9 +69,9 @@ export const Notification = () => {
   const { heading, variant, message } = notification;
 
   return (
-    <div
+    <article
       className={classNames(
-        styles.wrapper,
+        styles.notification,
         styles[variant],
         'animate__animated',
         {
@@ -102,6 +102,6 @@ export const Notification = () => {
       </div>
 
       <CloseButton className={styles.closeBtn} onClick={resetNotification} />
-    </div>
+    </article>
   );
 };

@@ -27,7 +27,12 @@ export const UserPreview = ({
   const userInitials = getInitials(name, surname);
 
   return (
-    <div className={classNames(styles.user, styles[variant])}>
+    <div
+      className={classNames(styles.user, styles[variant])}
+      title={
+        variant === UserPreviewVariant.Image ? `${name} ${surname}` : undefined
+      }
+    >
       <div className={styles.avatar}>
         <Typography className={styles.initials}>{userInitials}</Typography>
       </div>
