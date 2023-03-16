@@ -2,6 +2,7 @@ import { FormattedDate } from 'react-intl';
 
 import { Typography, TypographyComponent } from 'components/Typography';
 import { News } from 'common/model';
+import { removeHTMLTags } from 'common/helpers';
 
 import styles from './NewsCard.module.scss';
 import defaultImage from 'assets/images/default-image.jpg';
@@ -30,7 +31,7 @@ export const NewsCard = ({ news }: NewsCardProps): JSX.Element => {
             component={TypographyComponent.Paragraph}
             className={styles.text}
           >
-            {content}
+            {removeHTMLTags(content)}
           </Typography>
         </div>
         <Typography

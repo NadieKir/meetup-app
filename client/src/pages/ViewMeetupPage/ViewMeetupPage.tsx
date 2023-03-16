@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
+import parse from 'html-react-parser';
 import classNames from 'classnames';
 
 import {
@@ -336,13 +337,8 @@ export const ViewMeetupPage = observer(() => {
           >
             <FormattedMessage id="description" />
           </Typography>
-          <div className={styles.dataContent}>
-            <Typography
-              component={TypographyComponent.Paragraph}
-              className={styles.excerpt}
-            >
-              {meetup.excerpt}
-            </Typography>
+          <div className={classNames(styles.dataContent, styles.excerpt)}>
+            {parse(meetup.excerpt)}
           </div>
         </div>
         {renderUsers()}

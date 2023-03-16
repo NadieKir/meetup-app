@@ -42,3 +42,4 @@ export * from './Scrollable';
 export * from './VotedUsersPreview';
 export * from './DateTimeRangePicker';
 export * from './Notification';
+export * from './RichTextInput';

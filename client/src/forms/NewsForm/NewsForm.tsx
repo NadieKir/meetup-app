@@ -9,6 +9,7 @@ import {
   ImageUploader,
   TextField,
   Form,
+  RichTextInput,
 } from 'components';
 import { NewsFormData } from 'common/model';
 
@@ -51,11 +52,9 @@ export const NewsForm = ({
           labelText={intl.formatMessage({ id: 'titleLabel' })}
           multiline={false}
         />
-        <TextField
+        <RichTextInput
           name="content"
           labelText={intl.formatMessage({ id: 'contentLabel' })}
-          multiline
-          maxLetterCount={1000}
         />
       </>
     );

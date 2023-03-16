@@ -4,14 +4,13 @@ import { useIntl } from 'react-intl';
 import { observer } from 'mobx-react-lite';
 import * as Yup from 'yup';
 
-import {
-  DateTimeRangePicker,
-  ImagePreviewMode,
-  ImageUploader,
-  MultiSelect,
-  FormikStepper,
-  TextField,
-} from 'components';
+import { DateTimeRangePicker } from 'components/DateTimeRangePicker';
+import { ImagePreviewMode } from 'components/ImagePreview';
+import { ImageUploader } from 'components/ImageUploader';
+import { MultiSelect } from 'components/MultiSelect';
+import { FormikStepper } from 'components/FormikStepper';
+import { TextField } from 'components/TextField';
+import { RichTextInput } from 'components/RichTextInput';
 import { getShortUsers } from 'api';
 import {
   AdditionalMeetupFields,
@@ -83,11 +82,9 @@ export const MeetupForm = observer(
           labelText={intl.formatMessage({ id: 'subjectLabel' })}
           multiline={false}
         />
-        <TextField
+        <RichTextInput
           name="excerpt"
           labelText={intl.formatMessage({ id: 'excerptLabel' })}
-          multiline={true}
-          maxLetterCount={1000}
         />
         <MultiSelect
           name="speakers"
