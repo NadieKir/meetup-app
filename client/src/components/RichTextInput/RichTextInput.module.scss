@@ -1,0 +1,13 @@
+@import '~style/colors';
+
+:root {
+  --ck-spacing-standard: 0;
+  --ck-spacing-large: 0;
+  --ck-inner-shadow: 0;
+  --ck-color-focus-border: transparent;
+}
+
+.richtext a {
+  color: $blue-01-color;
+  text-decoration: underline;
+}

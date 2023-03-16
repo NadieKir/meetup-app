@@ -71,6 +71,11 @@
   @extend .font-size-s;
   @extend .line-height-l;
   @extend .font-color-dark;
+
+  a {
+    color: $blue-01-color;
+    text-decoration: underline;
+  }
 }
 
 .actions {

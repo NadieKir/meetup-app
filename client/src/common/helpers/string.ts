@@ -24,3 +24,7 @@ export const converStringToFileWithUrl = (
 
   return null;
 };
+
+export const removeHTMLTags = (str: string) => {
+  return str.replace(/<\/?("[^"]*"|'[^']*'|[^>])*(>|$)/g, "");
+}

@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { observer, useLocalObservable } from 'mobx-react-lite';
+import parse from 'html-react-parser';
 import classNames from 'classnames';
 
 import {
@@ -60,12 +61,7 @@ export const ViewNewsPage = observer(() => {
       >
         {newsArticle.title}
       </Typography>
-      <Typography
-        className={styles.text}
-        component={TypographyComponent.Paragraph}
-      >
-        {newsArticle.content}
-      </Typography>
+      <div className={styles.text}>{parse(newsArticle.content)}</div>
     </div>
   );
 

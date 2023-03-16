@@ -49,11 +49,14 @@ export const EditMeetupForm = observer(() => {
     values: MeetupFormData,
     actions: FormikHelpers<MeetupFormData>,
   ) => {
-    await updateMeetup({ ...meetup, ...values } as ConfirmedMeetup);
+    await updateMeetup({
+      ...meetup,
+      ...values,
+    } as ConfirmedMeetup);
 
     actions.setSubmitting(false);
     pushSuccess(intl.formatMessage({ id: 'changesSaved' }));
-    navigate(-1);
+    navigate(`/meetups/${id}`);
   };
 
   return (

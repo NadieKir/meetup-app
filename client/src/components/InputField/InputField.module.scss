@@ -6,7 +6,7 @@
 .input {
   box-sizing: border-box;
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   padding: 12px;
 
   border: 1px solid $gray-05-color;

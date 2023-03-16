@@ -38,11 +38,8 @@ export const TextArea = ({
         ref={textAreaRef}
         rows={1}
         maxLength={maxLetterCount}
-        className={classNames(
-          className,
-          styles.textArea,
-        )}
-      ></textarea>
+        className={classNames(className, styles.textArea)}
+      />
       {maxLetterCount && maxLetterCount > 0 && (
         <div className={styles.counter}>
           <span className={styles.letterCount}>{letterCount}</span> /{' '}

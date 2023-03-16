@@ -7,7 +7,7 @@ import { Typography, TypographyComponent } from 'components/Typography';
 import { ConfirmedMeetup } from 'common/model';
 import { Locale } from 'common/i18n';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
-import { isTopic } from 'common/helpers';
+import { isTopic, removeHTMLTags } from 'common/helpers';
 import { TopicWithVotedUsers } from 'common/types';
 
 import styles from './MeetupCard.module.scss';
@@ -78,7 +78,7 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
           component={TypographyComponent.Paragraph}
           className={styles.excerpt}
         >
-          {meetup.excerpt}
+          {removeHTMLTags(meetup.excerpt)}
         </Typography>
       </div>
 

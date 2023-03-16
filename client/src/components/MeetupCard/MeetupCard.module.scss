@@ -79,6 +79,8 @@
       @extend .font-size-m;
       @extend .line-height-xl;
       @extend .font-color-dark;
+
+      @include multiline-ellipsis(2);
     }
 
     .excerpt {
@@ -87,6 +89,8 @@
       @extend .font-size-xs;
       @extend .line-height-xxl;
       @extend .font-color-gray-02;
+
+      @include multiline-ellipsis(4);
     }
   }
 }
