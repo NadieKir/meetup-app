@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { computed } from 'mobx';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 
-import { MeetupListStore } from 'store';
+import { MeetupListStore } from 'stores';
 import { Button, ButtonVariant, CardsCounter, MeetupCard } from 'components';
 import { UserContext } from 'common/contexts';
 import { MeetupTab } from 'common/types';

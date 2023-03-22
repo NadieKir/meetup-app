@@ -12,7 +12,7 @@ import { ReactComponent as UploadIcon } from './upload.svg';
 
 const ACCEPT_FORMATS = ['.jpg', '.jpeg', '.png'];
 
-const MAX_FILESIZE = 10_000_000; // bytes
+const MAX_FILESIZE = 10_485_760; // bytes
 
 interface ImageDropboxProps {
   onDrop: (image: FileWithUrl) => void;
@@ -40,9 +40,12 @@ export const ImageDropbox = ({
 
   const translateError = (error: string): string => {
     return error
-      .replace('File type must be', 'Допустимые типы файлов:')
-      .replace('File is larger than', 'Размер файла превышает')
-      .replace('bytes', 'байт');
+      .replace('File type must be', intl.formatMessage({ id: 'fileTypeRule' }))
+      .replace(
+        'File is larger than',
+        intl.formatMessage({ id: 'fileSizeRule' }),
+      )
+      .replace('bytes', intl.formatMessage({ id: 'bytes' }));
   };
 
   const handleAcceptedDrop = (acceptedFiles: File[]): void => {

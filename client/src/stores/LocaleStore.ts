@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Locale } from 'common/i18n';
+import { Locale } from 'i18n';
 import { registerLocale } from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import en from 'date-fns/locale/en-US';

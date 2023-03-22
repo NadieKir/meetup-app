@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 
 import { addParticipant, addVotedUser, deleteMeetup, deleteParticipant, deleteVotedUser, getMeetup, updateMeetup, getParticipants, getVotedUsers } from 'api';
 import { MeetupStatus, ShortUser } from 'common/model';
-import { UserStore } from 'store';
+import { UserStore } from 'stores';
 import { getMeetupTab, isConfirmedMeetup } from 'common/helpers';
 import { Meetup, MeetupFormData } from 'common/types';
 

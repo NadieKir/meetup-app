@@ -11,7 +11,7 @@ import {
   TypographyComponent,
 } from 'components';
 import { News } from 'common/model';
-import { NewsListStore } from 'store';
+import { NewsListStore } from 'stores';
 import { UserContext } from 'common/contexts';
 
 import styles from './NewsPage.module.scss';

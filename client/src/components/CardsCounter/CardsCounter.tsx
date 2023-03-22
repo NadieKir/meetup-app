@@ -1,7 +1,7 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 
 import { MeetupTab } from 'common/types';
-import { Locale } from 'common/i18n';
+import { Locale } from 'i18n';
 
 import styles from './CardsCounter.module.scss';
 

@@ -1,4 +1,4 @@
-import { Locale } from "common/i18n";
+import { Locale } from "i18n";
 
 export const messages = {
   [Locale.RUSSIAN]: {
@@ -116,6 +116,8 @@ export const messages = {
     topicDeleted: 'Тема удалена',
     meetupDeleted: 'Митап удалён',
     newsDeleted: 'Новость удалена',
+    topicApproved: 'Тема одобрена',
+    topicApprovedDesc: 'Теперь вы можете создать на её основе митап, выбрав необходимую тему во вклвдке "На модерации"',
 
     /* 404 */
     pageNotFound: 'Запрашиваемая страница на найдена',
@@ -137,6 +139,9 @@ export const messages = {
 
     /* ImageUploader */
     fileSize: 'Размер файла',
+    fileTypeRule: 'Допустимые типы файлов:',
+    fileSizeRule: 'Размер файла превышает',
+    bytes: 'байт',
 
     /* ImageDropbox */
     dropImageHere: 'Перетащите изображения сюда',
@@ -258,9 +263,11 @@ export const messages = {
     meetupCreated: 'Meetup is successfully created',
     newsCreated: 'News is successfully created',
     changesSaved: 'Changes saved',
-    topicDeleted: 'Topic was deleted',
-    meetupDeleted: 'Meetup was deleted',
-    newsDeleted: 'News was deleted',
+    topicDeleted: 'Topic deleted',
+    meetupDeleted: 'Meetup deleted',
+    newsDeleted: 'News deleted',
+    topicApproved: 'Topic approved',
+    topicApprovedDesc: 'You can create a meetup based on this topic by choosing it in "On moderation" tab',
 
     /* 404 */
     pageNotFound: 'The requested page was not found',
@@ -282,6 +289,9 @@ export const messages = {
 
     /* ImageUploader */
     fileSize: 'File size',
+    fileTypeRule: 'File type must be',
+    fileSizeRule: 'File is larger than',
+    bytes: 'bytes',
 
     /* ImageDropbox */
     dropImageHere: 'Drop image here',

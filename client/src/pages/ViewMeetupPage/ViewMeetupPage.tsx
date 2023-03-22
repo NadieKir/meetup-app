@@ -14,7 +14,7 @@ import {
   UserPreview,
   VotedUsersPreview,
 } from 'components';
-import { MeetupStore } from 'store';
+import { MeetupStore } from 'stores';
 import { MeetupStatus } from 'common/model';
 import {
   capitalizeFirstLetter,
@@ -75,6 +75,14 @@ export const ViewMeetupPage = observer(() => {
 
   const handleApprove = () => {
     approveMeetup();
+    pushSuccess(
+      intl.formatMessage({
+        id: 'topicApproved',
+      }),
+      intl.formatMessage({
+        id: 'topicApprovedDesc',
+      }),
+    );
     navigate('/meetups/moderation');
   };
 
@@ -293,7 +301,7 @@ export const ViewMeetupPage = observer(() => {
         </Button>
       )}
       {meetup.status === MeetupStatus.DRAFT && isUserVoted && (
-        <Button variant={ButtonVariant.Primary} onClick={handleUnsupport}>
+        <Button variant={ButtonVariant.Secondary} onClick={handleUnsupport}>
           <FormattedMessage id="unsupportTopicButton" />
         </Button>
       )}
@@ -303,7 +311,7 @@ export const ViewMeetupPage = observer(() => {
         </Button>
       )}
       {isUpcomingMeetup(meetup) && isUserVoted && (
-        <Button variant={ButtonVariant.Primary} onClick={handleDisenroll}>
+        <Button variant={ButtonVariant.Secondary} onClick={handleDisenroll}>
           <FormattedMessage id="disenrollMeetup" />
         </Button>
       )}

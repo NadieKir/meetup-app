@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import userStore, { UserStore } from 'store/UserStore';
+import userStore, { UserStore } from 'stores/UserStore';
 
 export const UserContext = createContext<UserStore>(userStore);
 

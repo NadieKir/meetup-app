@@ -6,7 +6,7 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 
 import { MeetupForm } from 'forms';
 import { UserContext } from 'common/contexts';
-import { MeetupStore } from 'store';
+import { MeetupStore } from 'stores';
 import {
   AdditionalMeetupFields,
   MeetupFormData,

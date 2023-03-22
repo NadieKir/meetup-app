@@ -28,6 +28,19 @@
   @extend .text-align-center;
 }
 
+.headingWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  &:has(> h1:only-child) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .contentWrapper {
   display: flex;
   flex-direction: column;

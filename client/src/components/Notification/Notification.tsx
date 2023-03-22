@@ -33,8 +33,8 @@ export interface INotification {
   message?: string;
 }
 
-const idleDuration = 4000;
-const animationDuration = 1000;
+const idleDuration = 3200;
+const animationDuration = 600;
 
 export const Notification = () => {
   const intl = useIntl();
@@ -47,7 +47,6 @@ export const Notification = () => {
     setIsStartAnimation(false);
 
     setTimeout(() => {
-      setIsStartAnimation(true);
       cancelNotification();
     }, animationDuration);
   };

@@ -2,7 +2,7 @@ import { useIntl } from 'react-intl';
 import classNames from 'classnames';
 
 import { Typography, TypographyComponent } from 'components/Typography';
-import { converStringToFileWithUrl, getFileSizeString } from 'common/helpers';
+import { convertStringToFileWithUrl, getFileSizeString } from 'common/helpers';
 
 import styles from './ImagePreview.module.scss';
 import { ReactComponent as ImagePlaceholder } from './assets/image-placeholder.svg';
@@ -27,8 +27,7 @@ export const ImagePreview = ({
 }: ImagePreviewProps): JSX.Element => {
   const intl = useIntl();
 
-  const imageConvertedToFile = converStringToFileWithUrl(image);
-  const { name, size, url } = imageConvertedToFile!;
+  const { size, url } = convertStringToFileWithUrl(image);
 
   const handleClear = (): void => {
     onClear();
@@ -45,12 +44,6 @@ export const ImagePreview = ({
       </figure>
       {variant === ImagePreviewMode.Thumbnail && (
         <div className={styles.info}>
-          <Typography
-            component={TypographyComponent.Heading4}
-            className={styles.fileName}
-          >
-            {name}
-          </Typography>
           <Typography
             component={TypographyComponent.Paragraph}
             className={styles.fileSize}
