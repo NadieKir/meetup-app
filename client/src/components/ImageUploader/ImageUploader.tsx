@@ -42,7 +42,7 @@ export const ImageUploader = ({
       return !image ? (
         <ImageDropbox onDrop={handleUpload} externalError={error} />
       ) : (
-        <ImagePreview variant={variant} image={value} onClear={handleClear} />
+        <ImagePreview variant={variant} image={image} onClear={handleClear} />
       );
     }}
   </InputField>

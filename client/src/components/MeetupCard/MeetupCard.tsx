@@ -5,10 +5,10 @@ import { VotesCount } from 'components/VotesCount';
 import { UserPreview, UserPreviewVariant } from 'components/UserPreview';
 import { Typography, TypographyComponent } from 'components/Typography';
 import { ConfirmedMeetup } from 'common/model';
-import { Locale } from 'common/i18n';
 import { FORMATTED_WEEKDAYS_RU } from 'common/constants';
 import { isTopic, removeHTMLTags } from 'common/helpers';
 import { TopicWithVotedUsers } from 'common/types';
+import { Locale } from 'i18n';
 
 import styles from './MeetupCard.module.scss';
 
@@ -57,11 +57,13 @@ export const MeetupCard = ({ meetup }: MeetupCardProps) => {
                 <FormattedTime value={meetup.start} />
               </Typography>
             </li>
-            <li className={styles.appointmentItem} key="location">
-              <Typography className={styles.location}>
-                {meetup.place}
-              </Typography>
-            </li>
+            {meetup.place && (
+              <li className={styles.appointmentItem} key="location">
+                <Typography className={styles.location}>
+                  {meetup.place}
+                </Typography>
+              </li>
+            )}
           </ul>
         )}
       </header>

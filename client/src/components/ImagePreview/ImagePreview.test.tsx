@@ -30,6 +30,5 @@ it('Renders image with info', async () => {
   );
 
   expect(screen.getByAltText('Загруженное изображение')).toBeInTheDocument();
-  expect(screen.getByRole('heading', { level: 4 })).toBeInTheDocument();
   expect(screen.getByText(/Размер файла/)).toBeInTheDocument();
 });

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Locale } from 'common/i18n';
+import { Locale } from 'i18n';
 import { LANGUAGES } from 'common/constants';
-import { localeStore } from 'store';
+import { localeStore } from 'stores';
 
 import styles from './LanguageSelector.module.scss';
 

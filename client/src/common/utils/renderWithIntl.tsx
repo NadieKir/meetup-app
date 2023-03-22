@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
 import { render as rtlRender, RenderOptions } from '@testing-library/react';
 
-import { Locale, messages } from 'common/i18n';
+import { Locale, messages } from 'i18n';
 
 export const renderWithIntl =
   (locale = Locale.RUSSIAN) =>

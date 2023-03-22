@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { CheckRole, meetupTabs, UserStatus } from 'components';
+import { PrivateRoute, meetupTabs, UserStatus } from 'components';
 import {
   MeetupPage,
   NotFoundPage,
@@ -21,7 +21,7 @@ import {
   UserContext,
 } from 'common/contexts';
 import { UserRole } from 'common/model';
-import { history, AppRouter } from 'router';
+import { history, AppRouter } from 'common/router';
 
 function App() {
   const { currentUserMeetupTabs } = useContext(UserContext);
@@ -54,7 +54,9 @@ function App() {
                   key={tab.link}
                   path={tab.link}
                   element={
-                    <CheckRole roles={tab.canAccess}>{tab.component}</CheckRole>
+                    <PrivateRoute roles={tab.canAccess}>
+                      {tab.component}
+                    </PrivateRoute>
                   }
                 />
               ))}
@@ -62,9 +64,9 @@ function App() {
             <Route
               path="create"
               element={
-                <CheckRole roles={[UserStatus.AUTHORIZED]}>
+                <PrivateRoute roles={[UserStatus.AUTHORIZED]}>
                   <CreateTopicPage />
-                </CheckRole>
+                </PrivateRoute>
               }
             />
             <Route path=":id">
@@ -72,17 +74,17 @@ function App() {
               <Route
                 path="edit"
                 element={
-                  <CheckRole roles={[UserRole.CHIEF]}>
+                  <PrivateRoute roles={[UserRole.CHIEF]}>
                     <MeetupFormPage isEdit />
-                  </CheckRole>
+                  </PrivateRoute>
                 }
               />
               <Route
                 path="publish"
                 element={
-                  <CheckRole roles={[UserRole.CHIEF]}>
+                  <PrivateRoute roles={[UserRole.CHIEF]}>
                     <MeetupFormPage />
-                  </CheckRole>
+                  </PrivateRoute>
                 }
               />
             </Route>
@@ -99,9 +101,9 @@ function App() {
             <Route
               path="create"
               element={
-                <CheckRole roles={[UserRole.CHIEF]}>
+                <PrivateRoute roles={[UserRole.CHIEF]}>
                   <NewsFormPage />
-                </CheckRole>
+                </PrivateRoute>
               }
             />
             <Route path=":id">
@@ -109,9 +111,9 @@ function App() {
               <Route
                 path="edit"
                 element={
-                  <CheckRole roles={[UserRole.CHIEF]}>
+                  <PrivateRoute roles={[UserRole.CHIEF]}>
                     <NewsFormPage isEdit />
-                  </CheckRole>
+                  </PrivateRoute>
                 }
               />
             </Route>

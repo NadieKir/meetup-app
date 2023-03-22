@@ -111,7 +111,7 @@ export const MeetupForm = observer(
         />
         <ImageUploader
           name="image"
-          variant={ImagePreviewMode.Large}
+          variant={ImagePreviewMode.Thumbnail}
           labelText={intl.formatMessage({ id: 'imageLabel' })}
         />
       </>

@@ -10,7 +10,7 @@ import { updateMeetup } from 'api';
 import { UserContext } from 'common/contexts';
 import { isConfirmedMeetup } from 'common/helpers';
 import { ConfirmedMeetup } from 'common/model';
-import { MeetupStore } from 'store';
+import { MeetupStore } from 'stores';
 import {
   AdditionalMeetupFields,
   MeetupFormData,

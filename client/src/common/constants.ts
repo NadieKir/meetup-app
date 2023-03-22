@@ -1,4 +1,4 @@
-import { Locale } from "common/i18n";
+import { Locale } from "i18n";
 import { Language } from "common/types";
 
 export const API_BASE_URL = 'http://localhost:8080/api';

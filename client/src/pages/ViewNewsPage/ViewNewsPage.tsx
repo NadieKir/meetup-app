@@ -11,7 +11,7 @@ import {
   Typography,
   TypographyComponent,
 } from 'components';
-import { NewsStore } from 'store/NewsStore';
+import { NewsStore } from 'stores/NewsStore';
 import { UserContext } from 'common/contexts';
 import { usePushNotification } from 'common/hooks';
 
@@ -65,34 +65,41 @@ export const ViewNewsPage = observer(() => {
     </div>
   );
 
-  const renderActions = (): JSX.Element => {
+  const renderActions = (): JSX.Element => (
+    <div className={classNames(styles.textSection, styles.actions)}>
+      <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
+        <FormattedMessage id="goBackButton" />
+      </Button>
+    </div>
+  );
+
+  const renderPrivilegedActions = () => {
+    if (!isChief) return;
+
     return (
-      <div className={classNames(styles.textSection, styles.actions)}>
-        <Button variant={ButtonVariant.Default} onClick={handleGoBack}>
-          <FormattedMessage id="goBackButton" />
+      <div className={styles.actionGroup}>
+        <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
+          <FormattedMessage id="deleteButton" />
         </Button>
-        {isChief && (
-          <div className={styles.actionGroup}>
-            <Button variant={ButtonVariant.Secondary} onClick={handleDelete}>
-              <FormattedMessage id="deleteButton" />
-            </Button>
-            <Button variant={ButtonVariant.Primary} onClick={handleEdit}>
-              <FormattedMessage id="editButton" />
-            </Button>
-          </div>
-        )}
+        <Button variant={ButtonVariant.Primary} onClick={handleEdit}>
+          <FormattedMessage id="editButton" />
+        </Button>
       </div>
     );
   };
 
   return (
     <section className={styles.container}>
-      <Typography
-        className={styles.heading}
-        component={TypographyComponent.Heading1}
-      >
-        <FormattedMessage id="newsView" />
-      </Typography>
+      <div className={styles.headingWrapper}>
+        <Typography
+          className={styles.heading}
+          component={TypographyComponent.Heading1}
+        >
+          <FormattedMessage id="newsView" />
+        </Typography>
+        {renderPrivilegedActions()}
+      </div>
+
       <div className={styles.contentWrapper}>
         {renderImage()}
         {renderContent()}

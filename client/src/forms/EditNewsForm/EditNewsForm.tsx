@@ -5,7 +5,7 @@ import { observer, useLocalObservable } from 'mobx-react-lite';
 import { FormikHelpers } from 'formik';
 
 import { NewsForm } from 'forms';
-import { NewsStore } from 'store/NewsStore';
+import { NewsStore } from 'stores/NewsStore';
 import { NewsFormData } from 'common/model';
 import { usePushNotification } from 'common/hooks';
 

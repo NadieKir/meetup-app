@@ -10,12 +10,12 @@ export enum UserStatus {
 
 type Role = UserStatus | UserRole;
 
-interface CheckRoleProps {
+interface PrivateRouteProps {
   roles: Role[];
   children: JSX.Element;
 }
 
-export const CheckRole = ({ roles, children }: CheckRoleProps) => {
+export const PrivateRoute = ({ roles, children }: PrivateRouteProps) => {
   const { user, isGuest } = useContext(UserContext);
 
   if (

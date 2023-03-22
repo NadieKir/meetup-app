@@ -60,11 +60,13 @@ export const Header = observer((): JSX.Element => {
         </div>
 
         <div className={styles.navWrapper}>
-          <img
-            src={logo}
-            className={styles.logo}
-            alt={intl.formatMessage({ id: 'logoAlt' })}
-          />
+          <NavLink to="/meetups">
+            <img
+              src={logo}
+              className={styles.logo}
+              alt={intl.formatMessage({ id: 'logoAlt' })}
+            />
+          </NavLink>
           <nav className={classNames(styles.nav, styles.hiddenOnSmall)}>
             <NavLink
               to="/meetups"

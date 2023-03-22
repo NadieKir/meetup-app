@@ -1,5 +1,5 @@
 export * from './Typography';
-export * from './CheckRole';
+export * from './PrivateRoute';
 export * from './Button';
 export * from './MeetupCard';
 export * from './MeetupTabContent';

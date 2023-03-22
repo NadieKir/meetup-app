@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  row-gap: 20px;
+  gap: 20px;
 
   &:has(> h1:only-child) {
     display: flex;

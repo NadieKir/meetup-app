@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { CardsCounter } from './CardsCounter';
 import { renderWithIntl } from 'common/utils';
 import { MeetupTab } from 'common/types';
-import { Locale } from 'common/i18n';
+import { Locale } from 'i18n';
 
 it('Renders correct ending for topics', async () => {
   renderWithIntl()(<CardsCounter variant={MeetupTab.Topics} amount={7} />);
